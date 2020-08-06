@@ -1,0 +1,31 @@
+<h3><%= title('User Impression Log') %></h3>
+<% if !@impressions.empty? %>
+  <table class="table table-striped table-hover table-sm">
+    <thead>
+      <tr>
+        <th>Requesting User</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @impressions.each do |impression| %>
+        <tr>
+          <td><%= impression.user_displayname %> logged in as: <%= impression.target_displayname %></td>
+          <td class="text-muted">
+            <%= impression.created_at.strftime("%-m/%d/%y %-I:%M %p").html_safe %>
+            <em class="fa fa-clock-o ml-1"></em>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+  </table>
+  <%- if !@pagy.nil? && @pagy.pages > 1 %>
+    <div class="col-md-12 my-3">
+      <div class="pagination justify-content-center">
+        <%== pagy_bootstrap_nav(@pagy) %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  No user impressions have been made yet.
+<% end %>

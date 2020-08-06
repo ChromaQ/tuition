@@ -1,0 +1,9 @@
+@import 'variables';
+@import 'bootstrap';
+@import 'font-awesome-sprockets';
+@import 'font-awesome';
+@import 'custom_styling';
+
+
+// equivilent to 'require_tree .' if required
+@import "/\*";

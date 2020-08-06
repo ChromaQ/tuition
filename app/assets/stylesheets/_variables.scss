@@ -1,0 +1,77 @@
+// Bootstrap: https://github.com/twbs/bootstrap-rubygem/blob/0a29879d8df1e6f7feba0ff29df7734c1695b009/assets/stylesheets/bootstrap/_variables.scss
+
+//////////////////////////////
+// UNMH Colors
+//////////////////////////////
+$chili:             #a8aa19;
+$dusk:              #8a387c;
+$highnoon:          #ffc600;
+$mesa:              #d6a461;
+$sandia:            #ed8b00;
+$unm_teal:          #007a86;
+$terra:             #c05131;
+// UNM Lobo Colors
+$cherry:            #ba0c2f;
+$lobogray:          #63666a;
+$silver:            #a7a8aa;
+
+
+//////////////////////////////
+// Vaporwave Colors (these are unused for anything)
+//////////////////////////////
+$cool_vapor_blue:   #2a3f81;
+$cool_vapor_green:  #00d3cd;
+$vapor_gray:        #bfcfd9;
+$vapor_red:         #f13e5a;
+$vapor_pink:        #ff71ce;
+$vapor_purple:      #b967ff;
+$vapor_blue:        #01cdfe;
+$vapor_green:       #05ffa1;
+$vapor_yellow:      #fffb96;
+
+
+//////////////////////////////
+// Mild toned colors
+//////////////////////////////
+$softgreen:         #74d0a6;
+$mintgreen:         #29c272;
+$softsand:          #ffc25b;
+// #007bff is the default bootstrap success color
+$chillblue:         lighten(#007bff, 12%);
+$coolblue:          #66bfed;
+$softcherry:        #ff705b;
+$springcherry:      #d9534f;
+$burntfall:         #59287a;
+$softplum:          #67013e;
+
+
+//////////////////////////////
+// Bootstrap colors to overwrite
+//////////////////////////////
+// $primary:        $chillblue !default;
+// $secondary:      lighten($lobogray, 15%);
+// $success:        $mintgreen;
+// $info:           $coolblue;
+// $warning:        $softsand;
+// $danger:         $softcherry;
+// $dark:           darken($lobogray, 15%);
+
+//////////////////////////////
+// Using UNMH colors
+//////////////////////////////
+// $primary:        $unm_teal;
+// $secondary:      lighten($lobogray, 15%);
+// $warning:        $sandia;
+// $danger:         $cherry;
+// $dark:           $lobogray;
+
+//////////////////////////////
+// Bootstrap colors being used
+//////////////////////////////
+$primary:           $unm_teal;
+$secondary:         lighten($lobogray, 15%);
+$success:           $mintgreen;
+$info:              $coolblue;
+$warning:           $softsand;
+$danger:            $softcherry;
+$dark:              $lobogray;

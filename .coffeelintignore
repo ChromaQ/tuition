@@ -1,0 +1,14 @@
+bin/
+config/
+coverage/
+db/
+node_modules
+public
+lib/
+log/
+node_modules/
+public/
+test/
+tmp/
+spec/
+storage/

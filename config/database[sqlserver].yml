@@ -1,0 +1,38 @@
+default: &default
+  adapter: sqlserver
+  encoding: utf8
+  username: sa
+  password: <%= ENV['SA_PASSWORD'] %>
+  host: localhost
+  contained: true
+
+development: &dev
+  <<: *default
+  database: tuitrem_development
+
+staging:
+  <<: *dev
+
+production:
+  <<: *default
+  database: tuitrem_production
+  username: tuitrem
+  password: <%= ENV['TUITREM_DATABASE_PASSWORD'] %>
+
+# This is only included if you require using perms with your application
+perms:
+  adapter: "oracle_enhanced"
+  host: perms_host
+  port: 1521
+  database: perms_database
+  username: perms_user
+  password: perms_password
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  database: db/test.sqlite3

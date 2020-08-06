@@ -1,0 +1,66 @@
+@include bg-variant(".bg-teal", $unm_teal);
+
+// src: https://hackerthemes.com/kit/
+// Add nifty borders to alery boxes
+// @each $color, $value in $theme-colors {
+//   .alert-#{$color} {
+//     box-shadow: 3px 3px theme-color-level($color, -3);
+//   }
+// }
+
+// Form error messages
+#error_explanation {
+  color: #f00;
+
+  ul {
+    list-style: none;
+    margin: 0 0 18px 0;
+  }
+}
+
+.field_with_errors label,
+.field_with_errors .form-control-feedback,
+.field_with_errors .form-control-label,
+.field_with_errors .col-form-label,
+.field_with_errors .form-check-label,
+.field_with_errors .custom-control {
+  color: $softcherry;
+}
+
+.field_with_errors .form-control { color: $softcherry; }
+.field_with_errors .input-group-addon { color: $softcherry; border-color: $softcherry; background-color: #fdf7f7; }
+
+
+// Overrride the default navbar styles to let links be a little more visible
+.navbar {
+  a.nav-link {
+    color: rgba($white, 0.65) !important;
+
+    &:hover { color: rgba($white, 0.85) !important; }
+  }
+
+  // link styling when you're logged in as another user
+  .current_user {
+    a {
+      color: lighten($black, 20%) !important;
+
+      &:hover { color: $black !important; }
+    }
+  }
+}
+
+// copyright footer
+.footer {
+  background: transparent;
+  border: 0 !important;
+  bottom: 0;
+  color: #333333;
+  font-size: .7em;
+  font-weight: 400;
+  height: 20px;
+  position:fixed;
+  width: 100% !important;
+  z-index: 100;
+
+  strong { font-weight: 600 !important; }
+}
