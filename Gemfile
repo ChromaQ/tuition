@@ -83,7 +83,7 @@ gem 'logstop'                   # Keep personally identifiable information (PII)
 ### Development/Testing gems
 ##############################
 group :development, :test do
-  gem 'awesome_print', require:'ap'
+  gem 'amazing_print', require:'ap'
   gem 'brakeman'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'       # For building objects associated with your models

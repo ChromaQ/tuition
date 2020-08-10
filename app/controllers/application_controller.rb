@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   # The rest of the perms stuff goes here
-  # NOTE: If you plan on using perms you will need to add credentails to the database files and uncomment the connections in the perm Models
+  # NOTE: If you plan on using perms you will need to add credentials to the database files and uncomment the connections in the perm Models
   def get_user_perms?
     return false unless current_user.present?
 

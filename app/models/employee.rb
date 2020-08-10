@@ -1,0 +1,130 @@
+class Employee < ApplicationRecord
+  establish_connection :hrpayroll
+  self.table_name = :emp_all
+  self.primary_key = :employee_id
+
+  # == Attributes =====================================
+  attribute :dept_num, :string
+  attribute :employee_id, :integer
+  attribute :manager_id, :integer
+  attribute :fte_status, :float # this is because it's a number Oracle/Rails like to assign it as a shorthand number 1e-3
+  attribute :standard_hours, :float
+  alias_attribute :id, :employee_id
+  alias_attribute :department, :dept_num
+  alias_attribute :firstname, :first_name
+  alias_attribute :lastname, :last_name
+  alias_attribute :fullname, :full_name
+  alias_attribute :fte, :fte_status
+  alias_attribute :position, :position_code
+  alias_attribute :status, :employee_status
+  alias_attribute :hire_date, :adjusted_hire_date
+
+  # == Constants =====================================
+  # Employee Status in the database: AC, [Null], LV, and TR
+  # => AC -> Active, LV -> On Leave, TR -> Termed
+  enum employee_status: { active: 'AC', leave: 'LV', termed: 'TR' }
+
+  enum company: { 'UNMH' => '10', 'SRMC' => '400', 'UNMMG' => '500' }
+
+  # == Extensions ====================================
+
+  # == Relationships =================================
+  belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
+  delegate :status, to: :user, prefix: true
+  # has_many :roles, class_name: 'Manager', primary_key: :ldapid, foreign_key: :vt_description
+
+
+  # == Validations ===================================
+
+  # == Scopes ========================================
+  # Available statuses: TR, Null, AC, LV (AC = Active, LV =  Leave, TR = Termed)
+  scope :is_active, -> { where(status: %i[active leave]) }
+  scope :is_termed, -> { where(status: :termed) }
+  scope :is_not_termed, -> { where.not(status: :termed) }
+
+  # Employeed by specific Organization
+  scope :srmc_employee, -> { where(company: 'SRMC') }
+  scope :uh_employee, -> { where(company: 'UNMH') } # 10 = UNMH
+  scope :unmmg_employee, -> { where(company: 'UNMMG') }
+
+  # ==> Additional conditional scopes (most of the ones below are chained across several scopes)
+  scope :not_termed, -> { where(term_date: term_date) }
+  scope :fetch_department, ->(employee_id) { where(employee_id: employee_id).pluck(:department).to_a }
+
+  # Position control scope
+  scope :in_department, lambda { |dept_num|
+    select(:id, :fullname, :position, :hire_date, :grade, :fte, :title)
+        .where(dept_num: dept_num).is_active
+        .sort_by_position
+  }
+
+  # Return a scope to get employees for the specified company
+  #
+  # @param company [String] the company in which you want to limit the the stats search to
+  # @return [Scope] return a scope limiting the query to SRMC or UNMH employees
+  def self.limit_to_org(company = '')
+    case company
+    when 'SRMC'
+      srmc_employee
+    else
+      uh_employee
+    end
+  end
+
+  scope :sort_by_position, -> { order([:position_code, Employee[:full_name].lower.asc]) }
+  # VTF Search
+  scope :search_by, lambda { |str|
+    select(:firstname, :lastname, :ldapid, :id)
+        .where(Employee[:ldapid].lower.matches("#{str}%").or(Employee[:full_name].lower.matches("%#{str}%")))
+        .not_termed
+        .order(Employee[:first_name].lower.asc, Employee[:last_name].lower.asc)
+        .limit(10)
+  }
+  scope :search_by_ldap, ->(ldapid) { where(Employee[:ldapid].lower.eq(ldapid.downcase)) }
+
+  scope :fmla_search, lambda { |str|
+    select(:ldapid, :full_name)
+        .where(Employee[:ldapid].lower.matches("%#{str}%").or(Employee[:full_name].lower.matches("%#{str}%")))
+        .where.not(ldapid: nil)
+        .not_termed.uh_employee
+        .order(Employee[:first_name].lower.asc, Employee[:last_name].lower.asc)
+        .limit(20)
+        .pluck(:ldapid, :full_name)
+  }
+  scope :eligibility_lookup, lambda { |ldapid|
+    select(:employee_id, :hire_date, :manager_id)
+        .not_termed.uh_employee
+        .find_by(ldapid: ldapid)
+  }
+
+  # select all employees who are managed by the specified employee
+  scope :managed_by, ->(employee_id) { where(manager_id: employee_id) }
+
+  # Used a rescue, because not everyone has a manager/manager_id in the DB
+  scope :get_manager, lambda { |employee_id|
+    begin
+      find_by(employee_id: Employee.select(:manager_id).find_by(employee_id: employee_id).manager_id)
+    rescue => e
+      Rails.logger.warn e
+      {}
+    end
+  }
+
+  scope :get_name_by_id, ->(employee_id) { select(:full_name).find_by(employee_id: employee_id) }
+
+  # == Callbacks =====================================
+  def self.sort_stats(employees)
+    employees.sort_by { |x| (x[0].nil? ? 'not given' : x[0].downcase) }
+  end
+
+  # == Class Methods =================================
+  # this is the date that's set if someone hasn't been termed
+  def self.term_date
+    DateTime.parse('01/01/1700 12:00:00 am')
+  end
+
+  # == Instance Methods ==============================
+  def search_display_name
+    "#{firstname} #{lastname}"
+  end
+end

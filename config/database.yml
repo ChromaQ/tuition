@@ -23,3 +23,12 @@ test:
 production:
   <<: *default
   database: db/production.sqlite3
+
+
+hrpayroll:
+  adapter: oracle_enhanced
+  port: 1521
+  host: <%= Rails.application.credentials[:db][:hrpayroll][:host] %>
+  database: <%= Rails.application.credentials[:db][:hrpayroll][:database] %>
+  username: <%= Rails.application.credentials[:db][:hrpayroll][:username] %>
+  password: <%= Rails.application.credentials[:db][:hrpayroll][:password] %>

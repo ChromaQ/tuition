@@ -15,6 +15,7 @@
 #  username           :string           not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  employee_id        :string
 #
 # Indexes
 #

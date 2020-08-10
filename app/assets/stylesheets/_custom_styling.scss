@@ -10,7 +10,7 @@
 
 // Form error messages
 #error_explanation {
-  color: #f00;
+  color: $danger;
 
   ul {
     list-style: none;
@@ -24,20 +24,15 @@
 .field_with_errors .col-form-label,
 .field_with_errors .form-check-label,
 .field_with_errors .custom-control {
-  color: $softcherry;
+  color: $light-pink;
 }
 
-.field_with_errors .form-control { color: $softcherry; }
-.field_with_errors .input-group-addon { color: $softcherry; border-color: $softcherry; background-color: #fdf7f7; }
+.field_with_errors .form-control { color: $light-pink; }
+.field_with_errors .input-group-addon { color: $light-pink; border-color: $light-pink; background-color: #fdf7f7; }
 
 
 // Overrride the default navbar styles to let links be a little more visible
 .navbar {
-  a.nav-link {
-    color: rgba($white, 0.65) !important;
-
-    &:hover { color: rgba($white, 0.85) !important; }
-  }
 
   // link styling when you're logged in as another user
   .current_user {
@@ -63,4 +58,182 @@
   z-index: 100;
 
   strong { font-weight: 600 !important; }
+}
+
+// Lux 4.5.1
+// Bootswatch
+
+
+// Variables ===================================================================
+
+$web-font-path: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" !default;
+@import url($web-font-path);
+
+// Navbar ======================================================================
+
+.navbar {
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: .3rem;
+
+  &-nav {
+    .nav-link {
+      padding-top: .2rem;
+      padding-bottom: .2rem;
+    }
+  }
+
+  &-brand {
+    margin-right: 2rem;
+  }
+}
+
+.bg-primary {
+  background-color: theme-color("primary") !important;
+}
+
+.bg-light {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  &.navbar-fixed-top {
+    border-width: 0 0 1px 0;
+  }
+
+  &.navbar-bottom-top {
+    border-width: 1px 0 0 0;
+  }
+}
+
+.nav-item {
+  margin-right: 2rem;
+}
+
+// Buttons =====================================================================
+
+.btn {
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+
+  &-sm {
+    font-size: 10px;
+  }
+
+  &-warning {
+    &,
+    &:hover,
+    &:not([disabled]):not(.disabled):active,
+    &:focus {
+      color: $white;
+    }
+  }
+}
+
+.btn-outline-secondary {
+  border-color: theme-color("secondary");
+  color: darken(theme-color("secondary"), 15%);
+
+  &:not([disabled]):not(.disabled):hover,
+  &:not([disabled]):not(.disabled):focus,
+  &:not([disabled]):not(.disabled):active {
+    background-color: theme-color("secondary");
+    border-color: theme-color("secondary");
+    color: $gray-900;
+  }
+
+  &:not([disabled]):not(.disabled):focus {
+    box-shadow: 0 0 0 0.2rem rgba(theme-color("secondary"), 0.5);
+  }
+}
+
+[class*="btn-outline-"] {
+  border-width: 2px;
+}
+
+.border-secondary {
+  border: 1px solid theme-color("secondary") !important;
+}
+
+
+// Typography ==================================================================
+
+body {
+  font-weight: 200;
+  letter-spacing: 1px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+
+// Tables ======================================================================
+
+th {
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+}
+
+.table {
+  th, td {
+    padding: 1rem;
+  }
+
+  &-sm {
+    th, td {
+      padding: 0.75rem;
+    }
+  }
+}
+
+// Forms =======================================================================
+
+
+.custom-switch {
+
+  .custom-control-label {
+    &::after {
+      top: calc(0.15625rem + 2px);
+      left: calc(-2.25rem + 2px);
+      width: calc(1rem - 4px);
+      height: calc(1rem - 4px);
+    }
+  }
+}
+
+// Navs ========================================================================
+
+.dropdown-menu {
+  font-size: $font-size-sm;
+  text-transform: none;
+}
+
+// Indicators ==================================================================
+
+.badge {
+  padding-top: 0.28rem;
+
+  &-pill {
+    border-radius: 10rem;
+  }
+}
+
+// Progress bars ===============================================================
+
+// Containers ==================================================================
+
+.list-group-item {
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: inherit;
+  }
+}
+
+.card {
+
+  &-title,
+  &-header {
+    color: inherit;
+  }
 }

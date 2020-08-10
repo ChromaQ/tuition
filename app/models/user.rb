@@ -13,6 +13,7 @@
 #  username           :string           not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  employee_id        :string
 #
 # Indexes
 #
@@ -36,6 +37,8 @@ class User < ApplicationRecord
       case name.to_sym
       when :displayname
         self.displayname = value
+       when :employeeid
+         self.employee_id = value
       when :memberof
         if !value.nil?
           # Verify if the person hitting the app is part of devgroup
