@@ -1,0 +1,19 @@
+<%- title('Course') %>
+<dl>
+  <dt>Employee:</dt>
+  <dd><%= @course.employee_id %></dd>
+  <dt>Start date:</dt>
+  <dd><%= @course.start_date %></dd>
+  <dt>End date:</dt>
+  <dd><%= @course.end_date %></dd>
+  <dt>Course title:</dt>
+  <dd><%= @course.course_title %></dd>
+  <dt>Course short:</dt>
+  <dd><%= @course.course_short %></dd>
+  <dt>Credit hours:</dt>
+  <dd><%= @course.credit_hours %></dd>
+  <dt>Cost:</dt>
+  <dd><%= @course.cost %></dd>
+</dl>
+<%= link_to 'Edit', edit_course_path(@course) %> |
+<%= link_to 'Back', courses_path %>
