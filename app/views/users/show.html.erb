@@ -1,0 +1,56 @@
+<div class="container-fluid" id="user-display">
+  <%= link_to '< Back to list', users_index_path %>
+  <!-- information from in-app user table -->
+  <section id="employee-info">
+    <h1 class="text-center"><%= @user.displayname %> </h1>
+    <div class="row">
+        <h3 class="col">Username</h3>
+        <h3 class="col"> <%= @user.username %> </h3>
+    </div>
+    <div class="row">
+      <h3 class="col">Employer: <%= @user.company %></h3>
+      <h3 class="col">ID: <%= @user.employee_id %> </h3>
+    </div>
+    <!-- information from hr_payroll -->
+    <div class="row">
+      <h3 class="col">Work Email</h3>
+      <h3 class="col"> <%= @employee.email %> </h3>
+    </div>
+    <div class="row">
+      <h3 class="col">Hire Date</h3>
+      <h3 class="col"> <%= @employee.hire_date %> (<%= time_ago_in_words(Date.strptime(@employee.hire_date.to_s)) %> ago)</h3>
+    </div>
+    <div class="row">
+      <h3 class="col">FTE Status</h3>
+      <h3 class="col"> <%= @employee.fte_status %> </h3>
+    </div>
+    <div class="row">
+      <h3 class="col">Employment Status</h3>
+      <h3 class="col"> <%= @employee.employee_status %> </h3>
+    </div>
+    <div class="row">
+      <h3 class="col">Job Title</h3>
+      <h3 class="col"> <%= @employee.title %> </h3>
+    </div>
+    <div class="row">
+      <h3 class="col">Department</h3>
+      <h3 class="col"> <%= @employee.dept_name %> </h3>
+    </div>
+    <div class="row">
+      <h3 class="col">Assigned Manager</h3>
+      <h3 class="col"> <%= @manager.first_name %> <%= @manager.last_name %> - <%= @manager.email %></h3>
+    </div>
+  </section>
+  <hr>
+  <section id="reimbursement-requests">
+    <div class="row mb-5">
+      <div class="col"><h1>Tuition Reimbursement Requests</h1></div>
+      <div class="col"><%= link_to '+ Create a New Request', new_course_path, class:"btn btn-primary" %></div>
+    </div>
+    <div class="row">
+      <h3 class="col">Date of request</h3>
+      <h3 class="col">August 28, 2020</h3>
+    </div>
+  </section>
+</div>
+

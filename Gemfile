@@ -19,6 +19,9 @@ group :development, :production, :staging do
 end
 gem 'sqlite3', '~> 1.3.13'
 gem 'rails-erd', group: :development # Generate an application ERD
+gem 'ransack', github: 'activerecord-hackery/ransack'
+
+
 
 ##############################
 ### Deployment

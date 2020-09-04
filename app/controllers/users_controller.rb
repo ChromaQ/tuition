@@ -1,8 +1,28 @@
 class UsersController < ApplicationController
   before_action :require_superuser?, except: :stop_impersonating
+  before_action :set_user, except: :index
 
   def index
-    @users = User.order(:displayname)
+    @q = User.includes(:employee).ransack(params[:q])
+    @q.sorts = ['name_case_insensitive'] if @q.sorts.empty?
+    @users = @q.result
+    respond_to do |format|
+      format.html
+      format.json { render json: user_list(@users) }
+    end
+  end
+
+  def new
+    @user = User.new
+  end
+
+  def show
+    @employee = Employee.where(:employee_id => @user.employee_id).first
+    @manager = Employee.get_manager(@user.employee_id)
+  end
+
+  def employee_info
+    @employee = Employee.where(:employee_id => @user.employee_id).first
   end
 
   def impersonate
@@ -21,5 +41,11 @@ class UsersController < ApplicationController
 
   def impressions
     @impressions = Impression.get_list
+  end
+
+  private
+
+  def set_user
+    @user = User.find(params[:id])
   end
 end

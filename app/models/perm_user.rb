@@ -5,6 +5,7 @@
 # Table name: users
 #
 #  id                 :integer          not null
+#  company            :string
 #  current_sign_in_at :datetime
 #  current_sign_in_ip :string
 #  displayname        :string

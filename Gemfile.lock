@@ -37,6 +37,15 @@ GIT
       smart_properties
 
 GIT
+  remote: https://github.com/activerecord-hackery/ransack.git
+  revision: c9cc20de9e0f7bab92e0579c85bed64d614d23de
+  specs:
+    ransack (2.3.2)
+      activerecord (>= 5.2.1)
+      activesupport (>= 5.2.1)
+      i18n
+
+GIT
   remote: https://github.com/schneems/attendance.git
   revision: 5ca821a33447987029bb68778a325ed5e74273cd
   specs:
@@ -506,6 +515,7 @@ DEPENDENCIES
   rails-controller-testing
   rails-erd
   rails_best_practices
+  ransack!
   rspec-rails (~> 3.8)
   rubocop
   rubocop-performance

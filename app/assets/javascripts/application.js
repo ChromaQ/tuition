@@ -1,7 +1,7 @@
 //= require jquery3.min
 //= require rails-ujs
 //= require popper
-//= require jquery_ujs
+// require jquery_ujs <-- disabled here because it's in the head and causes console errors
 //= require jquery-ui
 //= require bootstrap
 //= require turbolinks
