@@ -37,7 +37,6 @@ class User < ApplicationRecord
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
   has_one :perms_user, class_name: 'Perms::User', primary_key: :username, foreign_key: :ldapid
   has_one :perms, class_name: 'Perms::App', through: :perms_user, source: :apps
-  # has_many :courses, class_name: 'Course', primary_key: :employee_id, foreign_key: :course_id
 
   # == Validations ====================================
   # ensure a valid username is returned from CASino

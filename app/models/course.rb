@@ -17,10 +17,10 @@ class Course < ApplicationRecord
 
 
   # == Relationships ==================================
-  belongs_to  :user, primary_key: :employee_id, foreign_key: :employee_id
+  belongs_to  :employee
 
   # == Validations ====================================
-  validates :employee_id, presence: true
+
 
 
 end

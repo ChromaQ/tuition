@@ -99,7 +99,7 @@ class Employee < ApplicationRecord
   # == Relationships =================================
   belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
   delegate :status, to: :user, prefix: true
-  # has_many :courses, class_name: 'Course', primary_key: :employee_id, foreign_key: :course_id
+  has_many :courses
 
   # == Validations ===================================
 
