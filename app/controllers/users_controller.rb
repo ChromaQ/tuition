@@ -17,12 +17,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    @employee = Employee.where(:employee_id => @user.employee_id).first
+    @employee = Employee.find_by(employee_id: @user.employee_id)
     @manager = Employee.get_manager(@user.employee_id)
+    @courses = Course.where(employee_id: @user.employee_id)
   end
 
   def employee_info
-    @employee = Employee.where(:employee_id => @user.employee_id).first
+    @employee = Employee.select(:full_name, :first_name, :last_name, :ldapid, :email,  ).where(:employee_id => @user.employee_id)
   end
 
   def impersonate

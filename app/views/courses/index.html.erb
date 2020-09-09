@@ -10,6 +10,7 @@
       <th scope="col">Course ID</th>
       <th scope="col">Credit hours</th>
       <th scope="col">Est. Cost</th>
+      <th scope="col">Updated</th>
       <th colspan="3" scope="col"></th>
     </tr>
   </thead>
@@ -24,6 +25,7 @@
         <td><%= course.course_short %></td>
         <td><%= course.credit_hours %></td>
         <td><%= course.cost %></td>
+        <td><%= time_ago_in_words(course.updated_at) %> ago</td>
         <td><%= link_to 'View', course, class:"btn btn-sm btn-secondary" %></td>
         <td><%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-secondary" %></td>
         <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-secondary" %></td>
