@@ -57,14 +57,14 @@
       <table class="table table-striped table-hover table-sm">
         <thead>
         <tr>
-          <th scope="col">Course Title</th>
-          <th scope="col">Course ID</th>
-          <th scope="col">Begins</th>
-          <th scope="col">Ends</th>
-          <th scope="col">Credit Hrs</th>
-          <th scope="col">Est. Cost</th>
-          <th scope="col">Updated</th>
-          <th colspan="3" scope="col"></th>
+          <th scope="col" class="col-auto">Course Title</th>
+          <th scope="col" class="col-auto">Course ID</th>
+          <th scope="col" class="col-auto">Begins</th>
+          <th scope="col" class="col-auto">Ends</th>
+          <th scope="col" class="col-auto">Credit Hrs</th>
+          <th scope="col" class="col-auto">Est. Cost</th>
+          <th scope="col" class="col-auto">Updated</th>
+          <th scope="col" class="col-auto">Actions</th>
         </tr>
         </thead>
 
@@ -80,7 +80,9 @@
             <td><%= time_ago_in_words(course.updated_at) %> ago</td>
             <td><%= link_to 'View', course, class:"btn btn-sm btn-secondary" %></td>
             <td><%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-secondary" %></td>
-            <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-secondary" %></td>
+            <% if course.employee_id == current_user.employee_id %>
+              <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-secondary" %></td>
+              <% end %>
           </tr>
         <% end %>
         </tbody>

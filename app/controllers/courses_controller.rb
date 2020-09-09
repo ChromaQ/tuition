@@ -8,6 +8,7 @@ class CoursesController < ApplicationController
 
   # GET /courses/1
   def show
+    @user = User.find_by(employee_id: @course.employee_id)
   end
 
   # GET /courses/new
