@@ -18,17 +18,8 @@ class Course < ApplicationRecord
 
   # == Relationships ==================================
   belongs_to  :employee
-
+  has_many    :approvals
   # == Validations ====================================
 
 
-  def course_params
-    params.require(:course).permit(:employee_id, :start_date, :end_date, :course_title, :course_short, :credit_hours, :cost, :created_at, :updated_at)
-  end
-
-  private
-
-  def set_course
-    @course = Course.find(params[:id])
-  end
 end

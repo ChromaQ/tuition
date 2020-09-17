@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
-  resources :courses
+  devise_for :users
+  resources :users
+  resources :courses do
+    resources :approvals
+  end
   get 'pages/welcome'
   get 'pages/noaccess'
   get 'pages/template'
   get 'users/index'
   get 'profile' => 'users#show'
-  devise_for :users
-  resources :users
+
   post   'users/impersonation',      to: 'users#impersonate',        as: 'user_impersonation'
   post   'users/stop_impersonating', to: 'users#stop_impersonating', as: 'stop_user_impersonation'
   get 'impressions', to: 'users#impressions'

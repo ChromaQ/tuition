@@ -4,6 +4,7 @@ class CoursesController < ApplicationController
   # GET /courses
   def index
     @courses = Course.all
+    # need to link to the user, also provide something like a count of open course requests.
   end
 
   # GET /courses/1
@@ -25,7 +26,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      redirect_to @course, notice: 'Course was successfully created.'
+      redirect_to @course, notice: 'Tuition reimbursement request was successfully created.'
     else
       render :new
     end
@@ -34,7 +35,7 @@ class CoursesController < ApplicationController
   # PATCH/PUT /courses/1
   def update
     if @course.update(course_params)
-      redirect_to @course, notice: 'Course was successfully updated.'
+      redirect_to @course, notice: 'Tuition reimbursement request was successfully updated.'
     else
       render :edit
     end
@@ -43,7 +44,7 @@ class CoursesController < ApplicationController
   # DELETE /courses/1
   def destroy
     @course.destroy
-    redirect_to courses_url, notice: 'Course was successfully destroyed.'
+    redirect_to courses_url, notice: 'Tuition reimbursement request was successfully deleted.'
   end
 
   private
