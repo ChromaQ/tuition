@@ -10,18 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_17_190021) do
-
-  create_table "approvals", force: :cascade do |t|
-    t.integer "course_id"
-    t.string "employee_id"
-    t.string "role"
-    t.string "response"
-    t.text "deny_reason"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_approvals_on_course_id"
-  end
+ActiveRecord::Schema.define(version: 2020_09_04_175324) do
 
   create_table "courses", force: :cascade do |t|
     t.string "employee_id"
