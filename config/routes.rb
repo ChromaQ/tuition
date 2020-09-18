@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :users
-  resources :courses do
-    end
+  resources :courses
+  resources :approvals
   get 'pages/welcome'
   get 'pages/noaccess'
   get 'pages/template'
