@@ -10,6 +10,7 @@ class CoursesController < ApplicationController
   # GET /courses/1
   def show
     @user = User.find_by(employee_id: @course.employee_id)
+    @approvals = Approval.where(course_id: @course.id)
   end
 
   # GET /courses/new
@@ -48,13 +49,14 @@ class CoursesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_course
-      @course = Course.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def course_params
-      params.require(:course).permit(:employee_id, :start_date, :end_date, :course_title, :course_short, :credit_hours, :cost)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_course
+    @course = Course.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def course_params
+    params.require(:course).permit(:employee_id, :start_date, :end_date, :course_title, :course_short, :credit_hours, :cost)
+  end
 end

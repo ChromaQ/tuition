@@ -1,10 +1,15 @@
 <%- title('Course') %>
+<h1 class="text-center">Tuition Reimbursement Request</h1>
+
+<%= link_to 'Request List', courses_path %>
+
+
 <dl>
-  <dt>Employee:</dt>
-  <dd><%= @course.employee.full_name %></dd>
+  <dt>From Employee:</dt>
+  <dd><%= link_to @course.employee.full_name, user_path(@user) %> </dd>
   <dt>Course title:</dt>
   <dd><%= @course.course_title %></dd>
-  <dt>Course short:</dt>
+  <dt>Course Identifier:</dt>
   <dd><%= @course.course_short %></dd>
   <dt>Credit hours:</dt>
   <dd><%= @course.credit_hours %></dd>
@@ -17,7 +22,38 @@
 
 </dl>
 <%= link_to 'Edit', edit_course_path(@course) %> |
-<%= link_to 'Request List', courses_path %> |
-<%= link_to 'User Details', user_path(@user) %> |
 
-<%= link_to 'Approve', new_approval_path %>
+<%= button_to 'Approve', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "Approved"}}, method: :post, class: "btn btn-sm btn-primary" %>
+<hr>
+<% unless @approvals.blank? %>
+  <h3 class="text-center">Approvals / Denials</h3>
+  <table class="table table-striped table-hover table-sm">
+    <thead>
+    <tr>
+      <th scope="col">Course</th>
+      <th scope="col">Employee</th>
+      <th scope="col">Role</th>
+      <th scope="col">Response</th>
+      <th scope="col">Deny reason</th>
+      <th scope="col">Course</th>
+      <th colspan="3" scope="col"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @approvals.each do |approval| %>
+      <tr>
+        <td><%= approval.course_id %></td>
+        <td><%= approval.employee_id %></td>
+        <td><%= approval.role %></td>
+        <td><%= approval.response %></td>
+        <td><%= approval.deny_reason %></td>
+        <td><%= approval.course_id %></td>
+        <td><%= link_to 'Show', approval %></td>
+        <td><%= link_to 'Edit', edit_approval_path(approval) %></td>
+        <td><%= link_to 'Destroy', approval, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
