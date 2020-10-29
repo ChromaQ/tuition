@@ -1,18 +1,24 @@
-<h1 class="text-center mb-3"><%= title('Tuition Reimbursement Requests') %></h1>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
+    <li class="breadcrumb-item active" aria-current="page">Request List</li>
+  </ol>
+</nav>
 
-<table class="table table-striped table-hover table-sm">
-  <thead>
-    <tr>
-      <th scope="col">Employee Name</th>
-      <th scope="col">Course title</th>
-      <th scope="col">Course ID</th>
-      <th scope="col">Updated</th>
-      <th scope="col">Est. Start date</th>
-      <th scope="col">Est. End date</th>
-      <th scope="col">Credit hours</th>
-      <th scope="col">Est. Cost</th>
-      <th colspan="3" scope="col"></th>
-    </tr>
+<h1 class="text-center mb-3"><%= title('Tuition Reimbursement Requests') %></h1>
+<table class="table table-sm table-striped table-hover mx-auto">
+  <thead class="thead">
+  <tr class="table-secondary">
+    <th scope="col" class="col-auto">Employee Name</th>
+    <th scope="col" class="col-auto">Course title</th>
+    <th scope="col" class="col-auto">Course ID</th>
+    <th scope="col" class="col-auto">Updated</th>
+    <th scope="col" class="col-auto">Est. Start date</th>
+    <th scope="col" class="col-auto">Est. End date</th>
+    <th scope="col" class="col-auto">Credit hours</th>
+    <th scope="col" class="col-auto">Est. Cost</th>
+    <th colspan="3" scope="col" class="col-auto">Actions</th>
+  </tr>
   </thead>
 
   <tbody>
