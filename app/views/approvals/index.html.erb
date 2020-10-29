@@ -1,0 +1,34 @@
+<h1><%= title('Approvals') %></h1>
+
+<table class="table table-striped table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Course</th>
+      <th scope="col">Employee</th>
+      <th scope="col">Role</th>
+      <th scope="col">Response</th>
+      <th scope="col">Deny reason</th>
+      <th scope="col">Course</th>
+      <th colspan="3" scope="col"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @approvals.each do |approval| %>
+      <tr>
+        <td><%= approval.course_id %></td>
+        <td><%= approval.employee_id %></td>
+        <td><%= approval.role %></td>
+        <td><%= approval.response %></td>
+        <td><%= approval.deny_reason %></td>
+        <td><%= approval.course_id %></td>
+        <td><%= link_to 'Show', approval %></td>
+        <td><%= link_to 'Edit', edit_approval_path(approval) %></td>
+        <td><%= link_to 'Destroy', approval, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'New Approval', new_approval_path %>
