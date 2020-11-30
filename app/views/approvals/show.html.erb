@@ -9,6 +9,8 @@
   </ol>
 </nav>
 
+<h1 class="text-center">Course Approval Details</h1>
+
 <dl>
   <dt>Course:</dt>
   <dd><%= @approval.course_id %></dd>
@@ -18,10 +20,10 @@
   <dd><%= @approval.role %></dd>
   <dt>Response:</dt>
   <dd><%= @approval.response %></dd>
-  <dt>Deny reason:</dt>
-  <dd><%= @approval.deny_reason %></dd>
-  <dt>Course:</dt>
-  <dd><%= link_to 'Back to Course', @approval.course %></dd>
+  <% unless @approval.deny_reason.blank? %>
+    <dt>Deny reason:</dt>
+    <dd><%= @approval.deny_reason %></dd>
+  <% end %>
 </dl>
-<%= link_to 'Edit', edit_approval_path(@approval) %> |
-<%= link_to 'Back', approvals_path %>
+<%= link_to 'Edit', edit_approval_path(@approval), class: 'btn btn-sm btn-secondary' %> |
+<%= link_to 'Back', @approval.course, class: 'btn btn-sm btn-primary' %>

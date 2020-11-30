@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_superuser?, except: :stop_impersonating
-  before_action :set_user, except: :index
+  before_action :set_user, except: [:index, :impersonate, :stop_impersonating]
 
   def index
     @q = User.includes(:employee).ransack(params[:q])
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   end
 
   def impersonate
-    user = User.find(params[:id])
+    user = User.find_by_username(params[:username])
     impersonate_user(user)
     # Log when a superuser is impersonating any other user
     # => This can be used as a audit-log in case an incident happens while logged in as another user

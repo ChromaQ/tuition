@@ -1,5 +1,12 @@
-<h1><%= title('Editing Course') %></h1>
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
+    <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
+    <li class="breadcrumb-item active" aria-current="page">Request Details</li>
+  </ol>
+</nav>
+<h1><%= title('Editing Course') %></h1>
 <%= render 'form', course: @course %>
 
 <%= link_to 'Show', @course %> |

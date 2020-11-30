@@ -76,7 +76,6 @@ class User < ApplicationRecord
         #self.hr_access = value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
       end
     end
-
     # When the user logs in, verify if they have manager access or not.
     # => This is set for when they login because people change departments, access levels, etc.
     # => This is a number, because someone can be a manager, director, etc of multiple departments at any given time
@@ -84,6 +83,13 @@ class User < ApplicationRecord
       #self.manager_access = (is_manager.positive? ? true : false)
   end
 
+  # Create app users when they haven't logged in to Tuition Reimbursement app yet
+  def self.from_employee(ldapid)
+    employee = Employee.where(:ldapid => ldapid).first
+    u = User.new(:username => employee.ldapid, :displayname => employee.full_name, :superuser => false, :employee_id => employee.employee_id, :company => 'UNMH')
+    u.save
+    u
+  end
   # By default sort users by lower(displayname)
   ransacker :name_case_insensitive, type: :string do
     arel_table[:displayname].lower
@@ -148,7 +154,7 @@ class User < ApplicationRecord
   # HR Access by Organization
   ########################################
   def srmc_hraccess?
-    hraccess? && employed_by_srcm?
+    hraccess? && employed_by_srmc?
   end
 
   def uh_hraccess?
@@ -163,7 +169,7 @@ class User < ApplicationRecord
     company == 'HSC'
   end
 
-  def employed_by_srcm?
+  def employed_by_srmc?
     company == 'SRMC'
   end
 
