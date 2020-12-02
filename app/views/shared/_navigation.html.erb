@@ -18,7 +18,7 @@
           <li class="nav-item nav-link current_user navbar">
             <%= display_user %>
           </li>
-          <% if current_user.superuser? %>
+          <% if current_user.superuser? && current_user == true_user %>
             <%= form_tag user_impersonation_path, class: 'form-inline my-2 my-lg-0' do %>
               <div class="input-group input-group-sm">
                 <div class="input-group-prepend">

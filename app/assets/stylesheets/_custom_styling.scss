@@ -87,6 +87,15 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;6
   &-brand {
     margin-right: 2rem;
   }
+  .current_user {
+    color: #fff !important;
+    a {
+      color: #ffc600 !important;
+      &:hover {
+        color: #ed8b00!important;
+      }
+    }
+  }
 }
 
 .bg-primary {
