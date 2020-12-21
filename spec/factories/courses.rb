@@ -15,7 +15,7 @@
 #
 FactoryBot.define do
   factory :course do
-    employee_id { "MyString" }
+    employee_id { "1000" }
     start_date { "2020-09-04 11:53:24" }
     end_date { "2020-09-04 11:53:24" }
     course_title { "MyString" }

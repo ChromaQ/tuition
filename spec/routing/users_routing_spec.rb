@@ -11,7 +11,7 @@ RSpec.describe UsersController, type: :routing do
     end
 
     it 'routes to #impersonate' do
-      expect(post: '/users/1/impersonate').to route_to('users#impersonate', id: '1')
+      expect(post: '/users/impersonation').to route_to('users#impersonate')
     end
 
     it 'routes to #stop_impersonating' do

@@ -29,7 +29,7 @@ RSpec.describe "Pages", type: :request do
     context 'as a user' do
       it 'should redirect' do
         login_as @user
-        post impersonate_user_path(@user)
+        post user_impersonation_path(params[:username])
         expect(response).to redirect_to(root_path)
         expect(flash[:notice]).to match(/You do not have the required privileges in order to access this page.*/)
       end
@@ -38,7 +38,7 @@ RSpec.describe "Pages", type: :request do
     context 'as a superuser' do
       it 'should succeed' do
         login_as @superuser
-        post impersonate_user_path(@user)
+        post user_impersonation_path(params[:username])
         expect(response).to have_http_status(:redirect)
       end
     end
@@ -48,15 +48,15 @@ RSpec.describe "Pages", type: :request do
     context 'as a superuser' do
       it 'should succeed' do
         login_as @superuser
-        post impersonate_user_path(@user)
+        post user_impersonation_path(@user.username)
         expect(response).to have_http_status(:redirect)
-        post stop_impersonating_users_path
+        post stop_user_impersonation_path
         expect(response).to have_http_status(:redirect)
       end
 
       it 'should not work, but redirect' do
         login_as @superuser
-        post stop_impersonating_users_path
+        post stop_impersonating_user
         expect(response).to have_http_status(:redirect)
       end
     end
