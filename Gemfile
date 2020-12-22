@@ -8,6 +8,13 @@ gem 'rails', "~> 5.2.4.3"
 gem 'puma', '~> 4.3'         # Use Puma as the app server
 
 ##############################
+### ActiveStorage
+##############################
+# Used to allow ActiveStorage to store uploads as database blobs
+gem 'activestorage-database-service', github: 'TitovDigital/activestorage-database-service'
+
+
+##############################
 ### Database
 ##############################
 group :development, :production, :staging do

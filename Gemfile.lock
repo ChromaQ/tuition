@@ -37,6 +37,13 @@ GIT
       smart_properties
 
 GIT
+  remote: https://github.com/TitovDigital/activestorage-database-service.git
+  revision: f04c537f6a6c2cafe90d37845bce7310d2ed5bf0
+  specs:
+    activestorage-database-service (1.0.0)
+      rails (>= 5.2.1.1)
+
+GIT
   remote: https://github.com/activerecord-hackery/ransack.git
   revision: c9cc20de9e0f7bab92e0579c85bed64d614d23de
   specs:
@@ -479,6 +486,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-oracle_enhanced-adapter
   activerecord-sqlserver-adapter
+  activestorage-database-service!
   airbrake (~> 5.0)
   amazing_print
   annotate
