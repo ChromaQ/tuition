@@ -1,0 +1,28 @@
+<h1><%= title('Proofs') %></h1>
+
+<table class="table table-striped table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Receipt</th>
+      <th scope="col">Grade</th>
+      <th scope="col">Course</th>
+      <th colspan="3" scope="col"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @proofs.each do |proof| %>
+      <tr>
+        <td><%= proof.receipt %></td>
+        <td><%= proof.grade %></td>
+        <td><%= proof.course_id %></td>
+        <td><%= link_to 'Show', proof %></td>
+        <td><%= link_to 'Edit', edit_proof_path(proof) %></td>
+        <td><%= link_to 'Destroy', proof, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'New Proof', new_proof_path %>

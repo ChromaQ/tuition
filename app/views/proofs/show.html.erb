@@ -1,0 +1,11 @@
+<%- title('Proof') %>
+<dl>
+  <dt>Receipt:</dt>
+  <dd><%= @proof.receipt %></dd>
+  <dt>Grade:</dt>
+  <dd><%= @proof.grade %></dd>
+  <dt>Course:</dt>
+  <dd><%= @proof.course %></dd>
+</dl>
+<%= link_to 'Edit', edit_proof_path(@proof) %> |
+<%= link_to 'Back', proofs_path %>
