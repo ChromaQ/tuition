@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :users
   resources :courses
   resources :approvals
+  resources :proofs
   get 'pages/welcome'
   get 'pages/noaccess'
   get 'pages/template'

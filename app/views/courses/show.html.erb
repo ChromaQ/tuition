@@ -33,6 +33,11 @@
     <%= button_to 'Approve', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "Approved"}}, method: :post, class: "btn btn-sm btn-primary" %>
   </div>
 </div>
+<div class="row">
+  <div class="col col-auto btn-group">
+    <%= link_to 'New Proof', new_proof_path, class: "btn btn-sm btn-primary" %>
+  </div>
+</div>
 <hr>
 <% unless @approvals.blank? %>
   <h3 class="text-center">Approvals / Denials</h3>

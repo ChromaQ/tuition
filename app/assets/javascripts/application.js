@@ -5,6 +5,7 @@
 //= require jquery-ui
 //= require bootstrap
 //= require turbolinks
+//= require activestorage
 //= require_tree .
 
 

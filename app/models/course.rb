@@ -19,7 +19,20 @@ class Course < ApplicationRecord
   # == Relationships ==================================
   belongs_to  :employee
   has_many    :approvals
+  has_many    :proofs
+
+
   # == Validations ====================================
+  validates :employee_id, presence: true
+
+  # == Scopes =========================================
+  scope :submitted_by_employee, ->(employee_id) { where(employee_id: employee_id) }
+  scope :subordinate_requests, lambda { |employee_id|
+    includes(:employee)
+        .where(employee_id: Employee.managed_by(employee_id).not_termed
+                                .pluck(:employee_id))
+        .order(emp_submit_date: :desc)
+  }
 
 
 end
