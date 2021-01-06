@@ -33,13 +33,8 @@
     <%= button_to 'Approve', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "Approved"}}, method: :post, class: "btn btn-sm btn-primary" %>
   </div>
 </div>
-<div class="row">
-  <div class="col col-auto btn-group">
-    <%= link_to 'New Proof', new_proof_path, class: "btn btn-sm btn-primary" %>
-  </div>
-</div>
 <hr>
-<% unless @approvals.blank? %>
+<% unless @course.approvals.blank? %>
   <h3 class="text-center">Approvals / Denials</h3>
   <table class="table table-striped table-hover table-sm">
     <thead>
@@ -54,7 +49,7 @@
     </thead>
 
     <tbody>
-    <% @approvals.each do |approval| %>
+    <% @course.approvals.each do |approval| %>
       <tr>
         <td><%= Date.strptime(approval.created_at.to_s) %></td>
         <td><%= approval.employee_id %></td>
@@ -64,6 +59,40 @@
         <td><%= link_to 'Show', approval, class: 'btn btn-sm btn-primary' %></td>
         <td><%= link_to 'Edit', edit_approval_path(approval), class: 'btn btn-sm btn-secondary' %></td>
         <td><%= link_to 'Delete', approval, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-secondary' %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+<% unless @course.proofs.blank? %>
+  <h3 class="text-center">Course Documentation:</h3>
+  <div class="row">
+    <div class="text-right col-lg-8 col-sm-auto">
+      <p>Employee documentation of proof of payment and proof of grade</p>
+    </div>
+    <div class="col col-5-lg col-sm-auto text-right">
+      <%= link_to '+ Add Proof Document', new_proof_path(course_id: @course.id), class: "btn btn-sm btn-primary" %>
+    </div>
+  </div>
+  <table class="table table-striped table-hover table-sm">
+    <thead>
+    <tr>
+      <th scope="col">Receipt</th>
+      <th scope="col">Grade</th>
+      <th scope="col">Course</th>
+      <th colspan="3" scope="col"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @course.proofs.each do |proof| %>
+      <tr>
+        <td><%= proof.receipt %></td>
+        <td><%= proof.grade %></td>
+        <td><%= proof.course_id %></td>
+        <td><%= link_to 'Show', proof %></td>
+        <td><%= link_to 'Edit', edit_proof_path(proof) %></td>
+        <td><%= link_to 'Destroy', proof, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
     </tbody>

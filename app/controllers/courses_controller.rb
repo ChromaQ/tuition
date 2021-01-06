@@ -3,14 +3,13 @@ class CoursesController < ApplicationController
 
   # GET /courses
   def index
-    @courses = Course.all
+    @courses = Course.order(updated_at: :desc).eager_load(:proofs, :approvals)
     # need to link to the user, also provide something like a count of open course requests.
   end
 
   # GET /courses/1
   def show
     @user = User.find_by(employee_id: @course.employee_id)
-    @approvals = Approval.where(course_id: @course.id)
   end
 
   # GET /courses/new
@@ -52,7 +51,7 @@ class CoursesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_course
-    @course = Course.find(params[:id])
+    @course = Course.eager_load(:approvals, :proofs).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

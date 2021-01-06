@@ -13,7 +13,8 @@ class ProofsController < ApplicationController
 
   # GET /proofs/new
   def new
-    @proof = Proof.new(course: @course)
+    @proof = Proof.new
+    @proof.course_id = params[:course_id]
   end
 
   # GET /proofs/1/edit
@@ -49,6 +50,7 @@ class ProofsController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_proof
     @proof = Proof.find(params[:id])

@@ -9,12 +9,12 @@ class ApprovalsController < ApplicationController
 
   # GET /approvals/1
   def show
-    @approver = Employee.find_by(:employee_id => @approval.employee_id)
+    @approver = Employee.find_by(employee_id: @approval.employee_id)
   end
 
   # GET /approvals/new
   def new
-    @approval = Approval.new(employee_id: current_user.employee_id)
+    @approval = Approval.new(employee_id: current_user.employee_id, course_id: @course.id)
   end
 
   # GET /approvals/1/edit

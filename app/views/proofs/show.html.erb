@@ -5,7 +5,13 @@
   <dt>Grade:</dt>
   <dd><%= @proof.grade %></dd>
   <dt>Course:</dt>
-  <dd><%= @proof.course %></dd>
+  <dd><%= @proof.course.course_title %></dd>
+  <% if @proof.document.attached? %>
+    <dt>Documentation:</dt>
+    <dd><%= @proof.document.filename %></dd>
+    <% end %>
 </dl>
+
+
 <%= link_to 'Edit', edit_proof_path(@proof) %> |
 <%= link_to 'Back', proofs_path %>
