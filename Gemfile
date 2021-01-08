@@ -46,7 +46,7 @@ gem 'unmh-docker', '~> 0.8', unmh: 'unmh-docker', branch: 'ruby2.7_multidb'
 ##############################
 gem 'autoprefixer-rails'        # add vendor prefixes to particular css properties
 gem 'coffee-rails', "~> 4.2"     # Use CoffeeScript for .coffee assets and views
-gem 'bootstrap', '~> 4.4'
+gem 'bootstrap', '~> 4.5.3'
 # gem 'font-awesome-rails' # for supporting fontawesome 4
 gem 'font-awesome-sass'
 gem 'jquery-rails'

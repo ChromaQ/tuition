@@ -9,9 +9,11 @@
   <% if @proof.document.attached? %>
     <dt>Documentation:</dt>
     <dd><%= @proof.document.filename %></dd>
+    <dt>File Type:</dt>
+    <dd><%= @proof.document.content_type %></dd>
     <% end %>
 </dl>
 
 
-<%= link_to 'Edit', edit_proof_path(@proof) %> |
-<%= link_to 'Back', proofs_path %>
+<%= link_to 'Edit', edit_proof_path(@proof), class: 'btn btn-sm btn-secondary' %> |
+<%= link_to 'Back', @proof.course, class: 'btn btn-sm btn-primary' %>

@@ -35,7 +35,7 @@ class ProofsController < ApplicationController
   # PATCH/PUT /proofs/1
   def update
     if @proof.update(proof_params)
-      Current.proof.document.attach(params.require(:document))
+      @proof.document.attach(params[:proof][:document])
       redirect_to @proof, notice: 'Supporting document was successfully updated.'
     else
       render :edit
