@@ -7,11 +7,17 @@
   <dt>Course:</dt>
   <dd><%= @proof.course.course_title %></dd>
   <% if @proof.document.attached? %>
-    <dt>Documentation:</dt>
+    <dt>Documentation file name:</dt>
     <dd><%= @proof.document.filename %></dd>
     <dt>File Type:</dt>
     <dd><%= @proof.document.content_type %></dd>
-    <% end %>
+    <% if @proof.document.image? %>
+      <dt>Preview:</dt>
+      <dd><%= image_tag(@proof.document) %></dd>
+      <% end %>
+    <dt>Download File:</dt>
+    <dd><%= link_to 'Click to Download File', rails_blob_path(@proof.document, disposition: "attachment")  %></dd>
+  <% end %>
 </dl>
 
 

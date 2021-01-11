@@ -12,6 +12,7 @@ gem 'puma', '~> 4.3'         # Use Puma as the app server
 ##############################
 # Used to allow ActiveStorage to store uploads as database blobs
 gem 'activestorage-database-service', github: 'TitovDigital/activestorage-database-service'
+gem 'image_processing' # Preview PDF files in browser window
 
 
 ##############################
