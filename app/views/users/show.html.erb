@@ -7,30 +7,28 @@
 </nav>
 <!-- information from in-app user table -->
 <section id="employee-info">
-  <div class="row ml-3">
-    <h1 class="col-xl-5 col-sm-9 text-center"><%= @user.displayname %> </h1>
-  </div>
-  <div class="mr-3 ml-3">
-    <div class="row ml-5">
-      <dt class="col-sm-3">Employer: ID</dt>
-      <dd class="col-sm-8"> <%= @user.company %>: <%= @user.employee_id %> </dd>
+  <h1 class="text-center"><%= @user.displayname %> </h1>
+  <div class="container">
+    <div class="row justify-content-center">
+      <dt class="col-sm-3 offset-sm-3">Employer: ID</dt>
+      <dd class="col-sm-6"> <%= @user.company %>: <%= @user.employee_id %> </dd>
       <!-- information from hr_payroll -->
-      <dt class="col-sm-3">Username</dt>
-      <dd class="col-sm-8"> <%= @employee.ldapid %> </dd>
-      <dt class="col-sm-3">Work Email</dt>
-      <dd class="col-sm-8"> <%= @employee.email %> </dd>
-      <dt class="col-sm-3">Hire Date</dt>
-      <dd class="col-sm-8"> <%= @employee.hire_date %> (<%= time_ago_in_words(Date.strptime(@employee.hire_date.to_s)) %> ago)</dd>
-      <dt class="col-sm-3">FTE Status</dt>
-      <dd class="col-sm-8"> <%= @employee.fte_status %> </dd>
-      <dt class="col-sm-3">Employment Status</dt>
-      <dd class="col-sm-8"> <%= @employee.employee_status.capitalize %> </dd>
-      <dt class="col-sm-3">Job Title</dt>
-      <dd class="col-sm-8"> <%= @employee.title %> </dd>
-      <dt class="col-sm-3">Department</dt>
-      <dd class="col-sm-8"> <%= @employee.dept_name %> </dd>
-      <dt class="col-sm-3">Assigned Manager</dt>
-      <dd class="col-sm-8">
+      <dt class="col-sm-3 offset-sm-3">Username</dt>
+      <dd class="col-sm-6"> <%= @employee.ldapid %> </dd>
+      <dt class="col-sm-3 offset-sm-3">Work Email</dt>
+      <dd class="col-sm-6"> <%= @employee.email %> </dd>
+      <dt class="col-sm-3 offset-sm-3">Hire Date</dt>
+      <dd class="col-sm-6"> <%= @employee.hire_date %> (<%= time_ago_in_words(Date.strptime(@employee.hire_date.to_s)) %> ago)</dd>
+      <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
+      <dd class="col-sm-6"> <%= @employee.fte_status %> </dd>
+      <dt class="col-sm-3 offset-sm-3">Employment Status</dt>
+      <dd class="col-sm-6"> <%= @employee.employee_status.capitalize %> </dd>
+      <dt class="col-sm-3 offset-sm-3">Job Title</dt>
+      <dd class="col-sm-6"> <%= @employee.title %> </dd>
+      <dt class="col-sm-3 offset-sm-3">Department</dt>
+      <dd class="col-sm-6"> <%= @employee.dept_name %> </dd>
+      <dt class="col-sm-3 offset-sm-3">Assigned Manager</dt>
+      <dd class="col-sm-6">
         <% if !@manager.blank? %>
           <%= @manager.first_name %> <%= @manager.last_name %> - <%= @manager.email %>
         <% else %>

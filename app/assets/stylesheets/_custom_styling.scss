@@ -44,6 +44,22 @@
   }
 }
 
+/* centered columns styles */
+.row-centered {
+  text-align:center;
+}
+.col-centered {
+  display:inline-block;
+  float:none;
+  /* reset the text-align */
+  text-align:left;
+  /* inline-block space fix */
+  margin-right:-4px;
+  text-align: center;
+  background-color: #ccc;
+  border: 1px solid #ddd;
+}
+
 // copyright footer
 .footer {
   background: transparent;
