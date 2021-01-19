@@ -1,5 +1,31 @@
 @include bg-variant(".bg-teal", $unm_teal);
 
+// Data styling in app
+
+//Users/id # show
+.employee-status-termed {
+  color: $danger;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.employee-fte-status-{
+
+}
+
+
+.welcome-bg {
+  background-image: image-url('baim-hanif-pYWuOMhtc6k-unsplash.jpg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+.welcome-bg-alt {
+  background-image: linear-gradient(0deg, rgba(192,81,49,0.05) 0%, rgba(192,81,49,0.95) 55%, rgba(237,139,0,0.8) 85%, rgba(255,198,0,0.8) 100%), image-url('joan-kwamboka-hvL7qlvZ5T4-unsplasha.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
+
 // src: https://hackerthemes.com/kit/
 // Add nifty borders to alery boxes
 // @each $color, $value in $theme-colors {
