@@ -70,10 +70,10 @@
           <td><%= course.credit_hours %></td>
           <td><%= course.cost %></td>
           <td><%= time_ago_in_words(course.updated_at) %> ago</td>
-          <td><%= link_to 'View', course, class:"btn btn-sm btn-primary" %></td>
-          <td><%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-secondary" %></td>
+          <td><%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %></td>
+          <td><%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %></td>
           <% if course.employee_id == current_user.employee_id %>
-            <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-secondary" %></td>
+            <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %></td>
             <% end %>
         </tr>
       <% end %>

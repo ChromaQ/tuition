@@ -32,9 +32,9 @@
         <td><%= Date.strptime(course.end_date.to_s) %></td>
         <td><%= course.credit_hours %></td>
         <td><%= course.cost %></td>
-        <td><%= link_to 'View', course, class:"btn btn-sm btn-primary" %></td>
-        <td><%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-secondary" %></td>
-        <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-warning" %></td>
+        <td><%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %></td>
+        <td><%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %></td>
+        <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %></td>
       </tr>
     <% end %>
   </tbody>
