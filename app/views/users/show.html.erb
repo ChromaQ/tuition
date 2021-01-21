@@ -9,7 +9,7 @@
 <section id="employee-info">
   <h1 class="text-center"><%= @user.displayname %> </h1>
   <div class="container">
-    <div class="row justify-content-center">
+    <dl class="row justify-content-center">
       <dt class="col-sm-3 offset-sm-3">Employer: ID</dt>
       <dd class="col-sm-6"> <%= @user.company %>: <%= @user.employee_id %> </dd>
       <!-- information from hr_payroll -->
@@ -35,7 +35,7 @@
           No Manager Listed - Contact HR
         <% end %>
       </dd>
-    </div>
+    </dl>
   </div>
 </section>
 <hr>
