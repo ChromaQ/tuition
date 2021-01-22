@@ -46,7 +46,7 @@
       <%= link_to '+ Create a New Request', new_course_path, class:"btn btn-sm btn-primary" %>
     </div>
   </div>
-    <table class="table table-striped table-hover table-sm">
+    <table class="table table-sm table-striped table-hover table-sm">
       <thead>
       <tr>
         <th scope="col" class="col-auto">Course Title</th>
@@ -70,11 +70,13 @@
           <td><%= course.credit_hours %></td>
           <td><%= course.cost %></td>
           <td><%= time_ago_in_words(course.updated_at) %> ago</td>
-          <td><%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %></td>
-          <td><%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %></td>
-          <% if course.employee_id == current_user.employee_id %>
-            <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %></td>
+          <td>
+            <%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %>
+            <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
+            <% if course.employee_id == current_user.employee_id %>
+              <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %>
             <% end %>
+          </td>
         </tr>
       <% end %>
       </tbody>

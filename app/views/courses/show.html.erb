@@ -17,12 +17,16 @@
     <dd class="col-sm-6"><%= @course.course_short %></dd>
     <dt class="col-sm-3 offset-sm-3">Credit hours:</dt>
     <dd class="col-sm-6"><%= @course.credit_hours %></dd>
+    <dt class="col-sm-3 offset-sm-3">Estimated Start date:</dt>
+    <dd class="col-sm-6"><%= @course.start_date.to_s(:fancy) %></dd>
+    <dt class="col-sm-3 offset-sm-3">Estimated End date:</dt>
+    <dd class="col-sm-6"><%= @course.end_date.to_s(:fancy) %></dd>
     <dt class="col-sm-3 offset-sm-3">Estimated Cost:</dt>
     <dd class="col-sm-6"><%= @course.cost %></dd>
-    <dt class="col-sm-3 offset-sm-3">Estimated Start date:</dt>
-    <dd class="col-sm-6"><%= Date.strptime(@course.start_date.to_s) %></dd>
-    <dt class="col-sm-3 offset-sm-3">Estimated End date:</dt>
-    <dd class="col-sm-6"><%= Date.strptime(@course.end_date.to_s) %></dd>
+    <dt class="col-sm-3 offset-sm-3">Request Created On:</dt>
+    <dd class="col-sm-6"><%= @course.created_at.to_s(:datetime) %></dd>
+    <dt class="col-sm-3 offset-sm-3">Last Updated On:</dt>
+    <dd class="col-sm-6"><%= @course.updated_at.to_s(:datetime) %></dd>
   </dl>
 </div>
 <div class="row">
@@ -37,9 +41,11 @@
 <div class="col text-center mb-2">
   <%= button_to 'Approve Request', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "Approved"}}, method: :post, class: "btn btn-sm btn-primary" %>
 </div>
-
+<% if @course.approvals.blank? %>
+  <p class="text-center">No approvals logged yet.</p>
+  <% end %>
 <% unless @course.approvals.blank? %>
-  <table class="table table-sm table-striped table-hover table-sm">
+  <table class="table table-sm table-hover table-sm">
     <thead>
       <tr>
         <th scope="col">Date</th>
@@ -47,6 +53,7 @@
         <th scope="col">Role</th>
         <th scope="col">Response</th>
         <th scope="col">Deny reason</th>
+        <th scope="col">Date</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -58,7 +65,8 @@
           <td><%= approval.employee_id %></td>
           <td><%= approval.role %></td>
           <td><%= approval.response %></td>
-          <td><%= approval.deny_reason %></td>
+          <td><%= approval.deny_reason || 'n/a' %></td>
+          <td><%= approval.created_at.to_s(:datetime) %></td>
           <td>
             <%= link_to 'Show', approval, class: 'btn btn-sm btn-outline-primary' %>
             <%= link_to 'Edit', edit_approval_path(approval), class: 'btn btn-sm btn-outline-secondary' %>
@@ -69,7 +77,7 @@
       </tbody>
     </table>
 <% end %>
-
+<hr>
 <h3 class="text-center pt-3">Documentation</h3>
 <div class="row">
   <div class="text-right col-lg-8 col-sm-auto">
@@ -80,11 +88,12 @@
   </div>
 </div>
 <% unless @course.proofs.blank? %>
-  <table class="table table-sm table-striped table-hover table-sm">
+  <table class="table table-sm table-hover table-sm">
     <thead>
     <tr>
       <th scope="col">Type</th>
       <th scope="col">File Name</th>
+      <th scope="col">Date</th>
       <th scope="col">Actions</th>
     </tr>
     </thead>
@@ -108,6 +117,7 @@
             <%= proof.document.filename %>
           <% end %>
         </td>
+        <td> <%= proof.created_at.to_s(:datetime) %></td>
         <td>
           <%= link_to 'Show', proof, class: 'btn btn-sm btn-outline-primary' %>
           <%= link_to 'Edit', edit_proof_path(proof), class: 'btn btn-sm btn-outline-secondary' %>
