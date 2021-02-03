@@ -5,7 +5,7 @@
 #  id          :integer          not null, primary key
 #  deny_reason :text
 #  response    :string
-#  role        :string
+#  role        :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  course_id   :integer
@@ -17,4 +17,5 @@
 #
 class Approval < ApplicationRecord
   belongs_to :course
+  enum role: { applicant: 0, manager: 1, human_resources: 2, system: 3 }
 end

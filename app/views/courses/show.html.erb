@@ -36,13 +36,22 @@
 </div>
 
 <hr>
-
-<h3 class="text-center mt-2">Approvals / Denials</h3>
-<div class="col text-center mb-2">
-  <%= button_to 'Approve Request', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "Approved"}}, method: :post, class: "btn btn-sm btn-primary" %>
+<div class="container">
+  <h3 class="text-center mt-2">Approvals / Denials</h3>
+  <div class="row justify-content-center">
+    <div class="col-sm-3 offset-sm-3">
+      <%= button_to 'Approve Request (Manager)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "Approved", role: "manager"}}, method: :post, class: "btn btn-sm btn-primary" %>
+      <%= button_to 'Approve Request (HR)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "Approved", role: "human_resources"}}, method: :post, class: "btn btn-sm btn-primary" %>
+    </div>
+    <div class="col-sm-6">
+      <%= link_to 'Deny Request (Manager)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "Denied", role: "manager"), class: "btn btn-sm btn-warning" %>
+      <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "Denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
+    </div>
+  </div>
 </div>
+
 <% if @course.approvals.blank? %>
-  <p class="text-center">No approvals logged yet.</p>
+  <p class="text-center">No approvals or denials logged yet.</p>
   <% end %>
 <% unless @course.approvals.blank? %>
   <table class="table table-sm table-hover table-sm">
@@ -52,8 +61,6 @@
         <th scope="col">Employee</th>
         <th scope="col">Role</th>
         <th scope="col">Response</th>
-        <th scope="col">Deny reason</th>
-        <th scope="col">Date</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -61,12 +68,14 @@
     <tbody>
       <% @course.approvals.each do |approval| %>
         <tr>
-          <td><%= Date.strptime(approval.created_at.to_s) %></td>
+          <td><%= approval.created_at.to_s(:datetime) %></td>
           <td><%= approval.employee_id %></td>
           <td><%= approval.role %></td>
-          <td><%= approval.response %></td>
-          <td><%= approval.deny_reason || 'n/a' %></td>
-          <td><%= approval.created_at.to_s(:datetime) %></td>
+          <td><%= approval.response %>
+            <% unless approval.deny_reason.blank? %>
+              - <%= approval.deny_reason %>
+              <% end %>
+          </td>
           <td>
             <%= link_to 'Show', approval, class: 'btn btn-sm btn-outline-primary' %>
             <%= link_to 'Edit', edit_approval_path(approval), class: 'btn btn-sm btn-outline-secondary' %>

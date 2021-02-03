@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_23_185658) do
+ActiveRecord::Schema.define(version: 2021_02_03_010524) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2020_12_23_185658) do
   create_table "approvals", force: :cascade do |t|
     t.integer "course_id"
     t.string "employee_id"
-    t.string "role"
+    t.integer "role"
     t.string "response"
     t.text "deny_reason"
     t.datetime "created_at", null: false

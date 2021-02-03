@@ -5,7 +5,7 @@
 #  id          :integer          not null, primary key
 #  deny_reason :text
 #  response    :string
-#  role        :string
+#  role        :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  course_id   :integer

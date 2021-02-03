@@ -1,5 +1,6 @@
 class ApprovalsController < ApplicationController
   before_action :set_approval, only: [:show, :edit, :update, :destroy]
+  before_action :set_course, only: :new
 
   # GET /approvals
   def index
@@ -14,7 +15,15 @@ class ApprovalsController < ApplicationController
 
   # GET /approvals/new
   def new
-    @approval = Approval.new(employee_id: current_user.employee_id, course_id: @course.id)
+    @approval = Approval.new(employee_id: current_user.employee_id, course_id: @course.id, response: params[:response], role: params[:role])
+  end
+
+  def manager_approve
+    @approval = Approval.new(employee_id: current_user.employee_id, course_id: @course.id, role: 'Manager')
+  end
+
+  def hr_approve
+    @approval = Approval.new(employee_id: current_user.employee_id, course_id: @course.id, role: 'HR')
   end
 
   # GET /approvals/1/edit
@@ -44,7 +53,7 @@ class ApprovalsController < ApplicationController
   # DELETE /approvals/1
   def destroy
     @approval.destroy
-    redirect_to approvals_url, notice: 'Response was successfully deleted.'
+    redirect_to @course, notice: 'Response was successfully deleted.'
   end
 
   private
@@ -54,9 +63,13 @@ class ApprovalsController < ApplicationController
     @approval = Approval.find(params[:id])
   end
 
+  def set_course
+    @course = Course.find(params[:course_id])
+  end
+
 
   # Only allow a trusted parameter "white list" through.
   def approval_params
-    params.require(:approval).permit(:course_id, :employee_id, :role, :response, :deny_reason, :course)
+    params.require(:approval).permit(:course_id, :employee_id, :role, :response, :deny_reason)
   end
 end
