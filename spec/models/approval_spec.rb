@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  deny_reason :text
-#  response    :string
+#  response    :integer
 #  role        :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

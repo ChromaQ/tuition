@@ -41,13 +41,13 @@
 <div class="row">
   <div class="col-6 text-right">
     <div class="btn-group">
-      <%= button_to 'Approve Request (Manager)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "Approved", role: "manager"}}, method: :post, class: "btn btn-sm btn-primary mr-1" %>
-      <%= button_to 'Approve Request (HR)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "Approved", role: "human_resources"}}, method: :post, class: "btn btn-sm btn-primary" %>
+      <%= button_to 'Approve Request (Manager)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "manager"}}, method: :post, class: "btn btn-sm btn-primary mr-1" %>
+      <%= button_to 'Approve Request (HR)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "human_resources"}}, method: :post, class: "btn btn-sm btn-primary" %>
     </div>
   </div>
   <div class="col-6">
-    <%= link_to 'Deny Request (Manager)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "Denied", role: "manager"), class: "btn btn-sm btn-warning" %>
-    <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "Denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
+    <%= link_to 'Deny Request (Manager)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "manager"), class: "btn btn-sm btn-warning" %>
+    <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
   </div>
 </div>
 
@@ -72,8 +72,8 @@
         <tr>
           <td><%= approval.created_at.to_s(:datetime) %></td>
           <td><%= approval.employee_id %></td>
-          <td><%= approval.role %></td>
-          <td><%= approval.response %>
+          <td><%= approval.role.titleize %></td>
+          <td><%= approval.response.titleize %>
             <% unless approval.deny_reason.blank? %>
               - <%= approval.deny_reason %>
               <% end %>
