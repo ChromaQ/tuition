@@ -18,14 +18,6 @@ class ApprovalsController < ApplicationController
     @approval = Approval.new(employee_id: current_user.employee_id, course_id: @course.id, response: params[:response], role: params[:role])
   end
 
-  def manager_approve
-    @approval = Approval.new(employee_id: current_user.employee_id, course_id: @course.id, role: 'Manager')
-  end
-
-  def hr_approve
-    @approval = Approval.new(employee_id: current_user.employee_id, course_id: @course.id, role: 'HR')
-  end
-
   # GET /approvals/1/edit
   def edit
   end
