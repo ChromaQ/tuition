@@ -8,44 +8,45 @@
 <!-- information from in-app user table -->
 <section id="employee-info">
   <h1 class="text-center"><%= @user.displayname %> </h1>
-  <div class="container">
-    <dl class="row justify-content-center">
-      <dt class="col-sm-3 offset-sm-3">Employer: ID</dt>
-      <dd class="col-sm-6"> <%= @user.company %>: <%= @user.employee_id %> </dd>
-      <!-- information from hr_payroll -->
-      <dt class="col-sm-3 offset-sm-3">Username</dt>
-      <dd class="col-sm-6"> <%= @employee.ldapid %> </dd>
-      <dt class="col-sm-3 offset-sm-3">Work Email</dt>
-      <dd class="col-sm-6"> <%= @employee.email %> </dd>
-      <dt class="col-sm-3 offset-sm-3">Hire Date</dt>
-      <dd class="col-sm-6"> <%= @employee.hire_date %> (<%= time_ago_in_words(Date.strptime(@employee.hire_date.to_s)) %> ago)</dd>
-      <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
-      <dd class="col-sm-6"> <%= @employee.fte_status %></dd>
-      <dt class="col-sm-3 offset-sm-3">Employment Status</dt>
-      <dd class="col-sm-6 employee-status-<%=@employee.employee_status %>"> <%= @employee.employee_status %> </dd>
-      <dt class="col-sm-3 offset-sm-3">Job Title</dt>
-      <dd class="col-sm-6"> <%= @employee.title %> </dd>
-      <dt class="col-sm-3 offset-sm-3">Department</dt>
-      <dd class="col-sm-6"> <%= @employee.dept_name %> </dd>
-      <dt class="col-sm-3 offset-sm-3">Assigned Manager</dt>
-      <dd class="col-sm-6">
-        <% if !@manager.blank? %>
-          <%= @manager.first_name %> <%= @manager.last_name %> - <%= @manager.email %>
-        <% else %>
-          No Manager Listed - Contact HR
-        <% end %>
-      </dd>
-    </dl>
-  </div>
+  <dl class="row justify-content-center">
+    <dt class="col-sm-3 offset-sm-3">Work Email</dt>
+    <dd class="col-sm-6"> <%= @employee.email %> </dd>
+    <dt class="col-sm-3 offset-sm-3">Username</dt>
+    <dd class="col-sm-6"> <%= @employee.ldapid %> </dd>
+    <dt class="col-sm-3 offset-sm-3">Employee ID Number</dt>
+    <dd class="col-sm-6"> <%= @user.employee_id %> </dd>
+    <dt class="col-sm-3 offset-sm-3">Job Title</dt>
+    <dd class="col-sm-6"> <%= @employee.title %> </dd>
+    <dt class="col-sm-3 offset-sm-3">Department</dt>
+    <dd class="col-sm-6"> <%= @employee.dept_name %> </dd>
+    <dt class="col-sm-3 offset-sm-3">Assigned Manager</dt>
+    <dd class="col-sm-6">
+      <% if !@manager.blank? %>
+        <%= @manager.first_name %> <%= @manager.last_name %> - <%= @manager.email %>
+      <% else %>
+        No Manager Listed - Contact HR
+      <% end %>
+    </dd>
+  </dl>
+  <h4 class="text-center">Eligibility Check</h4>
+  <dl class="row justify-content-center">
+    <dt class="col-sm-3 offset-sm-3">Employer: ID</dt>
+    <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"> <%= @user.company %>: <%= @user.employee_id %> </dd>
+    <dt class="col-sm-3 offset-sm-3">Hire Date</dt>
+    <dd class="col-sm-6"> <%= @employee.hire_date.to_s %> (<%= time_ago_in_words(Date.strptime(@employee.hire_date.to_s)) %> ago)</dd>
+    <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
+    <dd class="col-sm-6"> <%= @employee.fte_status %></dd>
+    <dt class="col-sm-3 offset-sm-3">Employment Status</dt>
+    <dd class="col-sm-6 employee-status-<%=@employee.employee_status %>"> <%= @employee.employee_status.capitalize %> </dd>
+  </dl>
+
 </section>
 <hr>
+
 <section id="reimbursement-requests">
-  <div class="row">
-    <h3 class="text-right col-8">Reimbursement Requests</h3>
-    <div class="col-3 text-right">
-      <%= link_to '+ Create a New Request', new_course_path, class:"btn btn-sm btn-primary" %>
-    </div>
-  </div>
+  <h3 class="text-center">Reimbursement Requests</h3>
+    <%= link_to '+ Create a New Request', new_course_path, class:"btn btn-sm btn-primary" %>
+
     <table class="table table-sm table-striped table-hover table-sm">
       <thead>
       <tr>
@@ -72,8 +73,8 @@
           <td><%= time_ago_in_words(course.updated_at) %> ago</td>
           <td>
             <%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %>
-            <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
-            <% if course.employee_id == current_user.employee_id %>
+            <% if course.employee_id == current_user.employee_id || current_user.superuser? %>
+              <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
               <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %>
             <% end %>
           </td>
