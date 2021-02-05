@@ -46,6 +46,7 @@ class User < ApplicationRecord
   validates :username, presence: true, length: { minimum: 2 }, uniqueness: { case_sensitive: false }
   # For displaying the current users name (Smith, John)  (this is passed from CASino)
   validates :displayname, presence: true
+  validates :employee_id, presence: true
 
   # == Scopes =========================================
 
@@ -98,7 +99,7 @@ class User < ApplicationRecord
   # == InstanceMethods ================================
 
   # Determine which company Abbreviation the employee is associated with
-  # @param company [String] the Compny name in which the employee is assocaited with in LDAP
+  # @param company [String] the Compny name in which the employee is associated with in LDAP
   # @return [String] the organizations Abbreviation in which the employee is associated with
   def determine_company(company = '')
     return '' if company.blank?

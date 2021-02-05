@@ -35,7 +35,7 @@
     <dt class="col-sm-3 offset-sm-3">Hire Date</dt>
     <dd class="col-sm-6"> <%= @employee.hire_date.to_s %> (<%= time_ago_in_words(Date.strptime(@employee.hire_date.to_s)) %> ago)</dd>
     <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
-    <dd class="col-sm-6"> <%= @employee.fte_status %></dd>
+    <dd class="col-sm-6"> <%= @employee.fte_status %> </dd>
     <dt class="col-sm-3 offset-sm-3">Employment Status</dt>
     <dd class="col-sm-6 employee-status-<%=@employee.employee_status %>"> <%= @employee.employee_status.capitalize %> </dd>
   </dl>
