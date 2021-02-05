@@ -37,5 +37,9 @@ class Approval < ApplicationRecord
   def hr_denied?
     denied? && human_resources?
   end
+
+  def auto_approved?
+    approved? && auto_approval?
+  end
 end
 
