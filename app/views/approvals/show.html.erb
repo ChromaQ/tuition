@@ -5,22 +5,24 @@
     <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
     <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
     <%= link_to 'Request Details', @approval.course, class: 'li breadcrumb-item' %>
-    <li class="breadcrumb-item active" aria-current="page">Approval Details</li>
+    <li class="breadcrumb-item active" aria-current="page">Response Details</li>
   </ol>
 </nav>
 
-<h1 class="text-center">Course Approval Details</h1>
+<h1 class="text-center">Details of Response</h1>
 
 <dl>
   <dt>Course:</dt>
-  <dd><%= @approval.course_id %></dd>
-  <dt>Approved By:</dt>
-  <dd><%= @approver.full_name %></dd>
+  <dd><%= @approval.course.course_title %></dd>
+  <dt>Requested By:</dt>
+  <dd><%= @approval.course.user.displayname %></dd>
+  <dt>Response From:</dt>
+  <dd><%= @approval.user.displayname %></dd>
   <dt>Role:</dt>
-  <dd><%= @approval.role %></dd>
+  <dd><%= @approval.role&.titleize %></dd>
   <dt>Response:</dt>
-  <dd><%= @approval.response %></dd>
-  <% unless @approval.deny_reason.blank? %>
+  <dd><%= @approval.response.capitalize %></dd>
+  <% if @approval.deny_reason %>
     <dt>Deny reason:</dt>
     <dd><%= @approval.deny_reason %></dd>
   <% end %>

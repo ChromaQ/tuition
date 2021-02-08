@@ -1,41 +1,22 @@
 <%= form_with(model: @approval, local: true) do |f| %>
   <%= errors_for(@approval) %>
+  <h4>Course Title</h4>
+  <p><%= @approval.course.course_title&.titleize %></p>
+  <h4>Requested By</h4>
+  <p><%= @approval.course.user.displayname %></p>
+  <%= f.hidden_field :course_id, class: 'form-control' %>
+  <%= f.hidden_field :employee_id, class: 'form-control' %>
+  <%= f.hidden_field :role, class: 'form-control' %>
 
+  <div class="form-group">
+    <%= f.label :response, class:'h4 mr-2' %>
+    <%= f.select :response, options_for_select(Approval.responses.keys), class: 'form-control' %>
+  </div>
 
-    <div class="form-group">
-      <%= f.label :course_id %>
-      <%= f.number_field :course_id, class: 'form-control' %>
-    </div>
-
-
-    <div class="form-group">
-      <%= f.label :employee_id %>
-      <%= f.text_field :employee_id, class: 'form-control' %>
-    </div>
-
-
-    <div class="form-group">
-      <%= f.label :role %>
-      <%= f.text_field :role, class: 'form-control' %>
-    </div>
-
-
-    <div class="form-group">
-      <%= f.label :response %>
-      <%= f.text_field :response, class: 'form-control' %>
-    </div>
-
-
-    <div class="form-group">
-      <%= f.label 'Reason for Denial' %>
-      <%= f.text_area :deny_reason, class: 'form-control' %>
-    </div>
-
-
-    <div class="form-group">
-      <%= f.label :course %>
-      <%= f.hidden_field :course, class: 'form-control' %>
-    </div>
+  <div class="form-group">
+    <%= f.label 'Reason for Denial', class:'h4' %>
+    <%= f.text_area :deny_reason, class: 'form-control', placeholder: 'Please enter the reason this quest will be denied.'%>
+  </div>
 
   <div class="form-group">
     <%= f.submit 'Submit Response', class: "btn btn-primary" %>

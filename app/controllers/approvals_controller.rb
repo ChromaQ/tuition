@@ -45,20 +45,19 @@ class ApprovalsController < ApplicationController
   # DELETE /approvals/1
   def destroy
     @approval.destroy
-    redirect_to @course, notice: 'Response was successfully deleted.'
+    redirect_to request.referer, notice: 'Response was deleted successfully.'
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_approval
-    @approval = Approval.includes(:user, :approver).references(:user).find(params[:id])
+    @approval = Approval.includes(:user).references(:user).find(params[:id])
   end
 
   def set_course
     @course = Course.find(params[:course_id])
   end
-
 
   # Only allow a trusted parameter "white list" through.
   def approval_params

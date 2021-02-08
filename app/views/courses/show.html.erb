@@ -52,8 +52,8 @@
 </div>
 
 
-<% if !@course.approvals %>
-  <p class="text-center">No approvals or denials logged yet.</p>
+<% if @course.approvals.blank? %>
+  <p class="text-center mt-2">No approvals or denials logged yet.</p>
   <% else %>
   <table class="table table-sm table-hover table-sm">
     <thead>
@@ -70,10 +70,10 @@
       <% @course.approvals.each do |approval| %>
         <tr>
           <td><%= approval.created_at.to_s(:datetime) %></td>
-          <td><%= approval.approver.full_name %></td>
+          <td><%= approval.user.displayname %></td>
           <td><%= approval.role&.titleize %></td>
           <td><%= approval.response.titleize %>
-            <% unless approval.deny_reason.blank? %>
+            <% if approval.deny_reason %>
               - <%= approval.deny_reason %>
               <% end %>
           </td>
