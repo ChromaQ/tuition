@@ -17,6 +17,8 @@
 #
 class Approval < ApplicationRecord
   belongs_to :course
+  belongs_to :approver, class_name: 'Employee', primary_key: :employee_id, foreign_key: :employee_id
+  belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
   enum role:     { applicant: 0, manager: 1, human_resources: 2, auto_approval: 3 }
   enum response: { denied: 0, approved: 1}
 

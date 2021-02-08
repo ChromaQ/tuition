@@ -17,7 +17,7 @@ class Course < ApplicationRecord
 
 
   # == Relationships ==================================
-  belongs_to  :employee
+  belongs_to  :user, primary_key: :employee_id, foreign_key: :employee_id
   has_many    :approvals
   has_many    :proofs
 

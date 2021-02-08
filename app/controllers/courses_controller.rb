@@ -9,7 +9,6 @@ class CoursesController < ApplicationController
 
   # GET /courses/1
   def show
-    @user = User.find_by(employee_id: @course.employee_id)
   end
 
   # GET /courses/new
@@ -51,7 +50,7 @@ class CoursesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_course
-    @course = Course.eager_load(:approvals, :proofs).find(params[:id])
+    @course = Course.includes(:user, :approvals, :proofs).references(:approvals, :user, :proofs).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

@@ -24,7 +24,7 @@
   <tbody>
     <% @courses.each do |course| %>
       <tr>
-        <td><%= course.employee.full_name %></td>
+        <td><%= course.user.displayname %></td>
         <td><%= course.course_title %></td>
         <td><%= course.course_short %></td>
         <td><%= time_ago_in_words(course.updated_at) %> ago</td>

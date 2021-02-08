@@ -10,7 +10,7 @@ class ApprovalsController < ApplicationController
 
   # GET /approvals/1
   def show
-    @approver = Employee.find_by(employee_id: @approval.employee_id)
+
   end
 
   # GET /approvals/new
@@ -52,7 +52,7 @@ class ApprovalsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_approval
-    @approval = Approval.find(params[:id])
+    @approval = Approval.includes(:user, :approver).references(:user).find(params[:id])
   end
 
   def set_course

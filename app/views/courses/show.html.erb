@@ -10,7 +10,7 @@
 <div class="container">
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">From Employee:</dt>
-    <dd class="col-sm-6"><%= link_to @course.employee.full_name, user_path(@user) %> </dd>
+    <dd class="col-sm-6"><%= link_to @course.user.displayname, user_path(@course.user) %> </dd>
     <dt class="col-sm-3 offset-sm-3">Course title:</dt>
     <dd class="col-sm-6"><%= @course.course_title %></dd>
     <dt class="col-sm-3 offset-sm-3">Course Identifier:</dt>
@@ -52,10 +52,9 @@
 </div>
 
 
-<% if @course.approvals.blank? %>
+<% if !@course.approvals %>
   <p class="text-center">No approvals or denials logged yet.</p>
-  <% end %>
-<% unless @course.approvals.blank? %>
+  <% else %>
   <table class="table table-sm table-hover table-sm">
     <thead>
       <tr>
@@ -71,8 +70,8 @@
       <% @course.approvals.each do |approval| %>
         <tr>
           <td><%= approval.created_at.to_s(:datetime) %></td>
-          <td><%= approval.employee_id %></td>
-          <td><%= approval.role.titleize %></td>
+          <td><%= approval.approver.full_name %></td>
+          <td><%= approval.role&.titleize %></td>
           <td><%= approval.response.titleize %>
             <% unless approval.deny_reason.blank? %>
               - <%= approval.deny_reason %>
@@ -98,7 +97,7 @@
     <%= link_to '+ Add Proof Document', new_proof_path(course_id: @course.id), class: "btn btn-sm btn-primary" %>
   </div>
 </div>
-<% unless @course.proofs.blank? %>
+<% if @course.proofs %>
   <table class="table table-sm table-hover table-sm">
     <thead>
     <tr>
