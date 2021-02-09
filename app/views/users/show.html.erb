@@ -31,7 +31,7 @@
   <h4 class="text-center">Eligibility Check</h4>
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">Employer: ID</dt>
-    <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"> <%= @user.company %>: <%= @user.employee_id %> </dd>
+    <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"> <%= @user.company %> </dd>
     <dt class="col-sm-3 offset-sm-3">Hire Date</dt>
     <dd class="col-sm-6"> <%= @user.employee.hire_date.to_s %> (<%= time_ago_in_words(Date.strptime(@user.employee.hire_date.to_s)) %> ago)</dd>
     <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
@@ -49,7 +49,7 @@
   <% if @courses.blank? %>
     <p class="text-center"><%= @user.displayname %> has no tuition reimbursement requests yet.</p>
     <% else %>
-      <table class="table table-sm table-striped table-hover table-sm">
+      <table class="table table-sm table-hover table-sm">
         <thead>
         <tr>
           <th scope="col" class="col-auto">Course Title</th>

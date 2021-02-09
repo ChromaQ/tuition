@@ -10,7 +10,7 @@
 
   <div class="form-group">
     <%= f.label :response, class:'h4 mr-2' %>
-    <%= f.select :response, options_for_select(Approval.responses.keys), class: 'form-control' %>
+    <%= f.select :response, options_for_select(Approval.responses.keys, :selected => @approval.response), class: 'form-control' %>
   </div>
 
   <div class="form-group">
