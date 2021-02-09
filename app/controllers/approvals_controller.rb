@@ -27,7 +27,7 @@ class ApprovalsController < ApplicationController
     @approval = Approval.new(approval_params)
 
     if @approval.save
-      redirect_to @approval, notice: 'Response was successfully logged.'
+      redirect_to @approval, notice: 'Your response to this request was successfully logged.'
     else
       render :new
     end
@@ -36,7 +36,7 @@ class ApprovalsController < ApplicationController
   # PATCH/PUT /approvals/1
   def update
     if @approval.update(approval_params)
-      redirect_to @approval, notice: 'Response was successfully updated.'
+      redirect_to @approval, notice: 'Your response to this request was successfully updated.'
     else
       render :edit
     end
@@ -45,7 +45,7 @@ class ApprovalsController < ApplicationController
   # DELETE /approvals/1
   def destroy
     @approval.destroy
-    redirect_to request.referer, notice: 'Response was deleted successfully.'
+    redirect_to request.referer, notice: 'Your response to this request was deleted successfully.'
   end
 
   private

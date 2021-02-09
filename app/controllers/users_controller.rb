@@ -17,7 +17,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @employee = Employee.find_by(employee_id: @user.employee_id)
     @manager = Employee.get_manager(@user.employee_id)
     @courses = Course.where(employee_id: @user.employee_id)
   end
@@ -47,6 +46,6 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.references(:employee, :courses).find(params[:id])
   end
 end
