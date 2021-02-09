@@ -1,22 +1,26 @@
 <%= form_with(model: @approval, local: true) do |f| %>
   <%= errors_for(@approval) %>
-  <h4>Course Title</h4>
+  <h4>Course Title:</h4>
   <p><%= @approval.course.course_title&.titleize %></p>
-  <h4>Requested By</h4>
+  <h4>Requested By:</h4>
   <p><%= @approval.course.user.displayname %></p>
   <%= f.hidden_field :course_id, class: 'form-control' %>
   <%= f.hidden_field :employee_id, class: 'form-control' %>
   <%= f.hidden_field :role, class: 'form-control' %>
 
+  <h4>Response:</h4>
   <div class="form-group">
-    <%= f.label :response, class:'h4 mr-2' %>
-    <%= f.select :response, options_for_select(Approval.responses.keys, :selected => @approval.response), class: 'form-control' %>
+    <%= f.radio_button(:response, "approved") %>
+    <%= f.label :response, 'Approved', value: 'approved' %><br>
+    <%= f.radio_button(:response, "denied") %>
+    <%= f.label :response, 'Denied', value: 'denied' %>
+    <!-- <%= f.select :response, options_for_select(Approval.responses.keys, :selected => @approval.response), class: 'form-control' %> -->
   </div>
-
-  <div class="form-group">
-    <%= f.label 'Reason for Denial', class:'h4' %>
-    <%= f.text_area :deny_reason, class: 'form-control', placeholder: 'Please enter the reason this quest will be denied.'%>
-  </div>
+  <h4>Reason for Denial:</h4>
+    <div class="form-group">
+      <%= f.label 'Reason only required for denied reimbursement requests', class:'p' %>
+      <%= f.text_area :deny_reason, class: 'form-control', placeholder: 'Please enter the reason this quest will be denied.'%>
+    </div>
 
   <div class="form-group">
     <%= f.submit 'Submit Response', class: "btn btn-primary" %>
