@@ -18,11 +18,11 @@ class UsersController < ApplicationController
 
   def show
     @manager = Employee.get_manager(@user.employee_id)
-    @courses = Course.where(employee_id: @user.employee_id)
+    @courses = Course.where(user_id: @user.id).order(updated_at: :desc)
   end
 
   def employee_info
-    @employee = Employee.select(:full_name, :first_name, :last_name, :ldapid, :email,  ).where(:employee_id => @user.employee_id)
+    @employee = Employee.select(:full_name, :first_name, :last_name, :ldapid, :email).where(employee_id: @user.employee_id)
   end
 
   def impersonate
@@ -46,6 +46,11 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.references(:employee, :courses).find(params[:id])
+    @user = User.includes(:courses).references(:employee, :courses).find(params[:id])
   end
+
+  def set_course
+    @course = Course.find(params[:course_id])
+  end
+
 end

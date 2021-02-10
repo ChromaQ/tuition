@@ -97,7 +97,7 @@ class Employee < ApplicationRecord
   # == Extensions ====================================
 
   # == Relationships =================================
-  has_one :user, primary_key: :employee_id, foreign_key: :employee_id
+  belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
   delegate :status, to: :user, prefix: true
   has_many :courses
 

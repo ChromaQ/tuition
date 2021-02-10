@@ -13,6 +13,11 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  employee_id  :string
+#  user_id      :integer
+#
+# Indexes
+#
+#  index_courses_on_user_id  (user_id)
 #
 require 'rails_helper'
 

@@ -34,7 +34,8 @@ class User < ApplicationRecord
   devise :cas_authenticatable, :timeoutable
 
   # == Relationships ==================================
-  belongs_to :employee, primary_key: :employee_id, foreign_key: :employee_id, optional: true
+  has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
+  has_many :courses
 
   # == Validations ====================================
   # ensure a valid username is returned from CASino
