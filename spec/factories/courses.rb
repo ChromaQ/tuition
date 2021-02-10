@@ -9,6 +9,7 @@
 #  credit_hours :integer
 #  end_date     :datetime
 #  start_date   :datetime
+#  status       :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  employee_id  :string

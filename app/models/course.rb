@@ -9,6 +9,7 @@
 #  credit_hours :integer
 #  end_date     :datetime
 #  start_date   :datetime
+#  status       :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  employee_id  :string
@@ -21,7 +22,7 @@ class Course < ApplicationRecord
   has_many    :approvals
   has_many    :proofs
 
-
+  enum status: { draft: 0, denied: 1, approved: 2, withdrawn: 3 }
   # == Validations ====================================
   validates :employee_id, presence: true
 

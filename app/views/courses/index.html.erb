@@ -13,10 +13,9 @@
     <th scope="col" class="col-auto">Course Title</th>
     <th scope="col" class="col-auto">Short ID</th>
     <th scope="col" class="col-auto">Updated</th>
-    <th scope="col" class="col-auto">Begins</th>
-    <th scope="col" class="col-auto">Ends</th>
-    <th scope="col" class="col-auto">Credits</th>
+    <th scope="col" class="col-auto">Dates</th>
     <th scope="col" class="col-auto">Cost</th>
+    <th scope="col" class="col-auto">Status</th>
     <th scope="col" class="col-auto">Actions</th>
   </tr>
   </thead>
@@ -28,10 +27,9 @@
         <td><%= course.course_title %></td>
         <td><%= course.course_short %></td>
         <td><%= time_ago_in_words(course.updated_at) %> ago</td>
-        <td><%= course.start_date.to_s(:date2yr) %></td>
-        <td><%= course.end_date.to_s(:date2yr) %></td>
-        <td><%= course.credit_hours %></td>
+        <td><%= course.start_date.to_s(:date2yr) %> - <%= course.end_date.to_s(:date2yr)%></td>
         <td><%= course.cost %></td>
+        <td><%= course.status&.capitalize %></td>
         <td>
           <%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %>
           <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
