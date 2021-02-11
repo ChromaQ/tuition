@@ -30,14 +30,18 @@
   </dl>
   <h4 class="text-center">Eligibility Check</h4>
   <dl class="row justify-content-center">
-    <dt class="col-sm-3 offset-sm-3">Employer: ID</dt>
+    <dt class="col-sm-3 offset-sm-3">Employer</dt>
     <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"> <%= @user.company %> </dd>
-    <dt class="col-sm-3 offset-sm-3">Hire Date</dt>
-    <dd class="col-sm-6"> <%= @user.employee.hire_date.to_s %> (<%= time_ago_in_words(Date.strptime(@user.employee.hire_date.to_s)) %> ago)</dd>
-    <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
-    <dd class="col-sm-6"> <%= @user.employee.fte_status %> </dd>
     <dt class="col-sm-3 offset-sm-3">Employment Status</dt>
     <dd class="col-sm-6 employee-status-<%=@user.employee.employee_status %>"> <%= @user.employee.employee_status.capitalize %> </dd>
+    <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
+    <dd class="col-sm-6"> <%= @user.employee.fte_status %> </dd>
+    <dt class="col-sm-3 offset-sm-3">Hire Date</dt>
+    <dd class="col-sm-6"> <%= @user.employee.hire_date.to_s(:date4yr) %></dd>
+    <dt class="col-sm-3 offset-sm-3">Eligibility Date</dt>
+    <dd class="col-sm-6"> <%= @user.employee.eligible_at.to_s(:date4yr) %></dd>
+
+
   </dl>
 
 </section>

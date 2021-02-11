@@ -114,6 +114,10 @@ class Employee < ApplicationRecord
   scope :uh_employee, -> { where(company: 'UNMH') } # 10 = UNMH
   scope :unmmg_employee, -> { where(company: 'UNMMG') }
 
+  # Must have at least .5 FTE status to be eligible for tuition reimbursement program
+  # scope :fte_eligible, -> { where(fte_status: >= 0.5)}
+  # scope :eligible, -> { where(eligible_at <= Date.today - 6.months, status: :is_active, company: 'UNMH')}
+
   # ==> Additional conditional scopes (most of the ones below are chained across several scopes)
   scope :not_termed, -> { where(term_date: term_date) }
   scope :fetch_department, ->(employee_id) { where(employee_id: employee_id).pluck(:department).to_a }
@@ -147,7 +151,7 @@ class Employee < ApplicationRecord
         .order(Employee[:first_name].lower.asc, Employee[:last_name].lower.asc)
         .limit(10)
   }
-  scope :search_by_ldap, ->(ldapid) { where(Employee[:ldapid].lower.eq(ldapid.downcase)) }
+  scope :search_by_ldapid, ->(ldapid) { where(Employee[:ldapid].lower.eq(ldapid.downcase)) }
 
   scope :fmla_search, lambda { |str|
     select(:ldapid, :full_name)
@@ -194,5 +198,9 @@ class Employee < ApplicationRecord
   # == Instance Methods ==============================
   def search_display_name
     "#{firstname} #{lastname}"
+  end
+
+  def eligible_at
+    hire_date + 6.months
   end
 end

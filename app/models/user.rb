@@ -83,6 +83,11 @@ class User < ApplicationRecord
       #self.manager_access = (is_manager.positive? ? true : false)
   end
 
+  # Check Tuition Reimbursement Eligibility
+  def eligible?
+    Date.today >= @user.employee.hire_date + 6.months
+  end
+
   # Create app users when they haven't logged in to Tuition Reimbursement app yet
   def self.from_employee(ldapid)
     employee = Employee.where(:ldapid => ldapid).first
