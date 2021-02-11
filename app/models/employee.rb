@@ -142,6 +142,25 @@ class Employee < ApplicationRecord
     end
   end
 
+  def max_credits_per_year
+    return 0 if fte_status.blank?
+
+    case fte_status.to_f
+    when (0.9...)
+      24
+    when (0.7..0.89)
+      21
+    when (0.5..0.69)
+      18
+    else
+      0
+    end
+  end
+
+  def eligible_for_reimbursement?
+    @eligible_for_reimbursement ||= (max_credits_per_year.positive? ? true : false)
+  end
+
   scope :sort_by_position, -> { order([:position_code, Employee[:full_name].lower.asc]) }
   # VTF Search
   scope :search_by, lambda { |str|
@@ -202,5 +221,9 @@ class Employee < ApplicationRecord
 
   def eligible_at
     hire_date + 6.months
+  end
+
+  def fte_eligible?
+    fte_status >= 0.5
   end
 end
