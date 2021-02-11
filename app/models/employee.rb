@@ -224,5 +224,4 @@ class Employee < ApplicationRecord
   def eligible_at
     hire_date + 6.months
   end
-  
 end
