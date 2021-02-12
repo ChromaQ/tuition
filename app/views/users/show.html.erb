@@ -36,6 +36,8 @@
     <dd class="col-sm-6 employee-status-<%=@user.employee.employee_status %>"> <%= @user.employee.employee_status.capitalize %> </dd>
     <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
     <dd class="col-sm-6"> <%= @user.employee.fte_status %> </dd>
+    <dt class="col-sm-3 offset-sm-3">Credit Hours</dt>
+    <dd class="col-sm-6">Available per year: <%= @user.employee.max_credits_per_year %></dd>
     <dt class="col-sm-3 offset-sm-3">Hire Date</dt>
     <dd class="col-sm-6"> <%= @user.employee.hire_date.to_s(:date4yr) %></dd>
     <dt class="col-sm-3 offset-sm-3">Eligibility Date</dt>
