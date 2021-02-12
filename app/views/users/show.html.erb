@@ -22,7 +22,7 @@
     <dt class="col-sm-3 offset-sm-3">Assigned Manager</dt>
     <dd class="col-sm-6">
       <% if @manager.blank? %>
-        <p class="text-warning">No Manager Listed - Contact HR</p>
+        <p class="text-warning">No Manager Listed - Contact Human Resources</p>
       <% else %>
         <%= @manager.first_name %> <%= @manager.last_name %> - <%= @manager.email %>
       <% end %>
