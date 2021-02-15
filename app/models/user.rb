@@ -80,7 +80,7 @@ class User < ApplicationRecord
     end
     # When the user logs in, verify if they have manager access or not.
     # => This is set for when they login because people change departments, access levels, etc.
-    self.manager_access = (current_user.employee_id.blank? ? false : Employee.where(manager_id: current_user.employee_id).exists?)
+    self.manager_access = (self.employee_id.blank? ? false : Employee.where(manager_id: self.employee_id).exists?)
   end
 
   # Check Tuition Reimbursement Credits left in fiscal year

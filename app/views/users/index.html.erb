@@ -12,6 +12,8 @@
           <th>Name</th>
           <th>Username</th>
           <th>Employer + ID #</th>
+          <th>HR</th>
+          <th>Manager</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -21,6 +23,8 @@
             <td><%= link_to user.displayname, user %></td>
             <td><%= user.username %></td>
             <td><%= user.company %>: <%= user.employee_id %></td>
+            <td><%= user.hr_access? %></td>
+            <td><%= user.manager_access? %></td>
             <td><%= link_to 'View', user, class: 'btn btn-sm btn-primary' %>
               <% if current_user == user %>
               (That's you!)
