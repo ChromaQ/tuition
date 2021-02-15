@@ -74,26 +74,24 @@ class User < ApplicationRecord
         # Verify if the person hitting the app is part of devgroup
         self.superuser = value.include?('CN=devgroup,OU=UNMH_IT_Admin,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu')
         # If they are part of HR they should automatically be assigned HR Access
-        #   First HR group is for UH HR the second HR group is for SRMC HR
-        self.hr_access = value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
+        #   First HR group is for UH HR the second HR group is for SRMC HR - commented out for now as this is a UNMH Employee benefit app
+        self.hr_access = value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') # || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
       end
     end
     # When the user logs in, verify if they have manager access or not.
     # => This is set for when they login because people change departments, access levels, etc.
-    # => This is a number, because someone can be a manager, director, etc of multiple departments at any given time
-    #is_manager = Manager.verify_if_manager?(username)
-      #self.manager_access = (is_manager.positive? ? true : false)
+    self.manager_access = (current_user.employee_id.blank? ? false : Employee.where(manager_id: current_user.employee_id).exists?)
   end
 
   # Check Tuition Reimbursement Credits left in fiscal year
   def credits_left_this_year
-    (self.employee.max_credits_per_year - credits_used_this_year)
+    (employee.max_credits_per_year - credits_used_this_year)
   end
 
   # Create app users when they haven't logged in to Tuition Reimbursement app yet
   def self.from_employee(ldapid)
-    employee = Employee.where(:ldapid => ldapid).first
-    u = User.new(:username => employee.ldapid, :displayname => employee.full_name, :superuser => false, :employee_id => employee.employee_id, :company => 'UNMH')
+    employee = Employee.find_by(ldapid: ldapid)
+    u = User.new(username: employee.ldapid, displayname: employee.full_name, superuser: false, employee_id: employee.employee_id, company: 'UNMH')
     u.save
     u
   end
@@ -160,12 +158,12 @@ class User < ApplicationRecord
   ########################################
   # HR Access by Organization
   ########################################
-  def srmc_hraccess?
-    hraccess? && employed_by_srmc?
+  def srmc_hr_access?
+    hr_access? && employed_by_srmc?
   end
 
-  def uh_hraccess?
-    hraccess? && employed_by_unmh?
+  def uh_hr_access?
+    hr_access? && employed_by_unmh?
   end
 
   ########################################
