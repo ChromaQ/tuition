@@ -9,8 +9,10 @@
 #  current_sign_in_at :datetime
 #  current_sign_in_ip :string
 #  displayname        :string
+#  hr_access          :boolean
 #  last_sign_in_at    :datetime
 #  last_sign_in_ip    :string
+#  manager_access     :boolean
 #  sign_in_count      :integer          default(0), not null
 #  superuser          :boolean          default(FALSE)
 #  username           :string           not null

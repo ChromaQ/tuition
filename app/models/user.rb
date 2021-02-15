@@ -7,8 +7,10 @@
 #  current_sign_in_at :datetime
 #  current_sign_in_ip :string
 #  displayname        :string
+#  hr_access          :boolean
 #  last_sign_in_at    :datetime
 #  last_sign_in_ip    :string
+#  manager_access     :boolean
 #  sign_in_count      :integer          default(0), not null
 #  superuser          :boolean          default(FALSE)
 #  username           :string           not null
@@ -73,7 +75,7 @@ class User < ApplicationRecord
         self.superuser = value.include?('CN=devgroup,OU=UNMH_IT_Admin,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu')
         # If they are part of HR they should automatically be assigned HR Access
         #   First HR group is for UH HR the second HR group is for SRMC HR
-        #self.hr_access = value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
+        self.hr_access = value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
       end
     end
     # When the user logs in, verify if they have manager access or not.
@@ -141,12 +143,12 @@ class User < ApplicationRecord
   # Admin access is usually assigned to someone who can modify perms for other individuals
   # This is usually to someone in HR who manages who has access to datashare
   def admin?
-    superuser? || admin_access
+    superuser? || hr_access
   end
 
   # Determine if someone has access to FTEbudget reporting and uploads
 
-  def hraccess?
+  def hr_access?
     superuser? || hr_access
   end
 
