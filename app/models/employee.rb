@@ -149,9 +149,9 @@ class Employee < ApplicationRecord
     case fte_status.to_f
     when (0.9...) # between 0.9 and 1.0 FTE, eligible for 24 credits per fiscal year
       24
-    when (0.7..0.89) # between 0.7 and under 0.9 FTE, eligible for 21 credits per fiscal year
+    when (0.7..0.9) # between 0.7 and under 0.9 FTE, eligible for 21 credits per fiscal year
       21
-    when (0.5..0.69) # between 0.5 and under 0.7 FTE, eligible for 18 credits per fiscal year
+    when (0.5..0.7) # between 0.5 and under 0.7 FTE, eligible for 18 credits per fiscal year
       18
     else
       0 # under 0.5 FTE, ineligible for tuition reimbursement program

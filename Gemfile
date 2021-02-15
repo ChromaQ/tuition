@@ -63,7 +63,7 @@ gem 'uglifier', ">= 1.3.0"      # Use Uglifier as compressor for JavaScript asse
 ##############################
 # Authorization, Authentication [Roles], and LDAP
 ##############################
-# gem 'pundit'               # user authorization (roles and permissions)
+gem 'pundit'               # user authorization (roles and permissions)
 gem 'pretender'                 # allows superusers to emulate being another user
 gem 'unmh-auth', unmh: 'unmh-auth_gem', branch: 'devise_cas' # user authentication, using devise and UNMH-cas
 # gem 'net-ldap', '~> 0.16.1'   # For accessing the ldap server, in order to manually add or search users
