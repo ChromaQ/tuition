@@ -3,13 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, except: [:index, :impersonate, :stop_impersonating]
 
   def index
-    @q = User.includes(:employee).ransack(params[:q])
-    @q.sorts = ['name_case_insensitive'] if @q.sorts.empty?
-    @users = @q.result
-    respond_to do |format|
-      format.html
-      format.json { render json: user_list(@users) }
-    end
+    @users = User.order(:displayname).includes(:courses).references(:employee, :courses)
   end
 
   def new
@@ -17,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @manager = Employee.get_manager(@user.employee_id)
+    @manager = Employee.find_by(employee_id: @user.employee.manager_id)
     @courses = Course.where(user_id: @user.id).order(updated_at: :desc)
   end
 

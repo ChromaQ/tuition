@@ -13,7 +13,7 @@ class CoursesController < ApplicationController
 
   # GET /courses/new
   def new
-    @course = Course.new(employee_id: current_user.employee_id, status: 'draft')
+    @course = Course.new(user_id: current_user.id, employee_id: current_user.employee_id, status: 'draft')
   end
 
   # GET /courses/1/edit
@@ -55,6 +55,6 @@ class CoursesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def course_params
-    params.require(:course).permit(:employee_id, :start_date, :end_date, :course_title, :course_short, :credit_hours, :cost, :status)
+    params.require(:course).permit(:user_id, :employee_id, :start_date, :end_date, :course_title, :course_short, :credit_hours, :cost, :status)
   end
 end

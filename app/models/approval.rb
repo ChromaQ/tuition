@@ -10,6 +10,7 @@
 #  updated_at  :datetime         not null
 #  course_id   :integer
 #  employee_id :string
+#  user_id     :integer
 #
 # Indexes
 #
@@ -18,7 +19,6 @@
 class Approval < ApplicationRecord
   # == Relationships ==================================
   belongs_to :course
-  belongs_to :approver, class_name: 'User', primary_key: :employee_id, foreign_key: :employee_id
   belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
 
   enum role:     { applicant: 0, manager: 1, human_resources: 2, auto_approval: 3 }

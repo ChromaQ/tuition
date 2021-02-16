@@ -10,6 +10,7 @@
 #  updated_at  :datetime         not null
 #  course_id   :integer
 #  employee_id :string
+#  user_id     :integer
 #
 # Indexes
 #

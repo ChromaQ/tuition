@@ -12,9 +12,9 @@
     <dt class="col-sm-3 offset-sm-3">Work Email</dt>
     <dd class="col-sm-6"> <%= @user.employee.email %> </dd>
     <dt class="col-sm-3 offset-sm-3">Username</dt>
-    <dd class="col-sm-6"> <%= @user.employee.ldapid %> </dd>
+    <dd class="col-sm-6"> <%= @user.username %> </dd>
     <dt class="col-sm-3 offset-sm-3">Employee ID Number</dt>
-    <dd class="col-sm-6"> <%= @user.employee_id %> </dd>
+    <dd class="col-sm-6"> <%= @user.employeeid %> </dd>
     <dt class="col-sm-3 offset-sm-3">Job Title</dt>
     <dd class="col-sm-6"> <%= @user.employee.title %> </dd>
     <dt class="col-sm-3 offset-sm-3">Department</dt>
@@ -52,43 +52,45 @@
 <section id="reimbursement-requests">
   <h3 class="text-center">Reimbursement Requests</h3>
   <%= link_to '+ Create a New Request', new_course_path, class:"btn btn-sm btn-primary" %>
-  <% if @courses.blank? %>
+  <% if @courses.length == 0 %>
     <p class="text-center"><%= @user.displayname %> has no tuition reimbursement requests yet.</p>
-    <% else %>
-      <table class="table table-sm table-hover table-sm">
-        <thead>
-        <tr>
-          <th scope="col" class="col-auto">Course Title</th>
-          <th scope="col" class="col-auto">Course ID</th>
-          <th scope="col" class="col-auto">Dates</th>
-          <th scope="col" class="col-auto">Credit Hrs</th>
-          <th scope="col" class="col-auto">Est. Cost</th>
-          <th scope="col" class="col-auto">Updated</th>
-          <th scope="col" class="col-auto">Status</th>
-          <th scope="col" class="col-auto">Actions</th>
-        </tr>
-        </thead>
+  <% else %>
+    <table class="table table-sm table-hover table-sm">
+      <thead>
+      <tr>
+        <th scope="col" class="col-auto">Course Title</th>
+        <th scope="col" class="col-auto">Course ID</th>
+        <th scope="col" class="col-auto">Dates</th>
+        <th scope="col" class="col-auto">Credit Hrs</th>
+        <th scope="col" class="col-auto">Est. Cost</th>
+        <th scope="col" class="col-auto">Updated</th>
+        <th scope="col" class="col-auto">Status</th>
+        <th scope="col" class="col-auto">Actions</th>
+      </tr>
+      </thead>
 
-        <tbody>
-        <% @courses.each do |course| %>
-          <tr>
-            <td><%= link_to course.course_title, course %></td>
-            <td><%= course.course_short %></td>
-            <td><%= course.start_date.to_s(:date2yr) %> - <%= course.end_date.to_s(:date2yr) %></td>
-            <td><%= course.credit_hours %></td>
-            <td><%= course.cost %></td>
-            <td><%= time_ago_in_words(course.updated_at) %> ago</td>
-            <td><%= course.status&.capitalize %></td>
-            <td>
-              <%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %>
-              <% if course.employee_id == current_user.employee_id || current_user.superuser? %>
-                <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
+      <tbody>
+      <% @courses.each do |course| %>
+        <tr>
+          <td><%= link_to course.course_title, course %></td>
+          <td><%= course.course_short %></td>
+          <td><%= course.start_date.to_s(:date2yr) %> - <%= course.end_date.to_s(:date2yr) %></td>
+          <td><%= course.credit_hours %></td>
+          <td><%= course.cost %></td>
+          <td><%= time_ago_in_words(course.updated_at) %> ago</td>
+          <td><%= course.status&.capitalize %></td>
+          <td>
+            <%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %>
+            <% if course.employee_id == current_user.employee_id || current_user.superuser? %>
+              <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
+              <% if course.status == 'draft' %>
                 <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %>
               <% end %>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </section>

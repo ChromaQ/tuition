@@ -38,6 +38,9 @@ class User < ApplicationRecord
   # == Relationships ==================================
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
   has_many :courses
+  has_many :approved_courses, -> { where(status: 'approved') }, class_name: 'Course'
+  has_many :impressions
+  has_one :manager, -> { where(user.employee.manager_id => user.employee_id) }, class_name: 'Employee'
 
   # == Validations ====================================
   # ensure a valid username is returned from CASino
@@ -81,6 +84,10 @@ class User < ApplicationRecord
     # When the user logs in, verify if they have manager access or not.
     # => This is set for when they login because people change departments, access levels, etc.
     self.manager_access = (self.employee_id.blank? ? false : Employee.where(manager_id: self.employee_id).exists?)
+  end
+
+  def self.course_count()
+    Course.where(user_id: user.id).count
   end
 
   # Check Tuition Reimbursement Credits left in fiscal year

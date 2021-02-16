@@ -14,6 +14,7 @@
           <th>Employer + ID #</th>
           <th>HR</th>
           <th>Manager</th>
+          <th>Requests</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -25,6 +26,7 @@
             <td><%= user.company %>: <%= user.employee_id %></td>
             <td><%= user.hr_access? %></td>
             <td><%= user.manager_access? %></td>
+            <td><%= user.courses.size %></td>
             <td><%= link_to 'View', user, class: 'btn btn-sm btn-primary' %>
               <% if current_user == user %>
               (That's you!)

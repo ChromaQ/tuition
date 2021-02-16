@@ -15,7 +15,7 @@ class ApprovalsController < ApplicationController
 
   # GET /approvals/new
   def new
-    @approval = Approval.new(employee_id: current_user.employee_id, course_id: @course.id, response: params[:response], role: params[:role])
+    @approval = Approval.new(course_id: @course.id, user_id: current_user.id, employee_id: current_user.employee_id, response: params[:response], role: params[:role])
   end
 
   # GET /approvals/1/edit
@@ -61,6 +61,6 @@ class ApprovalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def approval_params
-    params.require(:approval).permit(:course_id, :employee_id, :role, :response, :deny_reason)
+    params.require(:approval).permit(:course_id, :user_id, :employee_id, :role, :response, :deny_reason)
   end
 end

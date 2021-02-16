@@ -5,6 +5,7 @@
   <h4>Requested By:</h4>
   <p><%= @approval.course.user.displayname %></p>
   <%= f.hidden_field :course_id, class: 'form-control' %>
+  <%= f.hidden_field :user_id, class: 'form-control' %>
   <%= f.hidden_field :employee_id, class: 'form-control' %>
   <%= f.hidden_field :role, class: 'form-control' %>
 
