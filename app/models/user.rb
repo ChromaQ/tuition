@@ -39,8 +39,9 @@ class User < ApplicationRecord
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
   has_many :courses
   has_many :approved_courses, -> { where(status: 'approved') }, class_name: 'Course'
+  has_many :pending_courses, -> { where(status: 'pending') }, class_name: 'Course'
+  has_many :reimbursed_courses, -> { where(status: 'reimbursed') }, class_name: 'Course'
   has_many :impressions
-  has_one :manager, -> { where(user.employee.manager_id => user.employee_id) }, class_name: 'Employee'
 
   # == Validations ====================================
   # ensure a valid username is returned from CASino

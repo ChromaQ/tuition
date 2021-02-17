@@ -27,7 +27,7 @@ class Course < ApplicationRecord
   has_many    :approvals
   has_many    :proofs
 
-  enum status: { draft: 0, pending: 1, denied: 2, approved: 3, withdrawn: 4 }
+  enum status: { draft: 0, pending: 1, denied: 2, approved: 3, withdrawn: 4, reimbursed: 5 }
   # == Validations ====================================
   validates :employee_id, presence: true
 
