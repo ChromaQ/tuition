@@ -1,6 +1,6 @@
-<h1><%= title('Editing Proof') %></h1>
-
-<%= render 'form', proof: @proof %>
-
+<div id="new_form">
+  <h1><%= title('Editing Proof') %></h1>
+  <%= render 'form', proof: @proof %>
 <%= link_to 'Show', @proof %> |
 <%= link_to 'Back', @proof.course %>
+</div>
