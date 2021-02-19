@@ -37,7 +37,7 @@ class Course < ApplicationRecord
     includes(:employee)
         .where(employee_id: Employee.managed_by(employee_id).not_termed
                                 .pluck(:employee_id))
-        .order(emp_submit_date: :desc)
+        .order(updated_at: :desc)
   }
 
 
