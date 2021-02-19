@@ -27,6 +27,8 @@ module Tuitrem
     # Allows belongs_to associations to be set as optional by default [Disabled by default in Rails5.+]
     config.active_record.belongs_to_required_by_default = false
 
+    config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
+
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
