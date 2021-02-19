@@ -55,7 +55,6 @@ gem 'jquery-ui-rails'
 gem 'mini_racer', platforms: :ruby # C based alternative instead of rubyracer
 gem 'sassc-rails'               # Libsass for rails pipeline (fast sass-rails replacement)
 gem 'sprockets', '3.7.2'
-# gem 'sass-rails'
 gem 'turbolinks', "~> 5"        # turbolinks for browsing your application faster
 gem 'uglifier', ">= 1.3.0"      # Use Uglifier as compressor for JavaScript assets
 
@@ -74,7 +73,12 @@ gem 'unmh-auth', unmh: 'unmh-auth_gem', branch: 'devise_cas' # user authenticati
 ##############################
 gem 'jbuilder', '~> 2.5'        # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'meta-tags'                 #  Used for adding dynamic titles when switching between pages.
+gem 'actionmailer'              # For email sending, previews, and templates
 gem 'unmh-ldap', unmh: 'unmh-ldap'  # An ldap helper gem, used for searching UNMH/LDAP by users, groups, etc.
+# Require the unmh-stats gem in the applications gemfile
+git_source(:unmh){ |repo| "git@git.health.unm.edu:devgroup/#{repo}.git"}
+gem 'unmh-stats', unmh: 'unmh-stats'
+
 
 ##############################
 ### Performance Optimizations
