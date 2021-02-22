@@ -78,7 +78,7 @@ gem 'unmh-ldap', unmh: 'unmh-ldap'  # An ldap helper gem, used for searching UNM
 # Require the unmh-stats gem in the applications gemfile
 git_source(:unmh){ |repo| "git@git.health.unm.edu:devgroup/#{repo}.git"}
 gem 'unmh-stats', unmh: 'unmh-stats'
-
+gem 'unmh-app_mail', unmh: 'unmh-app_mail'
 
 ##############################
 ### Performance Optimizations
