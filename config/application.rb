@@ -28,6 +28,10 @@ module Tuitrem
     config.active_record.belongs_to_required_by_default = false
 
     config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
+    config.action_mailer.delivery_method = :app_mail
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
+
 
 
     # Settings in config/environments/* take precedence over those specified here.
