@@ -9,6 +9,7 @@
 #  current_sign_in_at :datetime
 #  current_sign_in_ip :string
 #  displayname        :string
+#  email              :string
 #  hr_access          :boolean
 #  last_sign_in_at    :datetime
 #  last_sign_in_ip    :string

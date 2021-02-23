@@ -7,6 +7,7 @@
 #  current_sign_in_at :datetime
 #  current_sign_in_ip :string
 #  displayname        :string
+#  email              :string
 #  hr_access          :boolean
 #  last_sign_in_at    :datetime
 #  last_sign_in_ip    :string
@@ -74,6 +75,8 @@ class User < ApplicationRecord
         self.displayname = value
       when :employeeid
         self.employee_id = value
+      when :email
+        self.email = value
       when :memberof
         # Verify if the person hitting the app is part of devgroup
         self.superuser = value.include?('CN=devgroup,OU=UNMH_IT_Admin,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu')
