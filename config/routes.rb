@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :credentials
+  resources :degrees
   devise_for :users
   resources :users
   resources :courses

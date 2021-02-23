@@ -1,0 +1,13 @@
+<%= form_with(model: @degree, local: true) do |f| %>
+  <%= errors_for(@degree) %>
+
+  
+    <div class="form-group">
+      <%= f.label :degree %>
+      <%= f.text_field :degree, class: 'form-control' %>
+    </div>
+  
+  <div class="form-group">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

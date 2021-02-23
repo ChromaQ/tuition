@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_223935) do
+ActiveRecord::Schema.define(version: 2021_02_23_200601) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -65,7 +65,25 @@ ActiveRecord::Schema.define(version: 2021_02_16_223935) do
     t.datetime "updated_at", null: false
     t.integer "status"
     t.integer "user_id"
+    t.integer "credential_id"
+    t.index ["credential_id"], name: "index_courses_on_credential_id"
     t.index ["user_id"], name: "index_courses_on_user_id"
+  end
+
+  create_table "credentials", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.boolean "auto_approve"
+    t.integer "degree_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["degree_id"], name: "index_credentials_on_degree_id"
+  end
+
+  create_table "degrees", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "impressions", force: :cascade do |t|
