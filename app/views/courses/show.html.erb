@@ -17,6 +17,8 @@
     <dd class="col-sm-6"><%= @course.course_title %></dd>
     <dt class="col-sm-3 offset-sm-3">Course Identifier:</dt>
     <dd class="col-sm-6"><%= @course.course_short %></dd>
+    <dt class="col-sm-3 offset-sm-3">Credential - Program</dt>
+    <dd class="col-sm-6"><%= @course.credential&.name %> - <%= @course.credential&.description %></dd>
     <dt class="col-sm-3 offset-sm-3">Credit hours:</dt>
     <dd class="col-sm-6"><%= @course.credit_hours %></dd>
     <dt class="col-sm-3 offset-sm-3">Estimated Start date:</dt>

@@ -1,10 +1,10 @@
 class CredentialsController < ApplicationController
   before_action :set_credential, only: [:show, :edit, :update, :destroy]
-  
+
   # GET /credentials
   def index
     @credentials = Credential.all
-    
+
   end
 
   # GET /credentials/1
@@ -47,13 +47,14 @@ class CredentialsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_credential
-      @credential = Credential.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def credential_params
-      params.require(:credential).permit(:credential, :description, :auto_approve, :degree_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_credential
+    @credential = Credential.includes(:degree, :courses).references(:degree, :courses).find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def credential_params
+    params.require(:credential).permit(:credential, :description, :auto_approve, :degree_id)
+  end
 end

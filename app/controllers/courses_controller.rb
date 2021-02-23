@@ -50,11 +50,11 @@ class CoursesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_course
-    @course = Course.includes(:user, :approvals, :proofs).references(:approvals, :user, :proofs).find(params[:id])
+    @course = Course.includes(:user, :credential, :approvals, :proofs).references(:credential, :approvals, :user, :proofs).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def course_params
-    params.require(:course).permit(:user_id, :employee_id, :start_date, :end_date, :course_title, :course_short, :credit_hours, :cost, :status)
+    params.require(:course).permit(:user_id, :employee_id, :credential_id, :start_date, :end_date, :course_title, :course_short, :credit_hours, :cost, :status)
   end
 end

@@ -6,13 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
+# Generate a list of degree programs - no duplicates made if rake db:seed is rerun.
 degrees = [{name: 'Other'}, {name: 'Certificate'}, {name: 'Associate'}, {name: 'Bachelor'}, {name: 'Master'}, {name: 'Post-Master'}, {name: 'Doctor'}, {name: 'Engineer'}]
 
 degrees.each do |degree|
   Degree.find_or_create_by(degree)
 end
 
-
+# Generate a list of credentials - no duplicates made if rake db:seed is rerun.
 credentials = [
                        {
                            "name": "A.A.",
