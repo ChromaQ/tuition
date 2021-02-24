@@ -13,6 +13,10 @@
 #
 #  index_proofs_on_course_id  (course_id)
 #
+# Foreign Keys
+#
+#  course_id  (course_id => courses.id)
+#
 class Proof < ApplicationRecord
   belongs_to :course
   has_one_attached :document, dependent: :delete

@@ -14,6 +14,10 @@
 #
 #  index_credentials_on_degree_id  (degree_id)
 #
+# Foreign Keys
+#
+#  degree_id  (degree_id => degrees.id)
+#
 FactoryBot.define do
   factory :credential do
     credential { "MyString" }

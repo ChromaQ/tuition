@@ -13,6 +13,10 @@
 #
 #  index_proofs_on_course_id  (course_id)
 #
+# Foreign Keys
+#
+#  course_id  (course_id => courses.id)
+#
 FactoryBot.define do
   factory :proof do
     receipt { false }

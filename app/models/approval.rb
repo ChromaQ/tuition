@@ -16,6 +16,10 @@
 #
 #  index_approvals_on_course_id  (course_id)
 #
+# Foreign Keys
+#
+#  course_id  (course_id => courses.id)
+#
 class Approval < ApplicationRecord
   # == Relationships ==================================
   belongs_to :course

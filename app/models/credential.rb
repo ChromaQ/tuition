@@ -14,6 +14,10 @@
 #
 #  index_credentials_on_degree_id  (degree_id)
 #
+# Foreign Keys
+#
+#  degree_id  (degree_id => degrees.id)
+#
 class Credential < ApplicationRecord
   belongs_to :degree
   has_many :courses

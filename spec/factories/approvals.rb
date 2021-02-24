@@ -16,6 +16,10 @@
 #
 #  index_approvals_on_course_id  (course_id)
 #
+# Foreign Keys
+#
+#  course_id  (course_id => courses.id)
+#
 FactoryBot.define do
   factory :approval do
     course_id { 1 }
