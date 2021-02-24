@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProofsController < ApplicationController
   before_action :set_proof, only: [:show, :edit, :update, :destroy]
 

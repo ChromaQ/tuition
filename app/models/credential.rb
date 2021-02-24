@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: credentials
@@ -13,6 +15,10 @@
 # Indexes
 #
 #  index_credentials_on_degree_id  (degree_id)
+#
+# Foreign Keys
+#
+#  degree_id  (degree_id => degrees.id)
 #
 class Credential < ApplicationRecord
   belongs_to :degree

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserPolicy < ApplicationPolicy
   def impersonate?
     superuser?
@@ -6,5 +8,4 @@ class UserPolicy < ApplicationPolicy
   def edit_access?
     current_user.admin? && current_user.id != record.id
   end
-
 end

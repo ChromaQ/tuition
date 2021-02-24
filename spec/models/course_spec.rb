@@ -21,6 +21,11 @@
 #  index_courses_on_credential_id  (credential_id)
 #  index_courses_on_user_id        (user_id)
 #
+# Foreign Keys
+#
+#  credential_id  (credential_id => credentials.id)
+#  user_id        (user_id => users.id)
+#
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do

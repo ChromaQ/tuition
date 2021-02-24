@@ -2,10 +2,9 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 git_source(:unmh){ |repo| "git@git.health.unm.edu:devgroup/#{repo}.git" }
 
-# ruby '2.7.1'
 
-gem 'rails', "~> 5.2.4.3"
-gem 'puma', '~> 4.3'         # Use Puma as the app server
+gem 'rails', "~> 6.0"
+gem 'puma'
 
 ##############################
 ### ActiveStorage
@@ -19,15 +18,15 @@ gem 'image_processing' # Preview PDF files in browser window
 ### Database
 ##############################
 group :development, :production, :staging do
-  gem 'activerecord-oracle_enhanced-adapter'
+  gem 'activerecord-oracle_enhanced-adapter', '~> 6.0'
   gem 'ruby-oci8', require: 'oci8' # only for CRuby users
 end
 group :development, :production, :staging do
-  gem 'activerecord-sqlserver-adapter'
+  gem 'activerecord-sqlserver-adapter', '~> 6.0'
 end
-gem 'sqlite3', '~> 1.3.13'
+gem 'sqlite3'
 gem 'rails-erd', group: :development # Generate an application ERD
-gem 'ransack', github: 'activerecord-hackery/ransack'
+gem 'ransack'
 
 
 
@@ -39,24 +38,24 @@ gem 'ransack', github: 'activerecord-hackery/ransack'
 # => Once the applications have been converted you should switch the branches to SQLserver,
 # => in order to deploy the applications with smaller container sizes.
 
-gem 'unmh-docker', '~> 0.8', unmh: 'unmh-docker', branch: 'ruby2.7_multidb'
+gem 'unmh-docker', unmh: 'unmh-docker', branch: 'ruby2.7_multidb'
 
 
 ##############################
 ### Assets
 ##############################
 gem 'autoprefixer-rails'        # add vendor prefixes to particular css properties
-gem 'coffee-rails', "~> 4.2"     # Use CoffeeScript for .coffee assets and views
+gem 'coffee-rails'     # Use CoffeeScript for .coffee assets and views
 gem 'bootstrap', '~> 4.5.3'
 # gem 'font-awesome-rails' # for supporting fontawesome 4
 gem 'font-awesome-sass'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mini_racer', platforms: :ruby # C based alternative instead of rubyracer
-gem 'sassc-rails'               # Libsass for rails pipeline (fast sass-rails replacement)
-gem 'sprockets', '3.7.2'
-gem 'turbolinks', "~> 5"        # turbolinks for browsing your application faster
-gem 'uglifier', ">= 1.3.0"      # Use Uglifier as compressor for JavaScript assets
+gem 'sass-rails'
+gem 'sprockets'
+gem 'turbolinks'                   # turbolinks for browsing your application faster
+gem 'uglifier'                     # Use Uglifier as compressor for JavaScript assets
 
 
 ##############################
@@ -71,8 +70,8 @@ gem 'unmh-auth', unmh: 'unmh-auth_gem', branch: 'devise_cas' # user authenticati
 ##############################
 # Misc
 ##############################
-gem 'jbuilder', '~> 2.5'        # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'meta-tags'                 #  Used for adding dynamic titles when switching between pages.
+gem 'jbuilder'               # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'meta-tags'              #  Used for adding dynamic titles when switching between pages.
 gem 'actionmailer'           # For email sending, previews, and templates
 gem 'unmh-ldap', unmh: 'unmh-ldap'  # An ldap helper gem, used for searching UNMH/LDAP by users, groups, etc.
 # Require the unmh-stats gem in the applications gemfile
@@ -90,7 +89,7 @@ gem 'fast_blank', platform: :mri                # fast implementation of .blank?
 ##############################
 ### Security/Logging
 ##############################
-gem 'airbrake', '~> 5.0'        # For errbit exception logging
+gem 'airbrake'                  # For errbit exception logging
 gem 'lograge'                   # For cleaning up your application logs
 gem 'logstop'                   # Keep personally identifiable information (PII) out of your application logs
 
@@ -122,10 +121,10 @@ group :development do
   gem 'better_errors'           # dev: better error messages
   gem 'binding_of_caller'
   # gem 'bullet'
-  gem 'listen', ">= 3.0.5"
+  gem 'listen'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen'
   gem 'web-console'
 end
 
@@ -135,7 +134,7 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'fuubar'
   # gem 'parallel_tests'        # needs to be ran against a database other than sqlite3
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails'
   gem 'rails-controller-testing' # , github: 'rails/rails-controller-testing'
   gem 'simplecov'               # generate html report on the applications test results
   gem 'shoulda'                 # Write easy to understand and maintainable tests
@@ -144,11 +143,11 @@ group :test do
   ### integration testing
   ##############################
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
+  gem 'capybara'
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   # gem 'chromedriver-helper'
-  gem 'webdrivers', '~> 3.0'
+  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

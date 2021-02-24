@@ -12,6 +12,10 @@
 #
 #  index_impressions_on_user_id  (user_id)
 #
+# Foreign Keys
+#
+#  user_id  (user_id => users.id)
+#
 FactoryBot.define do
   factory :impression do
     user { nil }
