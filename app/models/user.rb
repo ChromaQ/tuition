@@ -92,7 +92,7 @@ class User < ApplicationRecord
     self.manager_access = (self.employee_id.blank? ? false : Employee.where(manager_id: self.employee_id).exists?)
   end
 
-  def self.course_count()
+  def self.course_count
     Course.where(user_id: user.id).count
   end
 
