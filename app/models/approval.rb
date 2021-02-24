@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: approvals
@@ -50,4 +52,3 @@ class Approval < ApplicationRecord
     approved? && auto_approval?
   end
 end
-

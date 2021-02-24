@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CredentialsController < ApplicationController
   before_action :set_credential, only: [:show, :edit, :update, :destroy]
 

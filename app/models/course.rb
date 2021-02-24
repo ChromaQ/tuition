@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: courses
@@ -27,8 +29,6 @@
 #  user_id        (user_id => users.id)
 #
 class Course < ApplicationRecord
-
-
   # == Relationships ==================================
   belongs_to :user
   belongs_to :credential
@@ -47,6 +47,4 @@ class Course < ApplicationRecord
                                 .pluck(:employee_id))
         .order(updated_at: :desc)
   }
-
-
 end

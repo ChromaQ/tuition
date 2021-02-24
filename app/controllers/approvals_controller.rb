@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApprovalsController < ApplicationController
   before_action :set_approval, only: [:show, :edit, :update, :destroy]
   before_action :set_course, only: :new

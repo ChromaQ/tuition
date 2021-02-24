@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   # https://gist.github.com/fjahr/b3828b9f4e333e74ba1894687d65e055
   def bootstrap_class_for(flash_type)

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # Created to format dates and times consistently throughout the app.
 # Date formats:

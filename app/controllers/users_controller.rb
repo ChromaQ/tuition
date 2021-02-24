@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   # need to tweak to allow HR access -- before_action :require_superuser?, except: :stop_impersonating
   before_action :set_user, except: [:index, :impersonate, :stop_impersonating]

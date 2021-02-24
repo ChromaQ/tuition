@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 class DegreesController < ApplicationController
   before_action :set_degree, only: [:show, :edit, :update, :destroy]
-  
+
   # GET /degrees
   def index
     @degrees = Degree.all
-    
   end
 
   # GET /degrees/1
