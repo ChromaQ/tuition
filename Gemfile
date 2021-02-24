@@ -52,7 +52,7 @@ gem 'font-awesome-sass'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mini_racer', platforms: :ruby # C based alternative instead of rubyracer
-gem 'sassc-rails'                  # Libsass for rails pipeline (fast sass-rails replacement)
+gem 'sass-rails'
 gem 'sprockets'
 gem 'turbolinks'                   # turbolinks for browsing your application faster
 gem 'uglifier'                     # Use Uglifier as compressor for JavaScript assets
