@@ -20,8 +20,8 @@
   <dd><%= @approval.user.displayname %></dd>
   <dt>Role:</dt>
   <dd><%= @approval.role&.titleize %></dd>
-  <dt>Response:</dt>
-  <dd><%= @approval.response.capitalize %></dd>
+  <dt>Status:</dt>
+  <dd><%= @approval.response&.capitalize %></dd>
   <% if @approval.deny_reason %>
     <dt>Deny reason:</dt>
     <dd><%= @approval.deny_reason %></dd>

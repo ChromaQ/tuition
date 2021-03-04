@@ -1,6 +1,7 @@
 <%= form_with(model: @proof, local: true) do |f| %>
   <%= errors_for(@proof) %>
     <%= f.hidden_field :course_id, class: 'form-control disabled' %>
+    <%= f.hidden_field :approver_id %>
 
     <div class="form-group">
       <%= f.file_field :document, class: 'file-input', data: { max_file_size: 5.megabytes, max_files: 1 } %>
@@ -15,6 +16,19 @@
       <%= f.check_box :grade, class: 'form-check-input' %>
       <%= f.label :grade %>
     </div>
+    <h4>Response:</h4>
+    <div class="form-group">
+      <%= f.radio_button(:response, "approved") %>
+      <%= f.label :response, 'Approved', value: 'approved' %><br>
+      <%= f.radio_button(:response, "denied") %>
+      <%= f.label :response, 'Denied', value: 'denied' %>
+    </div>
+    <h4>Reason for Denial:</h4>
+    <div class="form-group">
+      <%= f.label 'Reason only required for rejected proof documentation', class:'p' %>
+      <%= f.text_area :deny_reason, class: 'form-control', placeholder: 'Please enter the reason this proof is being rejected.'%>
+    </div>
+
 
     <div class="form-group">
       <%= f.submit class: "btn btn-primary" %>

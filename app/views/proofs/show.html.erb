@@ -6,12 +6,24 @@
   <dt class="col-sm-2 offset-sm-4">Grade:</dt>
   <dd class="col-sm-6"><%= @proof.grade %></dd>
   <dt class="col-sm-2 offset-sm-4">Course Title:</dt>
-  <dd class="col-sm-6"><%= @proof.course.course_title %></dd>
+  <dd class="col-sm-6"><%= @proof.course&.course_title %></dd>
   <% if @proof.document.attached? %>
     <dt class="col-sm-2 offset-sm-4">File Name:</dt>
     <dd class="col-sm-6"><%= @proof.document.filename %></dd>
     <dt class="col-sm-2 offset-sm-4">File Type:</dt>
     <dd class="col-sm-6"><%= @proof.document.content_type %></dd>
+    <dt class="col-sm-2 offset-sm-4">Response:</dt>
+    <dd class="col-sm-6"><%= @proof.response&.capitalize || 'Pending Review' %></dd>
+    <% if @proof.approver %>
+      <dt class="col-sm-2 offset-sm-4">Reviewed by:</dt>
+      <dd class="col-sm-6"><%= @proof.approver.full_name %></dd>
+    <% end %>
+    <% if @proof.deny_reason %>
+      <dt class="col-sm-2 offset-sm-4">Deny reason:</dt>
+      <dd class="col-sm-6"><%= @proof.deny_reason %></dd>
+    <% end %>
+    <%= link_to 'Approve Document (HR)', proof_path,  params: { proof: { response: "approved", approver_id: current_user.id } }, method: :patch, class: "col-auto btn btn-sm btn-primary" %>  &nbsp;
+    <%= button_to 'Reject Document (HR)', proof_path, params: { response: "denied", approver_id: current_user.id }, class: "col-auto btn btn-sm btn-warning" %>
     <% if @proof.document.image? %>
       <dt class="col-sm-8 offset-sm-4">Preview:</dt>
       <dd class="col-sm-12 text-center"><%= image_tag(@proof.document) %></dd>
@@ -20,7 +32,6 @@
       <% end %>
   <% end %>
 </dl>
-
 
 <%= link_to 'Edit', edit_proof_path(@proof), class: 'btn btn-sm btn-secondary' %> |
 <%= link_to 'Back', @proof.course, class: 'btn btn-sm btn-primary' %>

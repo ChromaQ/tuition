@@ -28,4 +28,6 @@ class Proof < ApplicationRecord
   belongs_to :course
   belongs_to :approver, class_name: 'User', optional: true
   has_one_attached :document, dependent: :delete
+
+  enum response: { denied: 0, approved: 1 }
 end
