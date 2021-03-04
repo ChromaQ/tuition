@@ -55,7 +55,7 @@ class ProofsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_proof
-    @proof = Proof.find(params[:id])
+    @proof = Proof.includes(:course).references(:course).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

@@ -11,7 +11,7 @@
 #  response    :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  approver_id :integer
+#  approver_id :integer         fk user.id
 #  course_id   :integer
 #
 # Indexes
@@ -28,6 +28,7 @@ class Proof < ApplicationRecord
   belongs_to :course
   belongs_to :approver, class_name: 'User', optional: true
   has_one_attached :document, dependent: :delete
+  validates :course_id, presence: true
 
   enum response: { denied: 0, approved: 1 }
 end
