@@ -1,5 +1,9 @@
 <%- title('Documentation') %>
 <h1 class="mb-1 text-center">Supporting Documentation</h1>
+<div class="row justify-content-center">
+  <%= button_to 'Approve Document (HR)', proof_path(@proof),  params: { proof: { response: "approved", approver_id: current_user.id } }, method: :patch, class: "col-auto btn btn-sm btn-primary" %>  &nbsp;
+  <%= button_to 'Reject Document (HR)', proof_path(@proof), params: { response: "denied", approver_id: current_user.id }, class: "col-auto btn btn-sm btn-warning" %>
+</div>
 <dl class="row justify-content-center">
   <dt class="col-sm-2 offset-sm-4">Receipt:</dt>
   <dd class="col-sm-6"><%= @proof.receipt %></dd>
@@ -12,25 +16,23 @@
     <dd class="col-sm-6"><%= @proof.document.filename %></dd>
     <dt class="col-sm-2 offset-sm-4">File Type:</dt>
     <dd class="col-sm-6"><%= @proof.document.content_type %></dd>
-    <dt class="col-sm-2 offset-sm-4">Response:</dt>
-    <dd class="col-sm-6"><%= @proof.response&.capitalize || 'Pending Review' %></dd>
-    <% if @proof.approver %>
-      <dt class="col-sm-2 offset-sm-4">Reviewed by:</dt>
-      <dd class="col-sm-6"><%= @proof.approver.full_name %></dd>
-    <% end %>
-    <% if @proof.deny_reason %>
-      <dt class="col-sm-2 offset-sm-4">Deny reason:</dt>
-      <dd class="col-sm-6"><%= @proof.deny_reason %></dd>
-    <% end %>
-    <%= link_to 'Approve Document (HR)', proof_path,  params: { proof: { response: "approved", approver_id: current_user.id } }, method: :patch, class: "col-auto btn btn-sm btn-primary" %>  &nbsp;
-    <%= button_to 'Reject Document (HR)', proof_path, params: { response: "denied", approver_id: current_user.id }, class: "col-auto btn btn-sm btn-warning" %>
-    <% if @proof.document.image? %>
-      <dt class="col-sm-8 offset-sm-4">Preview:</dt>
-      <dd class="col-sm-12 text-center"><%= image_tag(@proof.document) %></dd>
-      <% else %>
-      <dt class="col-sm-8 offset-sm-4"><%= link_to 'Download File', rails_blob_path(@proof.document, disposition: "attachment"), class: 'btn btn-sm btn-secondary' %></dt>
-      <% end %>
   <% end %>
+  <dt class="col-sm-2 offset-sm-4">Response:</dt>
+  <dd class="col-sm-6"><%= @proof.response&.capitalize || 'Pending Review' %></dd>
+  <% if @proof.approver_id %>
+    <dt class="col-sm-2 offset-sm-4">Reviewed by:</dt>
+    <dd class="col-sm-6"><%= @proof.approver.displayname %></dd>
+  <% end %>
+  <% if @proof.deny_reason %>
+    <dt class="col-sm-2 offset-sm-4">Deny reason:</dt>
+    <dd class="col-sm-6"><%= @proof.deny_reason %></dd>
+  <% end %>
+  <% if @proof.document.image? %>
+    <dt class="col-sm-8 offset-sm-4">Preview:</dt>
+    <dd class="col-sm-12 text-center"><%= image_tag(@proof.document) %></dd>
+    <% else %>
+    <dt class="col-sm-8 offset-sm-4"><%= link_to 'Download File', rails_blob_path(@proof.document), disposition: "attachment",  class: 'btn btn-sm btn-secondary' %></dt>
+<% end %>
 </dl>
 
 <%= link_to 'Edit', edit_proof_path(@proof), class: 'btn btn-sm btn-secondary' %> |

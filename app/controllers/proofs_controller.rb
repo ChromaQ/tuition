@@ -37,7 +37,9 @@ class ProofsController < ApplicationController
   # PATCH/PUT /proofs/1
   def update
     if @proof.update(proof_params)
-      @proof.document.attach(params[:proof][:document])
+      if params[:proof].key? :document
+        @proof.document.attach(params[:proof][:document])
+      end
       redirect_to @proof, notice: 'Supporting document was successfully updated.'
     else
       render :edit
@@ -46,8 +48,8 @@ class ProofsController < ApplicationController
 
   # DELETE /proofs/1
   def destroy
-    @proof.document.purge
     @proof.destroy
+    # ActiveStorage::Blob.unattached.where("active_storage_blobs.created_at <= ?", 2.days.ago).find_each(&:purge_later) # routine cleanup of active storage blobs not attached to anything
     redirect_to proofs_url, notice: 'Supporting document was successfully deleted.'
   end
 
