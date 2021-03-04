@@ -60,6 +60,6 @@ class ProofsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def proof_params
-    params.require(:proof).permit(:receipt, :grade, :course_id, :document, :course)
+    params.require(:proof).permit(:receipt, :grade, :course_id, :document, :approver_id, :response, :deny_reason)
   end
 end
