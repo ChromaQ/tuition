@@ -8,17 +8,17 @@
   </ol>
 </nav>
 <h1 class="mb-1 text-center">Supporting Documentation</h1>
-<div class="row justify-content-center">
-  <%= button_to 'Approve Document (HR)', proof_path(@proof),  params: { proof: { response: "approved", approver_id: current_user.id } }, method: :patch, class: "col-auto btn btn-sm btn-primary" %>  &nbsp;
-  <%= button_to 'Reject Document (HR)', edit_proof_path(@proof), params: { proof: {response: "denied", approver_id: current_user.id } }, method: :get, class: "col-auto btn btn-sm btn-warning" %>
-</div>
+<% if current_user.admin? %>
+  <div class="row justify-content-center m-2">
+    <%= button_to 'Approve Document (HR)', proof_path(@proof),  params: { proof: { response: "approved", approver_id: current_user.id } }, method: :patch, class: "col-auto btn btn-sm btn-primary" %>  &nbsp;
+    <%= button_to 'Reject Document (HR)', edit_proof_path(@proof), params: { proof: {response: "denied", approver_id: current_user.id } }, method: :get, class: "col-auto btn btn-sm btn-warning" %>
+  </div>
+<% end %>
 <dl class="row justify-content-center">
-  <dt class="col-sm-2 offset-sm-4">Receipt:</dt>
-  <dd class="col-sm-6"><%= @proof.receipt %></dd>
-  <dt class="col-sm-2 offset-sm-4">Grade:</dt>
-  <dd class="col-sm-6"><%= @proof.grade %></dd>
   <dt class="col-sm-2 offset-sm-4">Course Title:</dt>
   <dd class="col-sm-6"><%= @proof.course&.course_title %></dd>
+  <dt class="col-sm-2 offset-sm-4">Documentation type:</dt>
+  <dd class="col-sm-6"><%= @proof.proof_type %> </dd>
   <% if @proof.document.attached? %>
     <dt class="col-sm-2 offset-sm-4">File Name:</dt>
     <dd class="col-sm-6"><%= @proof.document.filename %></dd>
@@ -26,7 +26,7 @@
     <dd class="col-sm-6"><%= @proof.document.content_type %></dd>
   <% end %>
   <dt class="col-sm-2 offset-sm-4">Response:</dt>
-  <dd class="col-sm-6"><%= @proof.response&.capitalize || 'Pending Review' %></dd>
+  <dd class="col-sm-6"><%= @proof.response&.capitalize || 'Not Yet Submitted' %></dd>
   <% if @proof.approver_id %>
     <dt class="col-sm-2 offset-sm-4">Reviewed by:</dt>
     <dd class="col-sm-6"><%= @proof.approver.displayname %></dd>

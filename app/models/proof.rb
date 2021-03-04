@@ -30,5 +30,19 @@ class Proof < ApplicationRecord
   has_one_attached :document, dependent: :delete
   validates :course_id, presence: true
 
-  enum response: { denied: 0, approved: 1 }
+  enum response: { pending: 0, denied: 1, approved: 2 }
+
+  # Display what kind of proof documentation is being submitted - if a word doc is submitted, it could have multiple images for both types of proof, for example.
+  def proof_type
+    if receipt? && grade?
+      'Receipt & Grade'
+    elsif receipt?
+      'Receipt'
+    elsif grade?
+      'Grade'
+    else
+      'Unknown'
+    end
+  end
+
 end
