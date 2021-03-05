@@ -6,7 +6,6 @@ class ProofsController < ApplicationController
   # GET /proofs
   def index
     @proofs = Proof.includes(:course).references(:course).with_attached_document.all
-
   end
 
   # GET /proofs/1
