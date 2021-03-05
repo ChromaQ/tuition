@@ -21,6 +21,8 @@ class ProofsController < ApplicationController
 
   # GET /proofs/1/edit
   def edit
+    @proof.approver = User.find(params[:approver_id]) if params.key? :approver_id
+    @proof.response = params[:response] if params.key? :response
   end
 
   # POST /proofs

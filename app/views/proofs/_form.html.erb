@@ -18,10 +18,14 @@
     </div>
     <h4>Response:</h4>
     <div class="form-group">
+      <%= @proof.response&.capitalize%>
+    </div>
+    <div class="form-group">
       <%= f.radio_button(:response, "approved") %>
       <%= f.label :response, 'Approved', value: 'approved' %><br>
       <%= f.radio_button(:response, "denied") %>
       <%= f.label :response, 'Denied', value: 'denied' %>
+      <!-- <%= f.select :response, options_for_select(Proof.responses.keys, :selected => @proof.response), class: 'form-control' %> -->
     </div>
     <h4>Reason for Denial:</h4>
     <div class="form-group">
