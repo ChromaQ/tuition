@@ -54,7 +54,7 @@
 <section id="reimbursement-requests">
   <h3 class="text-center">Reimbursement Requests</h3>
   <%= link_to '+ Create a New Request', new_course_path, class:"btn btn-sm btn-primary" %>
-  <% if @courses.length == 0 %>
+  <% if @user.courses.blank? %>
     <p class="text-center"><%= @user.displayname %> has no tuition reimbursement requests yet.</p>
   <% else %>
     <table class="table table-sm table-hover table-sm">
@@ -72,7 +72,7 @@
       </thead>
 
       <tbody>
-      <% @courses.each do |course| %>
+      <% @user.courses.sort_by(&:created_at).each do |course| %>
         <tr>
           <td><%= link_to course.course_title, course %></td>
           <td><%= course.course_short %></td>

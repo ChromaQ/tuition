@@ -54,11 +54,11 @@ class ApprovalsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_approval
-    @approval = Approval.includes(:user).references(:user).find(params[:id])
+    @approval = Approval.includes(:user, :course, course: [:user]).references(:user, :course, course: [:user]).find(params[:id])
   end
 
   def set_course
-    @course = Course.find(params[:course_id])
+    @course = Course.includes(:user).reference(:user).find(params[:course_id])
   end
 
   # Only allow a trusted parameter "white list" through.
