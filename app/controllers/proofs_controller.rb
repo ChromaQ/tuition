@@ -5,8 +5,7 @@ class ProofsController < ApplicationController
 
   # GET /proofs
   def index
-    @proofs = Proof.all
-
+    @proofs = Proof.includes(:course).references(:course).with_attached_document.all
   end
 
   # GET /proofs/1
@@ -21,6 +20,8 @@ class ProofsController < ApplicationController
 
   # GET /proofs/1/edit
   def edit
+    @proof.approver = User.find(params[:approver_id]) if params.key? :approver_id
+    @proof.response = params[:response] if params.key? :response
   end
 
   # POST /proofs
@@ -37,7 +38,9 @@ class ProofsController < ApplicationController
   # PATCH/PUT /proofs/1
   def update
     if @proof.update(proof_params)
-      @proof.document.attach(params[:proof][:document])
+      if params[:proof].key? :document
+        @proof.document.attach(params[:proof][:document])
+      end
       redirect_to @proof, notice: 'Supporting document was successfully updated.'
     else
       render :edit
@@ -46,8 +49,8 @@ class ProofsController < ApplicationController
 
   # DELETE /proofs/1
   def destroy
-    @proof.document.purge
     @proof.destroy
+    # ActiveStorage::Blob.unattached.where("active_storage_blobs.created_at <= ?", 2.days.ago).find_each(&:purge_later) # routine cleanup of active storage blobs not attached to anything
     redirect_to proofs_url, notice: 'Supporting document was successfully deleted.'
   end
 
@@ -55,11 +58,11 @@ class ProofsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_proof
-    @proof = Proof.find(params[:id])
+    @proof = Proof.includes(:course).references(:course).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def proof_params
-    params.require(:proof).permit(:receipt, :grade, :course_id, :document, :course)
+    params.require(:proof).permit(:receipt, :grade, :course_id, :document, :approver, :approver_id, :response, :deny_reason)
   end
 end

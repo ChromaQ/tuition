@@ -14,7 +14,6 @@ class UsersController < ApplicationController
 
   def show
     @manager = Employee.find_by(employee_id: @user.employee.manager_id)
-    @courses = Course.where(user_id: @user.id).order(updated_at: :desc)
   end
 
   def employee_info

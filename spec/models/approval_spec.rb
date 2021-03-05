@@ -16,10 +16,6 @@
 #
 #  index_approvals_on_course_id  (course_id)
 #
-# Foreign Keys
-#
-#  course_id  (course_id => courses.id)
-#
 require 'rails_helper'
 
 RSpec.describe Approval, type: :model do

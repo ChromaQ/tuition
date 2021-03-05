@@ -14,10 +14,6 @@
 #
 #  index_credentials_on_degree_id  (degree_id)
 #
-# Foreign Keys
-#
-#  degree_id  (degree_id => degrees.id)
-#
 require 'rails_helper'
 
 RSpec.describe Credential, type: :model do

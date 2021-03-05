@@ -23,17 +23,12 @@
 #  index_courses_on_credential_id  (credential_id)
 #  index_courses_on_user_id        (user_id)
 #
-# Foreign Keys
-#
-#  credential_id  (credential_id => credentials.id)
-#  user_id        (user_id => users.id)
-#
 class Course < ApplicationRecord
   # == Relationships ==================================
   belongs_to :user
   belongs_to :credential
-  has_many   :approvals
-  has_many   :proofs
+  has_many   :approvals, dependent: :destroy
+  has_many   :proofs,    dependent: :destroy
 
   enum status: { draft: 0, pending: 1, denied: 2, approved: 3, withdrawn: 4, reimbursed: 5 }
   # == Validations ====================================

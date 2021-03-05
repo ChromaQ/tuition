@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_24_223453) do
+ActiveRecord::Schema.define(version: 2021_03_04_003512) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -42,10 +42,10 @@ ActiveRecord::Schema.define(version: 2021_02_24_223453) do
   end
 
   create_table "approvals", force: :cascade do |t|
+    t.integer "course_id"
     t.string "employee_id"
     t.integer "role"
     t.text "deny_reason"
-    t.integer "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "response"
@@ -100,6 +100,10 @@ ActiveRecord::Schema.define(version: 2021_02_24_223453) do
     t.integer "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "approver_id"
+    t.integer "response"
+    t.string "deny_reason"
+    t.index ["approver_id"], name: "index_proofs_on_approver_id"
     t.index ["course_id"], name: "index_proofs_on_course_id"
   end
 
@@ -123,10 +127,7 @@ ActiveRecord::Schema.define(version: 2021_02_24_223453) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "approvals", "courses"
-  add_foreign_key "courses", "credentials"
-  add_foreign_key "courses", "users"
-  add_foreign_key "credentials", "degrees"
   add_foreign_key "impressions", "users"
   add_foreign_key "proofs", "courses"
+  add_foreign_key "proofs", "users", column: "approver_id"
 end
