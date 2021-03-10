@@ -5,7 +5,7 @@ class CredentialsController < ApplicationController
 
   # GET /credentials
   def index
-    @credentials = Credential.all
+    @credentials = Credential.includes(:degree, :courses).references(:degree, :courses).all
 
   end
 
