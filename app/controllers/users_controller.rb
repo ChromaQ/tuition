@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 
   def index
     @q = User.ransack(params[:q])
+    @q.sorts = ['username desc'] if @q.sorts.empty?
     @users = @q.result.includes(:courses).references(:employee, :courses)
   end
 

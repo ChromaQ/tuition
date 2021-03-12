@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
   # GET /courses
   def index
     @courses = Course.order(updated_at: :desc).includes(:user).references(:user)
-    # need to link to the user, also provide something like a count of open course requests.
+
   end
 
   # GET /courses/1
