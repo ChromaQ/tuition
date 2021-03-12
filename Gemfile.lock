@@ -65,6 +65,15 @@ GIT
       rails (>= 5.2.1.1)
 
 GIT
+  remote: https://github.com/activerecord-hackery/ransack.git
+  revision: 15b2dc6b5c9137cd9cbf2509ce309fe142ff004d
+  specs:
+    ransack (2.4.2)
+      activerecord (>= 5.2.4)
+      activesupport (>= 5.2.4)
+      i18n
+
+GIT
   remote: https://github.com/schneems/attendance.git
   revision: 5ca821a33447987029bb68778a325ed5e74273cd
   specs:
@@ -399,10 +408,6 @@ GEM
       thor (>= 0.20.3, < 2.0)
     rainbow (3.0.0)
     rake (13.0.3)
-    ransack (2.4.2)
-      activerecord (>= 5.2.4)
-      activesupport (>= 5.2.4)
-      i18n
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -595,7 +600,7 @@ DEPENDENCIES
   rails-controller-testing
   rails-erd
   rails_best_practices
-  ransack
+  ransack!
   rspec-rails
   rubocop
   rubocop-performance

@@ -26,7 +26,7 @@ group :development, :production, :staging do
 end
 gem 'sqlite3'
 gem 'rails-erd', group: :development # Generate an application ERD
-gem 'ransack'
+gem 'ransack', github: 'activerecord-hackery/ransack' # forms searching and manipulation, sort table data
 
 
 

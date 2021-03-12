@@ -5,8 +5,11 @@ class CoursesController < ApplicationController
 
   # GET /courses
   def index
-    @courses = Course.order(updated_at: :desc).includes(:user).references(:user)
-    # need to link to the user, also provide something like a count of open course requests.
+    @q = Course.ransack(params[:q])
+    @q.sorts = ['updated_at desc'] if @q.sorts.empty? # default sort by most recently updated
+    @courses = @q.result.includes(:user).references(:user)
+    # @courses = Course.order(updated_at: :desc).includes(:user).references(:user)
+
   end
 
   # GET /courses/1

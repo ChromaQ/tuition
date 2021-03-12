@@ -5,7 +5,9 @@ class UsersController < ApplicationController
   before_action :set_user, except: [:index, :impersonate, :stop_impersonating]
 
   def index
-    @users = User.order(:displayname).includes(:courses).references(:employee, :courses)
+    @q = User.ransack(params[:q])
+    @q.sorts = ['username desc'] if @q.sorts.empty? # this is temporary default sort order
+    @users = @q.result.includes(:courses).references(:employee, :courses)
   end
 
   def new

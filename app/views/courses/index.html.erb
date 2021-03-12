@@ -9,13 +9,13 @@
 <table class="table table-sm table-hover mx-auto">
   <thead class="thead">
   <tr>
-    <th scope="col" class="col-auto">Employee</th>
+    <th scope="col" class="col-auto"><%= sort_link(@q, :user_displayname, 'Name') %></th>
     <th scope="col" class="col-auto">Course Title</th>
-    <th scope="col" class="col-auto">ID</th>
-    <th scope="col" class="col-auto">Updated</th>
-    <th scope="col" class="col-auto">Dates</th>
+    <th scope="col" class="col-auto"><%= sort_link(@q, :course_short, 'ID') %></th>
+    <th scope="col" class="col-auto"><%= sort_link(@q, :updated_at, 'Updated') %></th>
+    <th scope="col" class="row justify-content-around"><%= sort_link(@q, :start_date, 'Start', class: 'col') %> - <%= sort_link(@q, :end_date, 'End', class: 'col text-right') %></th>
     <th scope="col" class="col-auto">Cost</th>
-    <th scope="col" class="col-auto">Status</th>
+    <th scope="col" class="col-auto"><%= sort_link(@q, :status) %></th>
     <th scope="col" class="col-auto">Actions</th>
   </tr>
   </thead>

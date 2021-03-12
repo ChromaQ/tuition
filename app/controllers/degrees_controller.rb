@@ -5,7 +5,7 @@ class DegreesController < ApplicationController
 
   # GET /degrees
   def index
-    @degrees = Degree.all
+    @degrees = Degree.includes(:credentials).references(:credentials).all
   end
 
   # GET /degrees/1
@@ -48,13 +48,14 @@ class DegreesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_degree
-      @degree = Degree.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def degree_params
-      params.require(:degree).permit(:degree)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_degree
+    @degree = Degree.includes(:credentials).references(:credentials).find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def degree_params
+    params.require(:degree).permit(:degree)
+  end
 end

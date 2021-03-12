@@ -9,12 +9,12 @@
     <table class="table table-sm table-hover mx-auto" id="user-index">
       <thead class="thead">
         <tr>
-          <th>Name</th>
-          <th>Username</th>
-          <th>Employer + ID #</th>
+          <th><%= sort_link(@q, :displayname, 'Name') %></th>
+          <th><%= sort_link(@q, :username) %></th>
+          <th><%= sort_link(@q, :employee_id, 'Employer + ID #') %></th>
           <th>HR</th>
           <th>Manager</th>
-          <th>Requests</th>
+          <th># Requests</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -24,8 +24,8 @@
             <td><%= link_to user.displayname, user %></td>
             <td><%= user.username %></td>
             <td><%= user.company %>: <%= user.employee_id %></td>
-            <td><%= user.hr_access? %></td>
-            <td><%= user.manager_access? %></td>
+            <td><%= user.hr_access? ? 'Yes' : 'No' %></td>
+            <td><%= user.manager_access? ? 'Yes' : 'No' %></td>
             <td><%= user.courses.size %></td>
             <td><%= link_to 'View', user, class: 'btn btn-sm btn-primary' %>
               <% if current_user == user %>
