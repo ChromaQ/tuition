@@ -9,9 +9,9 @@
     <table class="table table-sm table-hover mx-auto" id="user-index">
       <thead class="thead">
         <tr>
-          <th>Name</th>
-          <th>Username</th>
-          <th>Employer + ID #</th>
+          <th><%= sort_link(@q, :displayname, 'Name') %></th>
+          <th><%= sort_link(@q, :username) %></th>
+          <th><%= sort_link(@q, :employee_id, 'Employer + ID #' ) %> </th>
           <th>HR</th>
           <th>Manager</th>
           <th>Requests</th>
