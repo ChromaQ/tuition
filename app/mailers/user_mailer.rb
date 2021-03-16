@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     @url = 'localhost:3000'
     mail(
-      to: @user.employee.email,
+      to: @user.email,
       subject: 'Tuition Reimbursement application submitted',
     )
   end

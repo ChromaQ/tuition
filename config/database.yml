@@ -33,11 +33,11 @@ hrpayroll:
   username: <%= Rails.application.credentials[:db][:hrpayroll][:username] %>
   password: <%= Rails.application.credentials[:db][:hrpayroll][:password] %>
 
-  app_mail:
-    adapter: sqlserver
-    encoded: utf8
-    contained: true
-    host: <%= Rails.application.credentials[:db][:app_mail][:host] %>
-    database: <%= Rails.application.credentials[:db][:app_mail][:database] %>
-    username: <%= Rails.application.credentials[:db][:app_mail][:username] %>
-    password: <%= Rails.application.credentials[:db][:app_mail][:password] %>
+app_mail:
+  adapter: sqlserver
+  encoded: utf8
+  contained: true
+  host: <%= Rails.application.credentials[:app_mail][:host] %>
+  database: <%= Rails.application.credentials[:app_mail][:database] %>
+  username: <%= Rails.application.credentials[:app_mail][:username] %>
+  password: <%= Rails.application.credentials[:app_mail][:password] %>
