@@ -33,9 +33,12 @@
     <dd class="col-sm-6"><%= @course.updated_at.to_s(:datetime) %></dd>
   </dl>
 </div>
-<div class="row">
-  <div class="col offset-sm-6">
-    <%= link_to 'Edit', edit_course_path(@course), class: "btn btn-sm btn-secondary mr-2" %>
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <div class="btn-group">
+      <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-sm btn-secondary mr-2' %>
+      <%= link_to 'Submit Application', submit_path(@course),  class: 'btn btn-sm btn-secondary' %>
+    </div>
   </div>
 </div>
 
