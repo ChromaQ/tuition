@@ -1,6 +1,6 @@
 # Preview all emails at http://localhost:3000/rails/mailers/user_mailer
 class UserMailerPreview < ActionMailer::Preview
   def request_approval
-    UserMailer.with(user: User.first).request_approval
+    UserMailer.with(user: User.first, course: Course.third_to_last).request_approval
   end
 end
