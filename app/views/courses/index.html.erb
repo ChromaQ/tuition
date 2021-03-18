@@ -11,10 +11,11 @@
   <tr>
     <th scope="col" class="col-auto"><%= sort_link(@q, :user_displayname, 'Name') %></th>
     <th scope="col" class="col-auto">Course Title</th>
-    <th scope="col" class="col-auto"><%= sort_link(@q, :course_short, 'ID') %></th>
+    <th scope="col" class="col-auto d-sm-none d-md-block"><%= sort_link(@q, :course_short, 'ID') %></th>
     <th scope="col" class="col-auto"><%= sort_link(@q, :updated_at, 'Updated') %></th>
-    <th scope="col" class="row justify-content-around"><%= sort_link(@q, :start_date, 'Start', class: 'col') %> - <%= sort_link(@q, :end_date, 'End', class: 'col text-right') %></th>
-    <th scope="col" class="col-auto">Cost</th>
+    <th scope="col" class="col-auto"><%= sort_link(@q, :start_date, 'Starts', class: 'col') %></th>
+    <th scope="col" class="col-auto"><%= sort_link(@q, :end_date, 'Ends', class: 'col text-right') %></th>
+    <th scope="col" class="col-auto d-sm-none d-md-block">Cost</th>
     <th scope="col" class="col-auto"><%= sort_link(@q, :status) %></th>
     <th scope="col" class="col-auto">Actions</th>
   </tr>
@@ -25,15 +26,16 @@
       <tr>
         <td><%= link_to course.user.displayname, course.user  %></td>
         <td><%= link_to course.course_title, course %></td>
-        <td><%= course.course_short %></td>
+        <td class="d-sm-none d-md-block"><%= course.course_short %></td>
         <td><%= time_ago_in_words(course.updated_at) %> ago</td>
-        <td><%= course.start_date.to_s(:date2yr) %> - <%= course.end_date.to_s(:date2yr)%></td>
-        <td><%= number_to_currency(course.cost) %></td>
+        <td><%= course.start_date.to_s(:date2yr) %></td>
+        <td><%= course.end_date.to_s(:date2yr) %></td>
+        <td class="d-sm-none d-md-block"><%= number_to_currency(course.cost) %></td>
         <td><%= course.status&.capitalize %></td>
-        <td>
-          <%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %>
+        <td class="btn-group">
+          <%= link_to 'View', course, class:"btn btn-sm btn-outline-primary mr-1" %>
           <% if course.employee_id == current_user.employee_id || current_user.superuser? %>
-            <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
+            <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary mr-1" %>
             <% if course.status == 'draft' %>
               <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %>
             <% end %>
