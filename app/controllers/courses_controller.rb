@@ -46,8 +46,9 @@ class CoursesController < ApplicationController
 
   # Submit to manager: status becomes "pending" - emails manager
   def submit
-    @course = Course.find(params[:id])
+    @course = Course.includes(:user, :credential).references(:user, :credential).find(params[:id])
     @course.pending!
+    UserMailer.with(course: @course).request_approval.deliver_now
     redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
   end
 
