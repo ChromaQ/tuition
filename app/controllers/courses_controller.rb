@@ -48,7 +48,7 @@ class CoursesController < ApplicationController
   def submit
     @course = Course.includes(:user, :credential).references(:user, :credential).find(params[:id])
     @course.pending!
-    UserMailer.with(course: @course).request_approval.deliver_now
+    UserMailer.with(user: @course.user, course: @course).request_approval.deliver_now
     redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
   end
 

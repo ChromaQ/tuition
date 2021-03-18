@@ -31,6 +31,7 @@ module Tuitrem
     config.action_mailer.delivery_method = :app_mail
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.logger = Rails.logger
 
 
 

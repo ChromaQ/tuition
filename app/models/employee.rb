@@ -100,6 +100,7 @@ class Employee < ApplicationRecord
 
   # == Relationships =================================
   belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
+  belongs_to :manager, class_name: 'Employee', foreign_key: :manager_id
   delegate :status, to: :user, prefix: true
 
   # == Validations ===================================
