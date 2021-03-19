@@ -116,7 +116,7 @@ class User < ApplicationRecord
   # == InstanceMethods ================================
 
   # Determine which company Abbreviation the employee is associated with
-  # @param company [String] the Compny name in which the employee is associated with in LDAP
+  # @param company [String] the Company name in which the employee is associated with in LDAP
   # @return [String] the organizations Abbreviation in which the employee is associated with
   def determine_company(company = '')
     return '' if company.blank?
