@@ -21,10 +21,10 @@
     <dd class="col-sm-6"> <%= @user.employee.dept_name %> </dd>
     <dt class="col-sm-3 offset-sm-3">Assigned Manager</dt>
     <dd class="col-sm-6">
-      <% if @manager.blank? %>
+      <% if @user.employee.manager.blank? %>
         <p class="text-warning">No Manager Listed - Contact Human Resources</p>
       <% else %>
-        <%= @manager.first_name %> <%= @manager.last_name %> - <%= @manager.email %>
+        <%= @user.employee.manager.first_name %> <%= @user.employee.manager.last_name %> - <%= @user.employee.manager.email %>
       <% end %>
     </dd>
   </dl>

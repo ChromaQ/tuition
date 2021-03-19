@@ -121,7 +121,7 @@ class Employee < ApplicationRecord
   # scope :eligible, -> { where(eligible_at <= Date.today - 6.months, status: :is_active, company: 'UNMH')}
 
   # ==> Additional conditional scopes (most of the ones below are chained across several scopes)
-  scope :not_termed, -> { where(term_date: term_date) }
+  # scope :not_termed, -> { where(term_date: term_date) }
   scope :fetch_department, ->(employee_id) { where(employee_id: employee_id).pluck(:department).to_a }
 
   # Position control scope
