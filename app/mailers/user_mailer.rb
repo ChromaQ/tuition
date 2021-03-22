@@ -4,11 +4,12 @@ class UserMailer < ApplicationMailer
   default from: 'noreply@salud.unm.edu'
 
   def request_approval
-    @course = params[:course]
     @user = params[:user]
+    @course = params[:course]
     @url = 'localhost:3000'
     mail(
-      to: @user.employee.email,
+      to: @user.email,
+      cc: 'saswanson@salud.unm.edu',
       subject: 'Tuition Reimbursement application submitted',
     )
   end

@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   # need to tweak to allow HR access -- before_action :require_superuser?, except: :stop_impersonating
-  before_action :set_user, except: [:index, :impersonate, :stop_impersonating]
+  before_action :set_user, except: [:index, :impersonate, :stop_impersonating, :impressions]
 
   def index
     @q = User.ransack(params[:q])
@@ -15,7 +15,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @manager = Employee.find_by(employee_id: @user.employee.manager_id)
   end
 
   def employee_info

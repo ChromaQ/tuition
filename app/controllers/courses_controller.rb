@@ -9,7 +9,6 @@ class CoursesController < ApplicationController
     @q.sorts = ['updated_at desc'] if @q.sorts.empty? # default sort by most recently updated
     @courses = @q.result.includes(:user).references(:user)
     # @courses = Course.order(updated_at: :desc).includes(:user).references(:user)
-
   end
 
   # GET /courses/1
@@ -44,6 +43,16 @@ class CoursesController < ApplicationController
       render :edit
     end
   end
+
+  # Submit to manager: status becomes "pending" - emails manager
+  def submit
+    @course = Course.includes(:user, :credential).references(:user, :credential).find(params[:id])
+    @course.pending!
+    UserMailer.with(user: @course.user, course: @course).request_approval.deliver_now
+    redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
+  end
+
+
 
   # DELETE /courses/1
   def destroy

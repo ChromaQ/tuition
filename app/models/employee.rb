@@ -100,13 +100,14 @@ class Employee < ApplicationRecord
 
   # == Relationships =================================
   belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
+  belongs_to :manager, class_name: 'Employee', foreign_key: :manager_id
   delegate :status, to: :user, prefix: true
 
   # == Validations ===================================
 
   # == Scopes ========================================
   # Available statuses: TR, Null, AC, LV (AC = Active, LV =  Leave, TR = Termed)
-  scope :is_active, -> { where(status: %i[active leave]) }
+  scope :is_active, -> { where(status: :active) }
   scope :is_termed, -> { where(status: :termed) }
   scope :is_not_termed, -> { where.not(status: :termed) }
 
@@ -114,13 +115,10 @@ class Employee < ApplicationRecord
   scope :srmc_employee, -> { where(company: 'SRMC') }
   scope :uh_employee, -> { where(company: 'UNMH') } # 10 = UNMH
   scope :unmmg_employee, -> { where(company: 'UNMMG') }
-
-  # Must have at least .5 FTE status to be eligible for tuition reimbursement program
-  # scope :fte_eligible, -> { where(fte_status: >= 0.5)}
-  # scope :eligible, -> { where(eligible_at <= Date.today - 6.months, status: :is_active, company: 'UNMH')}
+  scope :in_company, ->(company) { where(company: company) }
 
   # ==> Additional conditional scopes (most of the ones below are chained across several scopes)
-  scope :not_termed, -> { where(term_date: term_date) }
+  # scope :not_termed, -> { where(term_date: term_date) }
   scope :fetch_department, ->(employee_id) { where(employee_id: employee_id).pluck(:department).to_a }
 
   # Position control scope
@@ -224,5 +222,52 @@ class Employee < ApplicationRecord
 
   def eligible_at
     hire_date + 6.months
+  end
+
+  def date_eligible?
+    Date.today >= eligible_at
+  end
+
+  def fte_eligible?
+    fte_status >= 0.5
+  end
+
+  def status_eligible?
+    status == 'active'
+  end
+
+  def org_eligible?
+    process_level == '10'
+  end
+
+  def eligibility
+    date_eligible? && status_eligible? && fte_eligible? && org_eligible? ? 'Eligible' : 'Ineligible'
+  end
+
+  def eligible?
+    date_eligible? && status_eligible? && fte_eligible? && org_eligible?
+  end
+
+  # Determine which company Abbreviation the employee is associated with
+  # @param company [String] the Company name in which the employee is associated with in LDAP
+  # @return [String] the organizations Abbreviation in which the employee is associated with
+  def determine_company(company = '')
+    return '' if company.blank?
+
+    # If multiple companies are returned for the user (this usually happens with Administrators)
+    company = company.first if company.is_a?(Array)
+
+    case company
+    when 'Health Sciences Center'
+      'HSC'
+    when 'Sandoval Regional Medical Center', 'Health Sciences Center and Sandoval Regional Medical Center'
+      'SRMC'
+    when 'UNM Hospitals', 'Health Sciences Center and UNM Hospitals', 'UNMH Board'
+      'UNMH'
+    when 'UNM Medical Group', 'UNM Medical Groups', 'Health Sciences Center and UNM Medical Group'
+      'UNMMG'
+    else
+      ''
+    end
   end
 end

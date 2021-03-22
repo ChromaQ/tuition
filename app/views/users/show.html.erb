@@ -21,31 +21,31 @@
     <dd class="col-sm-6"> <%= @user.employee.dept_name %> </dd>
     <dt class="col-sm-3 offset-sm-3">Assigned Manager</dt>
     <dd class="col-sm-6">
-      <% if @manager.blank? %>
+      <% if @user.employee.manager.blank? %>
         <p class="text-warning">No Manager Listed - Contact Human Resources</p>
       <% else %>
-        <%= @manager.first_name %> <%= @manager.last_name %> - <%= @manager.email %>
+        <%= @user.employee.manager.first_name %> <%= @user.employee.manager.last_name %> - <%= @user.employee.manager.email %>
       <% end %>
     </dd>
   </dl>
-  <h4 class="text-center">Eligibility Check</h4>
+  <h4 class="text-center">Eligibility Check: <%= @user.employee.eligibility %></h4>
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">Employer</dt>
     <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"> <%= @user.company %> </dd>
     <dt class="col-sm-3 offset-sm-3">Employment Status</dt>
-    <dd class="col-sm-6 employee-status-<%=@user.employee.employee_status %>"> <%= @user.employee.employee_status.capitalize %> </dd>
+    <dd class="col-sm-6 employee-status-<%=@user.employee.status %>"> <%= @user.employee.status.capitalize %> </dd>
     <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
     <dd class="col-sm-6"> <%= @user.employee.fte_status %> </dd>
     <dt class="col-sm-3 offset-sm-3">Eligibility Date</dt>
-    <dd class="col-sm-6"> <%= @user.employee.eligible_at.to_s(:date4yr) %></dd>
-    <dt class="col-sm-3 offset-sm-3">Hire Date</dt>
-    <dd class="col-sm-6"> <%= @user.employee.hire_date.to_s(:date4yr) %></dd>
+    <dd class="col-sm-6"> <%= @user.employee.eligible_at.to_s(:date4yr) %> (Hire date: <%= @user.employee.hire_date.to_s(:date4yr) %>)</dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Available per year</dt>
     <dd class="col-sm-6"> <%= @user.employee.max_credits_per_year %></dd>
-    <dt class="col-sm-3 offset-sm-3">Credit Hours Reimbursed</dt>
-    <dd class="col-sm-6"><%= @user.reimbursed_courses.sum(:credit_hours) %></dd>
-    <dt class="col-sm-3 offset-sm-3">Credit Hours Approved</dt>
-    <dd class="col-sm-6"><%= @user.pending_courses.sum(:credit_hours) %></dd>
+    <% unless @user.courses.blank? %>
+      <dt class="col-sm-3 offset-sm-3">Credit Hours Reimbursed</dt>
+      <dd class="col-sm-6"><%= @user.reimbursed_courses.sum(:credit_hours) %></dd>
+      <dt class="col-sm-3 offset-sm-3">Credit Hours Approved</dt>
+      <dd class="col-sm-6"><%= @user.pending_courses.sum(:credit_hours) %></dd>
+    <% end %>
   </dl>
 
 </section>
@@ -53,7 +53,9 @@
 
 <section id="reimbursement-requests">
   <h3 class="text-center">Reimbursement Requests</h3>
-  <%= link_to '+ Create a New Request', new_course_path, class:"btn btn-sm btn-primary" %>
+  <% if @user.employee.eligible? %>
+   <%= link_to '+ Create a New Request', new_course_path, class:"btn btn-sm btn-primary" %>
+  <% end %>
   <% if @user.courses.blank? %>
     <p class="text-center"><%= @user.displayname %> has no tuition reimbursement requests yet.</p>
   <% else %>
