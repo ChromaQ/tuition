@@ -225,27 +225,27 @@ class Employee < ApplicationRecord
   end
 
   def date_eligible?
-    Date.today >= eligible_at
+    @_date_eligible ||= Date.today >= eligible_at
   end
 
   def fte_eligible?
-    fte_status >= 0.5
+    @_fte_eligible ||= fte_status >= 0.5
   end
 
   def status_eligible?
-    status == 'active'
+    @_status_eligible ||= status == 'active'
   end
 
   def org_eligible?
-    process_level == '10'
-  end
-
-  def eligibility
-    date_eligible? && status_eligible? && fte_eligible? && org_eligible? ? 'Eligible' : 'Ineligible'
+    @_org_eligible ||= process_level == '10'
   end
 
   def eligible?
-    date_eligible? && status_eligible? && fte_eligible? && org_eligible?
+    @_eligible ||= date_eligible? && status_eligible? && fte_eligible? && org_eligible?
+  end
+
+  def eligibility
+    eligible? ? 'Eligible' : 'Ineligible'
   end
 
   # Determine which company Abbreviation the employee is associated with
