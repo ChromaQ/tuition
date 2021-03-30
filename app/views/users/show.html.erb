@@ -37,7 +37,7 @@
     <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
     <dd class="col-sm-6"> <%= @user.employee.fte_status %> </dd>
     <dt class="col-sm-3 offset-sm-3">Eligibility Date</dt>
-    <dd class="col-sm-6"> <%= @user.employee.eligible_at.to_s(:date4yr) %> (Hire date: <%= @user.employee.hire_date.to_s(:date4yr) %>)</dd>
+    <dd class="col-sm-6"> <%= @user.employee.eligible_at.to_s(:date2yr) %> (Hire date: <%= @user.employee.hire_date.to_s(:date2yr) %>)</dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Available per year</dt>
     <dd class="col-sm-6"> <%= @user.employee.max_credits_per_year %></dd>
     <% unless @user.courses.blank? %>
