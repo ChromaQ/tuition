@@ -47,7 +47,7 @@ gem 'unmh-docker', unmh: 'unmh-docker', branch: 'ruby2.7_multidb'
 gem 'autoprefixer-rails'        # add vendor prefixes to particular css properties
 gem 'coffee-rails'     # Use CoffeeScript for .coffee assets and views
 gem 'bootstrap', '~> 4.5.3'
-# gem 'font-awesome-rails' # for supporting fontawesome 4
+gem 'font-awesome-rails' # for supporting fontawesome 4
 gem 'font-awesome-sass'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -78,6 +78,11 @@ gem 'unmh-ldap', unmh: 'unmh-ldap'  # An ldap helper gem, used for searching UNM
 git_source(:unmh){ |repo| "git@git.health.unm.edu:devgroup/#{repo}.git"}
 gem 'unmh-stats', unmh: 'unmh-stats'
 gem 'unmh-app_mail', unmh: 'unmh-app_mail'
+gem 'rest-client' # HTTP Client - make external API calls
+gem 'mime-types'  # required for rest-client
+gem 'netrc'       # required for rest-client
+gem 'http-accept' # required for rest-client
+gem 'http-cookie' # required for rest-client
 
 ##############################
 ### Performance Optimizations
