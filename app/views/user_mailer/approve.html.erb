@@ -1,0 +1,101 @@
+<div class="callout-white">
+  <h1>Tuition Reimbursement Request Approved</h1>
+  <% unless Rails.env.production? %>
+    <h2><%= Rails.env.capitalize %> Environment</h2>
+  <% end %>
+  <p><strong><%= @user.displayname %></strong> has approved your tuition reimbursement request!  </p>
+  <p><strong>Credential/Degree being pursued: </strong> <%= @course.credential&.description %></p>
+  <p><strong>Course: </strong> <%= @course.course_short %> - <%= @course.course_title %> for <%= pluralize(@course.credit_hours, 'hour') %> </p>
+  <p><strong>Start Date:</strong> <%= @course.start_date.to_s(:fancy) %> &nbsp; <strong> End Date: </strong> <%= @course.end_date.to_s(:fancy) %></p>
+  <h3><%= link_to 'Review and submit your required documentation in the Tuition Reimbursement application.', course_url(@course) %> </h3>
+
+  <p>You received this email because our records list you as the direct manager of <%= @user.displayname %>. If this is incorrect, please contact UNMH Human Resources at 272-2325.</p>
+</div>
+<style>
+  body {
+    background-color: #eeeeee;
+    color: #2f2f2f;
+    font-family: helvetica, verdana, arial, sans-serif;
+    margin: 1%;
+    padding: 1%;
+    font-size: 1.3em;
+    line-height: 1.5;
+  }
+
+  a {
+    outline: none;
+    padding: 2px 1px 0;
+  }
+
+  a:link {
+    color: #1f618d;
+    font-size: 1.4em;
+  }
+
+  a:visited {
+    color: #154360;
+  }
+
+  a:hover {
+    color: #00BFA5;
+  }
+
+  p, ol, ul, td li {
+    line-height: 1.1;
+    font-size: 1em
+  }
+
+  h1 {
+    font-size: 1.5em;
+    color: #007a86;
+    text-align: center;
+    font-family: "American Typewriter", "Source Code Pro", Monaco, "Courier New", serif;
+  }
+
+  h2 {
+    font-family: "American Typewriter", "Source Code Pro", Monaco, "Courier New", serif;
+    font-weight: 500;
+    text-align: center;
+    color: #ed8b00
+  }
+
+  h3 {
+    font-family: "American Typewriter", "Source Code Pro", Monaco, "Courier New", serif;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1em
+  }
+
+  table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-style: hidden;
+    table-layout: auto;
+    width: 100%;
+  }
+
+  table td, th {
+    padding: 1rem;
+    border: 2px solid #BCDEE1;
+  }
+
+  th {
+    font-family: "American Typewriter", "Source Code Pro", Monaco, "Courier New", serif;
+    font-weight: normal;
+  }
+
+  .callout-white {
+    background-color: white;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 2px;
+  }
+
+  .cherry {
+    color: #BA0C2F;
+  }
+
+  a.bare:link {
+    text-decoration: none;
+  }
+</style>
