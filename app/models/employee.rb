@@ -240,12 +240,12 @@ class Employee < ApplicationRecord
     process_level == '10'
   end
 
-  def eligibility
-    date_eligible? && status_eligible? && fte_eligible? && org_eligible? ? 'Eligible' : 'Ineligible'
+  def eligible?
+    @_eligible ||= date_eligible? && status_eligible? && fte_eligible? && org_eligible?
   end
 
-  def eligible?
-    date_eligible? && status_eligible? && fte_eligible? && org_eligible?
+  def eligibility
+    @_eligibility ||= eligible? ? 'Eligible' : 'Ineligible'
   end
 
   # Determine which company Abbreviation the employee is associated with

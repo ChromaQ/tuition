@@ -273,6 +273,8 @@ GEM
       i18n (>= 1.6, < 2)
     fast_blank (1.0.0)
     ffi (1.14.2)
+    font-awesome-rails (4.7.0.7)
+      railties (>= 3.2, < 7)
     font-awesome-sass (5.15.1)
       sassc (>= 1.11)
     fuubar (2.5.1)
@@ -581,8 +583,11 @@ DEPENDENCIES
   factory_bot_rails
   faker
   fast_blank
+  font-awesome-rails
   font-awesome-sass
   fuubar
+  http-accept
+  http-cookie
   image_processing
   jbuilder
   jquery-rails
@@ -591,7 +596,9 @@ DEPENDENCIES
   lograge
   logstop
   meta-tags
+  mime-types
   mini_racer
+  netrc
   pretender
   pry-rails
   puma
@@ -601,6 +608,7 @@ DEPENDENCIES
   rails-erd
   rails_best_practices
   ransack!
+  rest-client
   rspec-rails
   rubocop
   rubocop-performance
