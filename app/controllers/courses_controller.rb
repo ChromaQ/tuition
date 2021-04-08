@@ -59,7 +59,6 @@ class CoursesController < ApplicationController
     redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
   end
 
-
   # DELETE /courses/1
   def destroy
     @course.destroy
