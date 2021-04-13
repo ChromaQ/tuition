@@ -2,7 +2,11 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
-    <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
+    <% if current_user.admin? %>
+      <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
+      <% else %>
+      <%= link_to @course.user.displayname, user_path(@course.user), class: 'li breadcrumb-item' %>
+    <% end %>
     <li class="breadcrumb-item active" aria-current="page">Request Details</li>
   </ol>
 </nav>
@@ -45,18 +49,20 @@
 <hr>
 
 <h3 class="text-center mt-2">Approvals / Denials</h3>
-<div class="row">
-  <div class="col-6 text-right">
-    <div class="btn-group">
-      <%= button_to 'Approve Request (Manager)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "manager"}}, method: :post, class: "btn btn-sm btn-primary mr-1" %>
-      <%= button_to 'Approve Request (HR)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "human_resources"}}, method: :post, class: "btn btn-sm btn-primary" %>
+<% if current_user.admin? %>
+  <div class="row">
+    <div class="col-6 text-right">
+      <div class="btn-group">
+        <%= button_to 'Approve Request (Manager)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "manager"}}, method: :post, class: "btn btn-sm btn-primary mr-1" %>
+        <%= button_to 'Approve Request (HR)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "human_resources"}}, method: :post, class: "btn btn-sm btn-primary" %>
+      </div>
+    </div>
+    <div class="col-6">
+      <%= link_to 'Deny Request (Manager)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "manager"), class: "btn btn-sm btn-warning" %>
+      <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
     </div>
   </div>
-  <div class="col-6">
-    <%= link_to 'Deny Request (Manager)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "manager"), class: "btn btn-sm btn-warning" %>
-    <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
-  </div>
-</div>
+  <% end %>
 
 
 <% if @course.approvals.blank? %>
