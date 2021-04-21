@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_04_003512) do
+ActiveRecord::Schema.define(version: 2021_04_21_202725) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -105,6 +105,18 @@ ActiveRecord::Schema.define(version: 2021_03_04_003512) do
     t.string "deny_reason"
     t.index ["approver_id"], name: "index_proofs_on_approver_id"
     t.index ["course_id"], name: "index_proofs_on_course_id"
+  end
+
+  create_table "schools", force: :cascade do |t|
+    t.integer "unitid", null: false
+    t.string "opeid"
+    t.string "name", null: false
+    t.string "city"
+    t.string "state", limit: 30
+    t.boolean "operating", default: true
+    t.string "aka"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

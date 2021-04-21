@@ -572,3 +572,27 @@ credentials = [
 credentials.each do |credential|
   Credential.find_or_create_by(credential)
 end
+
+schools = [
+  {
+     "name": "Western Governors University",
+     "aka": "WGU  Western Governors",
+     "city": "Salt Lake City",
+     "state": "UT",
+     "operating": true,
+     "unitid": 433387,
+     "opeid": "03339400"
+   },
+   {
+     "name": "Southern New Hampshire University",
+     "aka": "SNHU",
+     "city": "Manchester",
+     "state": "NH",
+     "operating": true,
+     "unitid": 183026,
+     "opeid": "00258000"
+   },
+]
+schools.each do |school|
+  School.find_or_create_by(school)
+end
