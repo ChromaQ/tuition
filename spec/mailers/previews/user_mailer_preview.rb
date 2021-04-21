@@ -9,6 +9,6 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def reminder
-    UserMailer.with(user: User.first, course: Course.third_to_last)
+    UserMailer.with(user: User.first, course: Course.third_to_last).reminder
   end
 end
