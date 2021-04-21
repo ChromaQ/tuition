@@ -49,7 +49,7 @@
 <hr>
 
 <h3 class="text-center mt-2">Approvals / Denials</h3>
-<% if current_user.admin? %>
+
   <div class="row">
     <div class="col-6 text-right">
       <div class="btn-group">
@@ -62,7 +62,7 @@
       <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
     </div>
   </div>
-  <% end %>
+
 
 
 <% if @course.approvals.blank? %>

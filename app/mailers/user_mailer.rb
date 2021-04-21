@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
     @course = params[:course]
     @url = 'localhost:3000'
     mail(
-      to: @user.employee.manager&.email,
+      to: 'saswanson@salud.unm.edu',
       cc: @user.email,
       subject: "Tuition Reimbursement application submitted by #{@user.displayname}"
     )
@@ -20,7 +20,7 @@ class UserMailer < ApplicationMailer
     @url = 'localhost:3000'
     mail(
       to: @user.email,
-      cc: @user.employee.manager&.email,
+      cc: 'saswanson@salud.unm.edu',
       subject: "Tuition Reimbursement Request Approved for #{@user.displayname}"
     )
   end
@@ -31,7 +31,7 @@ class UserMailer < ApplicationMailer
     @url = 'localhost:3000'
     mail(
       to: @user.email,
-      cc: @user.employee.manager&.email,
+      cc: 'saswanson@salud.unm.edu',
       subject: "Tuition Reimbursement Reminder to upload supporting documents for #{@course.course_title}"
     )
   end
