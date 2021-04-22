@@ -1,33 +1,56 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'rest-client'
-$api_key = 'YNbhZ6k32uIfh1jAHUzcFfgmx450fNbVnbP9z0x0'
 
 class CollegeScorecard
   def self.get_school(name)
-    response = RestClient::Request.execute(method: :get, url: 'https://api.data.gov/ed/collegescorecard/v1/schools',
-      headers: {params: {api_key: $api_key, fields: 'id,ope8_id,school.name,school.alias,school.city,school.state,school.operating,latest.student.size',
-      'school.degrees_awarded.highest__not' => 0, 'school.name' => name }}, timeout: 30)
-    return {}.freeze if response&.code != 200
+    response = RestClient::Request.execute(method: :get,
+                                           url: 'https://api.data.gov/ed/collegescorecard/v1/schools',
+                                           headers: { params: { api_key: Rails.application.credentials[:api_key],
+                                                                fields: 'id,ope8_id,school.name,school.alias,school.city,school.state,school.operating,latest.student.size',
+                                                                'school.degrees_awarded.highest__not' => 0, 'school.name' => name } },
+                                           timeout: 30)
+    return [].freeze if response&.code != 200
 
     CollegeScorecard.parse_hash(JSON.parse(response&.body || {}))
+  rescue
+    # iI the get API requests errors out or times out, we want to return an email result
+    []
   end
 
   def self.parse_hash(results)
-    return {} if results.blank? or results['results'].blank?
+    return [].freeze if results.blank? || results.dig('results', 0).blank?
+
     school_list = []
-    results['results'][0].each do |school|
-      # school_list << {name: school['school.name']}
-      puts school.inspect
+    results['results'].each do |school|
+      school_list << {
+        id: nil,
+        unitid: school['id'],
+        opeid: school['ope8_id'],
+        name: school['school.name'],
+        city: school['school.city'],
+        state: school['school.state'],
+        operating: school['school.operating'],
+        aka: school['school.alias']
+      }.freeze
     end
+    school_list.presence || []
   end
 
   def self.school_lookup(name)
     name = name&.strip
-    return {} if name.blank?
+    return [].freeze if name.blank?
 
-    results = School.where("lower(name) LIKE '%#{name.downcase}%' OR lower(aka) LIKE '%#{name.downcase}%'")
-    return results unless results.blank?
+    # Check our database to see if the school exists
+    results = School.where('lower(name) LIKE :school OR lower(aka) LIKE :school', school: "%#{name.downcase}%")
+    results = results.as_json(only: %i[id aka city name opeid operating state unitid]).map(&:symbolize_keys)
 
-    CollegeScorecard.get_school(name)
+    # grab similar results from the the College ScoreCard API
+    api_schools = CollegeScorecard.get_school(name)
+
+    # Used to join the results from the API and the DB and ensure there's not duplicate results between the 2
+    # with uniq we need to map them as `s[:unitid]` instead of `uniq(&:unitid)` because the schools are nested hashs in the array
+    results&.union(api_schools).uniq { |s| s[:unitid] }
   end
 end
