@@ -40,6 +40,7 @@ class User < ApplicationRecord
 
   # == Relationships ==================================
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
+  has_many :goals
   has_many :courses
   has_many :approved_courses, -> { where(status: 'approved') }, class_name: 'Course'
   has_many :pending_courses, -> { where(status: 'pending') }, class_name: 'Course'

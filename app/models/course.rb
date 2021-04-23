@@ -26,7 +26,7 @@
 class Course < ApplicationRecord
   # == Relationships ==================================
   belongs_to :user
-  belongs_to :credential
+  belongs_to :goal
   has_many   :approvals, dependent: :destroy
   has_many   :proofs,    dependent: :destroy
 

@@ -14,4 +14,5 @@
 #  updated_at :datetime         not null
 #
 class School < ApplicationRecord
+  has_many :goals
 end

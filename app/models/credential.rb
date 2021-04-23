@@ -19,4 +19,5 @@
 class Credential < ApplicationRecord
   belongs_to :degree
   has_many :courses
+  has_many :goals
 end
