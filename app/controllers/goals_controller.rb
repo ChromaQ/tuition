@@ -1,10 +1,10 @@
 class GoalsController < ApplicationController
   before_action :set_goal, only: [:show, :edit, :update, :destroy]
-  
+
   # GET /goals
   def index
     @goals = Goal.all
-    
+
   end
 
   # GET /goals/1
@@ -13,7 +13,7 @@ class GoalsController < ApplicationController
 
   # GET /goals/new
   def new
-    @goal = Goal.new
+    @goal = Goal.new(user_id: current_user.id)
   end
 
   # GET /goals/1/edit
@@ -47,13 +47,14 @@ class GoalsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_goal
-      @goal = Goal.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def goal_params
-      params.require(:goal).permit(:focus, :active, :user_id, :school_id, :credential_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_goal
+    @goal = Goal.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def goal_params
+    params.require(:goal).permit(:focus, :active, :user_id, :school_id, :credential_id)
+  end
 end

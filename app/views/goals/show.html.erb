@@ -5,11 +5,11 @@
   <dt>Active:</dt>
   <dd><%= @goal.active %></dd>
   <dt>User:</dt>
-  <dd><%= @goal.user %></dd>
+  <dd><%= @goal.user.displayname %></dd>
   <dt>School:</dt>
-  <dd><%= @goal.school %></dd>
+  <dd><%= @goal.school.name %></dd>
   <dt>Credential:</dt>
-  <dd><%= @goal.credential %></dd>
+  <dd><%= @goal.credential.name %> - <%= @goal.credential.description %></dd>
 </dl>
 <%= link_to 'Edit', edit_goal_path(@goal) %> |
 <%= link_to 'Back', goals_path %>
