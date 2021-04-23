@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :goals
   resources :credentials
   resources :degrees
   devise_for :users

@@ -1,0 +1,15 @@
+<%- title('Goal') %>
+<dl>
+  <dt>Focus:</dt>
+  <dd><%= @goal.focus %></dd>
+  <dt>Active:</dt>
+  <dd><%= @goal.active %></dd>
+  <dt>User:</dt>
+  <dd><%= @goal.user %></dd>
+  <dt>School:</dt>
+  <dd><%= @goal.school %></dd>
+  <dt>Credential:</dt>
+  <dd><%= @goal.credential %></dd>
+</dl>
+<%= link_to 'Edit', edit_goal_path(@goal) %> |
+<%= link_to 'Back', goals_path %>

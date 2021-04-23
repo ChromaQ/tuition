@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_21_202725) do
+ActiveRecord::Schema.define(version: 2021_04_23_192334) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -86,6 +86,19 @@ ActiveRecord::Schema.define(version: 2021_04_21_202725) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "goals", force: :cascade do |t|
+    t.string "focus"
+    t.boolean "active", default: true
+    t.integer "user_id"
+    t.integer "school_id"
+    t.integer "credential_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["credential_id"], name: "index_goals_on_credential_id"
+    t.index ["school_id"], name: "index_goals_on_school_id"
+    t.index ["user_id"], name: "index_goals_on_user_id"
+  end
+
   create_table "impressions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "target_id"
@@ -139,6 +152,9 @@ ActiveRecord::Schema.define(version: 2021_04_21_202725) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "goals", "credentials"
+  add_foreign_key "goals", "schools"
+  add_foreign_key "goals", "users"
   add_foreign_key "impressions", "users"
   add_foreign_key "proofs", "courses"
   add_foreign_key "proofs", "users", column: "approver_id"

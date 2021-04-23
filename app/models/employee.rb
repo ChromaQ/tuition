@@ -18,6 +18,7 @@
 #  city                :string(50)
 #  company             :integer          not null
 #  country             :string(2)
+#  credentialnumber    :string(20)
 #  department          :string(5)        not null
 #  dept_name           :string(30)
 #  dept_num            :string(50)

@@ -1,0 +1,32 @@
+<h1><%= title('Goals') %></h1>
+
+<table class="table table-striped table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Focus</th>
+      <th scope="col">Active</th>
+      <th scope="col">User</th>
+      <th scope="col">School</th>
+      <th scope="col">Credential</th>
+      <th colspan="3" scope="col"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @goals.each do |goal| %>
+      <tr>
+        <td><%= goal.focus %></td>
+        <td><%= goal.active %></td>
+        <td><%= goal.user_id %></td>
+        <td><%= goal.school_id %></td>
+        <td><%= goal.credential_id %></td>
+        <td><%= link_to 'Show', goal %></td>
+        <td><%= link_to 'Edit', edit_goal_path(goal) %></td>
+        <td><%= link_to 'Destroy', goal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'New Goal', new_goal_path %>

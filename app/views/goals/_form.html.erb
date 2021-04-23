@@ -1,0 +1,37 @@
+<%= form_with(model: @goal, local: true) do |f| %>
+  <%= errors_for(@goal) %>
+
+  
+    <div class="form-group">
+      <%= f.label :focus %>
+      <%= f.text_field :focus, class: 'form-control' %>
+    </div>
+  
+  
+    <div class="form-check">
+      <%= f.check_box :active, class: 'form-check-input' %>
+      <%= f.label :active %>
+    </div>
+  
+  
+    <div class="form-group">
+      <%= f.label :user %>
+      <%= f.text_field :user, class: 'form-control' %>
+    </div>
+  
+  
+    <div class="form-group">
+      <%= f.label :school %>
+      <%= f.text_field :school, class: 'form-control' %>
+    </div>
+  
+  
+    <div class="form-group">
+      <%= f.label :credential %>
+      <%= f.text_field :credential, class: 'form-control' %>
+    </div>
+  
+  <div class="form-group">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>
