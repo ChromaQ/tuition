@@ -3,8 +3,9 @@ class GoalsController < ApplicationController
 
   # GET /goals
   def index
-    @goals = Goal.includes(:user, :credential, :school).references(:user, :credential, :school).all
-
+    @q = Goal.ransack(params[:q])
+    @q.sorts = ['updated_at desc'] if @q.sorts.empty?
+    @goals = @q.result.includes(:user, :credential, :school).references(:user, :credential, :school)
   end
 
   # GET /goals/1
