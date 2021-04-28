@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.includes(:courses).references(:employee, :courses).find(params[:id])
+    @user = User.includes(:courses).references(:courses, :employee).find(params[:id])
   end
 
   def set_course

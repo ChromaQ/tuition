@@ -86,11 +86,11 @@ class User < ApplicationRecord
         # If they are part of HR they should automatically be assigned HR Access
         #   First HR group is for UH HR the second HR group is for SRMC HR - commented out for now as this is a UNMH Employee benefit app
         self.hr_access = value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') # || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
+        # When the user logs in, verify if they have manager access or not.
+        # => This is set for when they login because people change departments, access levels, etc.
+        self.manager_access = (employee_id.blank? ? false : Employee.where(manager_id: self.employee_id).exists?)
       end
     end
-    # When the user logs in, verify if they have manager access or not.
-    # => This is set for when they login because people change departments, access levels, etc.
-    self.manager_access = (self.employee_id.blank? ? false : Employee.where(manager_id: self.employee_id).exists?)
   end
 
   def self.course_count
@@ -139,7 +139,16 @@ class User < ApplicationRecord
     end
   end
 
+  # go to HR payroll and get the subordinates of the current user - see employee has_many relationship 'subordinates'
+  def subordinates
+    self.employee.subordinates
+  end
 
+  # find the in-app users who are subordinates of the manager by using the employee id in the User table
+  def subordinate_users
+    subs = subordinates.pluck(:employee_id)
+    User.where(employee_id: subs)
+  end
 
   ########################################
   ### Access Control
@@ -152,14 +161,12 @@ class User < ApplicationRecord
     superuser
   end
 
-  # Admin access is usually assigned to someone who can modify perms for other individuals
-  # This is usually to someone in HR who manages who has access to datashare
+  # Admin access gives access to additional routes to administrate data settings
   def admin?
     superuser? || hr_access
   end
 
-  # Determine if someone has access to FTEbudget reporting and uploads
-
+  # Determine if someone has access to hr settings
   def hr_access?
     superuser? || hr_access
   end
@@ -167,7 +174,6 @@ class User < ApplicationRecord
   def manager_access?
     superuser? || manager_access
   end
-
 
   ########################################
   # HR Access by Organization
