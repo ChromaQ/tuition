@@ -15,7 +15,7 @@ class CollegeScorecard
 
     CollegeScorecard.parse_hash(JSON.parse(response&.body || {}))
   rescue
-    # iI the get API requests errors out or times out, we want to return an email result
+    # if the get API request errors out or times out, we want to return an email result
     []
   end
 
@@ -49,8 +49,8 @@ class CollegeScorecard
     # grab similar results from the the College ScoreCard API
     api_schools = CollegeScorecard.get_school(name)
 
-    # Used to join the results from the API and the DB and ensure there's not duplicate results between the 2
-    # with uniq we need to map them as `s[:unitid]` instead of `uniq(&:unitid)` because the schools are nested hashs in the array
+    # Used to join the results from the API and the DB and ensure there's not duplicate results between the two
+    # with uniq we need to map them as `s[:unitid]` instead of `uniq(&:unitid)` because the schools are nested hashes in the array
     results&.union(api_schools).uniq { |s| s[:unitid] }
   end
 end
