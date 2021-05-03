@@ -15,7 +15,7 @@
 
     <div class="form-group">
       <%= f.label :credential %>
-      <%= f.collection_select :credential_id, Credential.all, :id, :description %>
+      <%= f.grouped_collection_select(:credential_id, Degree.all, :credentials, :name, :id, :full_info)  %>
     </div>
 
     <div class="form-group">

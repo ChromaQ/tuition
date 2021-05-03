@@ -29,4 +29,8 @@ class Goal < ApplicationRecord
   belongs_to :user
   belongs_to :school
   belongs_to :credential
+
+  def goal_details
+    "#{credential.name}" ' - ' "#{credential.description}" ' from ' "#{school.name}"
+  end
 end

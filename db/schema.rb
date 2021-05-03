@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_192334) do
+ActiveRecord::Schema.define(version: 2021_05_03_181744) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 2021_04_23_192334) do
     t.datetime "updated_at", null: false
     t.integer "status"
     t.integer "user_id"
-    t.integer "credential_id"
-    t.index ["credential_id"], name: "index_courses_on_credential_id"
+    t.integer "goal_id"
+    t.index ["goal_id"], name: "index_courses_on_goal_id"
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_192334) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "courses", "goals"
   add_foreign_key "goals", "credentials"
   add_foreign_key "goals", "schools"
   add_foreign_key "goals", "users"

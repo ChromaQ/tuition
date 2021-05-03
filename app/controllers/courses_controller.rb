@@ -18,10 +18,12 @@ class CoursesController < ApplicationController
   # GET /courses/new
   def new
     @course = Course.new(user_id: current_user.id, employee_id: current_user.employee_id, status: 'draft')
+    @goal = Goal.where(user_id: current_user.id)
   end
 
   # GET /courses/1/edit
   def edit
+    @goal = Goal.where(user_id: current_user.id)
   end
 
   # POST /courses
@@ -69,11 +71,11 @@ class CoursesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_course
-    @course = Course.includes(:user, :credential, :approvals, :proofs).references(:credential, :approvals, :user, :proofs).find(params[:id])
+    @course = Course.includes(:user, :goal, :approvals, :proofs).references(:goal, :approvals, :user, :proofs).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def course_params
-    params.require(:course).permit(:user_id, :employee_id, :credential_id, :start_date, :end_date, :course_title, :course_short, :credit_hours, :cost, :status)
+    params.require(:course).permit(:user_id, :employee_id, :goal_id, :start_date, :end_date, :course_title, :course_short, :credit_hours, :cost, :status)
   end
 end
