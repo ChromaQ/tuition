@@ -19,12 +19,12 @@
         <td><%= goal.school.name %></td>
         <td><%= goal.credential&.name %> - <%= goal.credential&.description %></td>
         <td><%= goal.focus %></td>
-        <td><%= goal.active %></td>
+        <td><%= goal.active? ? 'Yes' : 'No' %></td>
         <td class="btn-group">
           <%= link_to 'Show', goal, class: 'btn btn-sm btn-primary mr-1' %>
           <%= link_to 'Edit', edit_goal_path(goal), class: 'btn btn-sm btn-secondary' %>
+          <%= link_to 'Destroy', goal, method: :delete, class: 'btn btn-sm btn-warning ml-1', data: { confirm: 'Are you sure?' } %>
         </td>
-        <!-- hiding this - probably won't be deletable anyway <%= link_to 'Destroy', goal, method: :delete, class: 'btn btn-sm btn-warning ml-1', data: { confirm: 'Are you sure?' } %> -->
       </tr>
     <% end %>
   </tbody>

@@ -26,9 +26,17 @@
 #  user_id        (user_id => users.id)
 #
 class Goal < ApplicationRecord
+
+  # == Relationships ==================================
   belongs_to :user
   belongs_to :school
   belongs_to :credential
+
+  # == Validations ====================================
+  validates :credential_id, presence: true
+  validates :user_id, presence: true
+  validates :school_id, presence: true
+
 
   def goal_details
     "#{credential.name}" ' - ' "#{credential.description}" ' from ' "#{school.name}"

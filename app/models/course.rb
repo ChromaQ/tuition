@@ -38,6 +38,7 @@ class Course < ApplicationRecord
 
   # == Validations ====================================
   validates :employee_id, presence: true
+  validates :goal_id, presence: true
 
   # == Scopes =========================================
   scope :submitted_by_employee, ->(employee_id) { where(employee_id: employee_id) }
