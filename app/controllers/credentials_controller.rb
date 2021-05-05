@@ -5,8 +5,7 @@ class CredentialsController < ApplicationController
 
   # GET /credentials
   def index
-    @credentials = Credential.includes(:degree, :courses).references(:degree, :courses).all
-
+    @credentials = Credential.includes(:degree).references(:degree).all
   end
 
   # GET /credentials/1
@@ -52,7 +51,7 @@ class CredentialsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_credential
-    @credential = Credential.includes(:degree, :courses).references(:degree, :courses).find(params[:id])
+    @credential = Credential.includes(:degree).references(:degree).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

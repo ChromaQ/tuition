@@ -8,7 +8,7 @@
 
 
 # Generate a list of degree programs - no duplicates made if rake db:seed is rerun.
-degrees = [{name: 'Other'}, {name: 'Certificate'}, {name: 'Associate'}, {name: 'Bachelor'}, {name: 'Master'}, {name: 'Post-Master'}, {name: 'Doctor'}, {name: 'Engineer'}]
+degrees = [{name: 'Other'}, {name: 'Certificate'}, {name: 'Associate'}, {name: 'Bachelor'}, {name: 'Master'}, {name: 'Doctor'}, {name: 'Engineer'}]
 
 degrees.each do |degree|
   Degree.find_or_create_by(degree)
@@ -44,12 +44,6 @@ credentials = [
                            "name": "A.D.N.",
                            "description": "Associate in Nursing",
                            "degree_id": 3,
-                           "auto_approve": 1
-                       },
-                       {
-                           "name": "A.B.",
-                           "description": "Bachelor of Arts",
-                           "degree_id": 4,
                            "auto_approve": 1
                        },
                        {
@@ -197,12 +191,6 @@ credentials = [
                            "auto_approve": 1
                        },
                        {
-                           "name": "S.B.",
-                           "description": "Bachelor of Science",
-                           "degree_id": 4,
-                           "auto_approve": 1
-                       },
-                       {
                            "name": "Th.B.",
                            "description": "Bachelor of Theology",
                            "degree_id": 4,
@@ -211,176 +199,170 @@ credentials = [
                        {
                            "name": "D.A.",
                            "description": "Doctor of Arts",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.A.S.",
                            "description": "Doctor of Applied Science",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.B.A.",
                            "description": "Doctor of Business Administration",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.C.",
                            "description": "Doctor of Chiropractic",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.D.",
                            "description": "Doctor of Divinity",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.Ed.",
                            "description": "Doctor of Education",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.L.S.",
                            "description": "Doctor of Library Science",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.M.D.",
                            "description": "Doctor of Dental Medicine",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.M.S.",
                            "description": "Doctor of Medical Science",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.P.A.",
                            "description": "Doctor of Public Administration",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.P.H.",
                            "description": "Doctor of Public Health",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.R.E.",
                            "description": "Doctor of Religious Education",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.S.W.",
                            "description": "Doctor of Social Welfare or Doctor of Social Work",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.Sc.",
                            "description": "Doctor of Science",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "D.V.M.",
                            "description": "Doctor of Veterinary Medicine",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "Ed.D.",
                            "description": "Doctor of Education",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "J.D.",
                            "description": "Doctor of Laws",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "J.S.D.",
                            "description": "Doctor of Juristic Science",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "L.H.D.",
                            "description": "Doctor of Humane Letters",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "LL.D.",
                            "description": "Doctor of Laws",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "M.D.",
                            "description": "Doctor of Medicine",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "O.D.",
                            "description": "Doctor of Optometry",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "Pharm.D.",
                            "description": "Doctor of Pharmacy",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "Ph.D.",
                            "description": "Doctor of Philosophy",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "Sc.D.",
                            "description": "Doctor of Science",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "S.J.D.",
                            "description": "Doctor of Juridical Science or Doctor of the Science of Law",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "S.Sc.D.",
                            "description": "Doctor of Social Science",
-                           "degree_id": 7,
+                           "degree_id": 6,
                            "auto_approve": 1
                        },
                        {
                            "name": "Th.D.",
                            "description": "Doctor of Theology",
-                           "degree_id": 7,
-                           "auto_approve": 1
-                       },
-                       {
-                           "name": "A.M.",
-                           "description": "Master of Arts",
-                           "degree_id": 5,
-                           "auto_approve": 1
+                           "degree_id": 6,
+                           "auto_approve": 0
                        },
                        {
                            "name": "A.M.T.",
@@ -515,51 +497,45 @@ credentials = [
                            "auto_approve": 1
                        },
                        {
-                           "name": "Ed.S.",
-                           "description": "Education Specialist",
-                           "degree_id": 6,
-                           "auto_approve": 1
-                       },
-                       {
                            "name": "C.E.",
                            "description": "Civil Engineer",
-                           "degree_id": 8,
+                           "degree_id": 7,
                            "auto_approve": 1
                        },
                        {
                            "name": "Ch.E.",
                            "description": "Chemical Engineer",
-                           "degree_id": 8,
+                           "degree_id": 7,
                            "auto_approve": 1
                        },
                        {
                            "name": "E.E.",
                            "description": "Electrical Engineer",
-                           "degree_id": 8,
+                           "degree_id": 7,
                            "auto_approve": 1
                        },
                        {
                            "name": "E.M.",
                            "description": "Engineer of Mines",
-                           "degree_id": 8,
+                           "degree_id": 7,
                            "auto_approve": 1
                        },
                        {
                            "name": "E.Met.",
                            "description": "Engineer of Metallurgy",
-                           "degree_id": 8,
+                           "degree_id": 7,
                            "auto_approve": 1
                        },
                        {
                            "name": "I.E.",
                            "description": "Industrial Engineer or Industrial Engineering",
-                           "degree_id": 8,
+                           "degree_id": 7,
                            "auto_approve": 1
                        },
                        {
                            "name": "Nuc.E.",
                            "description": "Nuclear Engineer",
-                           "degree_id": 8,
+                           "degree_id": 7,
                            "auto_approve": 1
                        },
                        {
@@ -567,7 +543,31 @@ credentials = [
                            "description": "UNM Hospitals Clinical Advancement Program",
                            "degree_id": 1,
                            "auto_approve": 0
-                       }
+                       },
+                       {
+                         "name": "Undergrad Certificate",
+                         "description": "For-Credit Undergraduate Certificate Program",
+                         "degree_id": 2,
+                         "auto_approve": 0
+                       },
+                       {
+                         "name": "Post-Baccalaureate Certificate",
+                         "description": "For-Credit Post-Baccalaureate Certificate Program",
+                         "degree_id": 2,
+                         "auto_approve": 0
+                       },
+                       {
+                         "name": "Post-Master's Certificate",
+                         "description": "For-Credit Post-Master's Certificate Program",
+                         "degree_id": 2,
+                         "auto_approve": 0
+                       },
+                       {
+                         "name": "Ed.S.",
+                         "description": "Education Specialist",
+                         "degree_id": 2,
+                         "auto_approve": 1
+                       },
                    ]
 credentials.each do |credential|
   Credential.find_or_create_by(credential)
@@ -592,6 +592,60 @@ schools = [
      "unitid": 183026,
      "opeid": "00258000"
    },
+  {
+    "name": "University of New Mexico-Main Campus",
+    "aka": "UNM",
+    "city": "Albuquerque",
+    "state": "NM",
+    "operating": true,
+    "unitid": 187985,
+    "opeid": "00266300"
+  },
+  {
+    "name": "University of New Mexico-Gallup Campus",
+    "aka": "UNM-Gallup",
+    "city": "Gallup",
+    "state": "NM",
+    "operating": true,
+    "unitid": 187958,
+    "opeid": "00266301"
+  },
+  {
+    "name": "University of New Mexico-Valencia County Campus",
+    "aka": "UNM - Valencia",
+    "city": "Los Lunas",
+    "state": "NM",
+    "operating": true,
+    "unitid": 188049,
+    "opeid": "00266302"
+  },
+  {
+    "name": "University of New Mexico-Los Alamos Campus",
+    "aka": "UNM - Los Alamos",
+    "city": "Los Alamos",
+    "state": "NM",
+    "operating": true,
+    "unitid": 187976,
+    "opeid": "00266303"
+  },
+  {
+    "name": "University of New Mexico-Taos Campus",
+    "aka": "UNM - Taos",
+    "city": "Ranchos de Taos",
+    "state": "NM",
+    "operating": true,
+    "unitid": 188225,
+    "opeid": "00266304"
+  },
+  {
+    "name": "Grand Canyon University",
+    "aka": "GCU",
+    "city": "Phoenix",
+    "state": "AZ",
+    "operating": true,
+    "unitid": 104717,
+    "opeid": "00107400"
+  }
 ]
 schools.each do |school|
   School.find_or_create_by(school)
