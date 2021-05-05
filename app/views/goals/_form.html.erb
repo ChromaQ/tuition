@@ -13,9 +13,13 @@
       <%= f.collection_select :school_id, School.all, :id, :name %>
     </div>
 
+
     <div class="form-group">
-      <%= f.label :credential %>
-      <%= f.grouped_collection_select(:credential_id, Degree.all, :credentials, :name, :id, :full_info)  %>
+      <%= f.label 'Select Degree level' %>
+      <%= select :degree, :degree_id, options_for_select(@degrees.collect { |degree|
+        [degree.name.titleize, degree.id] }, 3), {}, { id: 'degrees_select' } %> <br>
+      <%= f.label 'Next, select the specific Credential' %>
+      <%= f.select :credential_id, options_for_select(@credentials.collect { |credential| [credential.full_info, credential.id] }, 0), {}, { id: 'credentials_select' } %>
     </div>
 
     <div class="form-group">

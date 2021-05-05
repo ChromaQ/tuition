@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'goals/update_credentials', as: 'update_credentials'
   resources :goals
   resources :credentials
   resources :degrees

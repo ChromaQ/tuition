@@ -1,5 +1,6 @@
 class GoalsController < ApplicationController
   before_action :set_goal, only: [:show, :edit, :update, :destroy]
+  before_action :degrees_creds, only: [:new, :edit, :create, :update]
 
   # GET /goals
   def index
@@ -47,6 +48,14 @@ class GoalsController < ApplicationController
     redirect_to goals_url, notice: 'Goal was successfully destroyed.'
   end
 
+  # for use in adding credentials to a goal by changing the degree type
+  def update_credentials
+    @credentials = Credential.where("degree_id = ?", params[:degree_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -54,8 +63,14 @@ class GoalsController < ApplicationController
     @goal = Goal.includes(:user, :credential, :school).references(:user, :credential, :degree, :school).find(params[:id])
   end
 
+  #grab the degrees and credentials to use on the educational goal
+  def degrees_creds
+    @degrees = Degree.all
+    @credentials = Credential.where("degree_id = ?", Degree.third.id)
+  end
+
   # Only allow a trusted parameter "white list" through.
   def goal_params
-    params.require(:goal).permit(:focus, :active, :user_id, :school_id, :credential_id)
+    params.require(:goal).permit(:focus, :active, :user_id, :school_id, :credential_id, :degree_id)
   end
 end
