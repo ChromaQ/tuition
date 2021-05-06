@@ -26,26 +26,20 @@
 #  index_users_on_username  (username) UNIQUE
 #
 class User < ApplicationRecord
-  # == Attributes =====================================
-  alias_attribute :employeeid, :employee_id
-
-  # == Concerns =======================================
-  # include QueryCaches
-
-  # == Constants ======================================
-
-  # == Extensions =====================================
-  # enforce CASino authentication
-  devise :cas_authenticatable, :timeoutable
 
   # == Relationships ==================================
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
   has_many :goals
-  has_many :courses
+  has_many :courses, through: :goals
+  has_many :schools, through: :goals
+  has_many :credentials, through: :goals
+  has_many :impressions
+
   has_many :approved_courses, -> { where(status: 'approved') }, class_name: 'Course'
   has_many :pending_courses, -> { where(status: 'pending') }, class_name: 'Course'
   has_many :reimbursed_courses, -> { where(status: 'reimbursed') }, class_name: 'Course'
-  has_many :impressions
+  # == Attributes =====================================
+  alias_attribute :employeeid, :employee_id
 
   # == Validations ====================================
   # ensure a valid username is returned from CASino
@@ -56,6 +50,13 @@ class User < ApplicationRecord
   # For displaying the current users name (Smith, John)  (this is passed from CASino)
   validates :displayname, presence: true
   validates :employee_id, presence: true
+
+  # == Concerns =======================================
+  # include QueryCaches
+
+  # == Extensions =====================================
+  # enforce CASino authentication
+  devise :cas_authenticatable, :timeoutable
 
   # == Scopes =========================================
 

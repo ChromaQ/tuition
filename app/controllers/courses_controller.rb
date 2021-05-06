@@ -7,7 +7,7 @@ class CoursesController < ApplicationController
   def index
     @q = Course.ransack(params[:q])
     @q.sorts = ['updated_at desc'] if @q.sorts.empty? # default sort by most recently updated
-    @courses = @q.result.includes(:user).references(:user)
+    @courses = @q.result.includes(goal: :user).references(:goal, :user)
     # @courses = Course.order(updated_at: :desc).includes(:user).references(:user)
   end
 
@@ -18,12 +18,12 @@ class CoursesController < ApplicationController
   # GET /courses/new
   def new
     @course = Course.new(user_id: current_user.id, employee_id: current_user.employee_id, status: 'draft')
-    @goal = Goal.where(user_id: current_user.id)
+    @goal = Goal.includes(:credential, :school).references(:credential, :school).where(user_id: current_user.id)
   end
 
   # GET /courses/1/edit
   def edit
-    @goal = Goal.where(user_id: current_user.id)
+    @goal = Goal.includes(:credential, :school).references(:credential, :school).where(user_id: current_user.id)
   end
 
   # POST /courses
@@ -71,7 +71,7 @@ class CoursesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_course
-    @course = Course.includes(:user, :goal, :approvals, :proofs).references(:goal, :approvals, :user, :proofs).find(params[:id])
+    @course = Course.includes(:goal, :approvals, :proofs, goal: [:user, :school, :credential]).references(:goal, :approvals, :user, :proofs).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
