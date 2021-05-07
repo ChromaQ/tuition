@@ -1,5 +1,7 @@
 {
   "name": "tuitrem",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "js-autocomplete": "^1.0.4"
+  }
 }
