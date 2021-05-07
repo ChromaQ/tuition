@@ -1,7 +1,7 @@
 # tuitrem
 
-*Ruby:* 2.7.1
-Rails: 5.2.4.3
+*Ruby:* 2.7.2
+Rails: 6.0
 Database: multidb
 
 ### Database Strucutre (ERD):
