@@ -2,5 +2,5 @@
 
 <%= render 'form', goal: @goal %>
 
-<%= link_to 'Show', @goal %> |
-<%= link_to 'Back', goals_path %>
+<%= link_to 'View', @goal, class: 'btn btn-sm btn-outline-primary' %>
+<%= link_to 'Back', user_path(@goal.user), class: 'btn btn-sm btn-outline-primary' %>
