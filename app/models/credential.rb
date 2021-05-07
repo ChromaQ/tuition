@@ -19,4 +19,9 @@
 class Credential < ApplicationRecord
   belongs_to :degree
   has_many :courses
+  has_many :goals
+
+  def full_info
+    "#{name}" ' - ' "#{description}"
+  end
 end

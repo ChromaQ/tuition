@@ -26,25 +26,20 @@
 #  index_users_on_username  (username) UNIQUE
 #
 class User < ApplicationRecord
-  # == Attributes =====================================
-  alias_attribute :employeeid, :employee_id
-
-  # == Concerns =======================================
-  # include QueryCaches
-
-  # == Constants ======================================
-
-  # == Extensions =====================================
-  # enforce CASino authentication
-  devise :cas_authenticatable, :timeoutable
 
   # == Relationships ==================================
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
-  has_many :courses
+  has_many :goals
+  has_many :courses, through: :goals
+  has_many :schools, through: :goals
+  has_many :credentials, through: :goals
+  has_many :impressions
+
   has_many :approved_courses, -> { where(status: 'approved') }, class_name: 'Course'
   has_many :pending_courses, -> { where(status: 'pending') }, class_name: 'Course'
   has_many :reimbursed_courses, -> { where(status: 'reimbursed') }, class_name: 'Course'
-  has_many :impressions
+  # == Attributes =====================================
+  alias_attribute :employeeid, :employee_id
 
   # == Validations ====================================
   # ensure a valid username is returned from CASino
@@ -55,6 +50,13 @@ class User < ApplicationRecord
   # For displaying the current users name (Smith, John)  (this is passed from CASino)
   validates :displayname, presence: true
   validates :employee_id, presence: true
+
+  # == Concerns =======================================
+  # include QueryCaches
+
+  # == Extensions =====================================
+  # enforce CASino authentication
+  devise :cas_authenticatable, :timeoutable
 
   # == Scopes =========================================
 
@@ -85,11 +87,11 @@ class User < ApplicationRecord
         # If they are part of HR they should automatically be assigned HR Access
         #   First HR group is for UH HR the second HR group is for SRMC HR - commented out for now as this is a UNMH Employee benefit app
         self.hr_access = value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') # || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
+        # When the user logs in, verify if they have manager access or not.
+        # => This is set for when they login because people change departments, access levels, etc.
+        self.manager_access = (employee_id.blank? ? false : Employee.where(manager_id: self.employee_id).exists?)
       end
     end
-    # When the user logs in, verify if they have manager access or not.
-    # => This is set for when they login because people change departments, access levels, etc.
-    self.manager_access = (self.employee_id.blank? ? false : Employee.where(manager_id: self.employee_id).exists?)
   end
 
   def self.course_count
@@ -104,7 +106,7 @@ class User < ApplicationRecord
   # Create app users when they haven't logged in to Tuition Reimbursement app yet
   def self.from_employee(ldapid)
     employee = Employee.find_by(ldapid: ldapid)
-    u = User.new(username: employee.ldapid, displayname: employee.full_name, superuser: false, employee_id: employee.employee_id, company: 'UNMH')
+    u = User.new(username: employee.ldapid, displayname: employee.full_name, superuser: false, user_id: employee.employee_id, company: 'UNMH')
     u.save
     u
   end
@@ -138,7 +140,16 @@ class User < ApplicationRecord
     end
   end
 
+  # go to HR payroll and get the subordinates of the current user - see employee has_many relationship 'subordinates'
+  def subordinates
+    self.employee.subordinates
+  end
 
+  # find the in-app users who are subordinates of the manager by using the employee id in the User table
+  def subordinate_users
+    subs = subordinates.pluck(:employee_id)
+    User.where(employee_id: subs)
+  end
 
   ########################################
   ### Access Control
@@ -151,14 +162,12 @@ class User < ApplicationRecord
     superuser
   end
 
-  # Admin access is usually assigned to someone who can modify perms for other individuals
-  # This is usually to someone in HR who manages who has access to datashare
+  # Admin access gives access to additional routes to administrate data settings
   def admin?
     superuser? || hr_access
   end
 
-  # Determine if someone has access to FTEbudget reporting and uploads
-
+  # Determine if someone has access to hr settings
   def hr_access?
     superuser? || hr_access
   end
@@ -166,7 +175,6 @@ class User < ApplicationRecord
   def manager_access?
     superuser? || manager_access
   end
-
 
   ########################################
   # HR Access by Organization

@@ -2,7 +2,11 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
-    <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
+    <% if current_user.admin? %>
+      <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
+      <% else %>
+      <%= link_to @course.user.displayname, user_path(@course.user), class: 'li breadcrumb-item' %>
+    <% end %>
     <li class="breadcrumb-item active" aria-current="page">Request Details</li>
   </ol>
 </nav>
@@ -10,15 +14,15 @@
 <div class="container">
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">From Employee:</dt>
-    <dd class="col-sm-6"><%= link_to @course.user.displayname, user_path(@course.user) %> </dd>
+    <dd class="col-sm-6"><%= link_to @course.goal.user.displayname, user_path(@course.user_id) %> </dd>
+    <dt class="col-sm-3 offset-sm-3">Educational Goal:</dt>
+    <dd class="col-sm-6"><%= link_to @course.goal&.goal_details, @course.goal %></dd>
     <dt class="col-sm-3 offset-sm-3">Status of Request:</dt>
     <dd class="col-sm-6"><%= @course.status&.titleize %></dd>
     <dt class="col-sm-3 offset-sm-3">Course title:</dt>
     <dd class="col-sm-6"><%= @course.course_title %></dd>
     <dt class="col-sm-3 offset-sm-3">Course Identifier:</dt>
     <dd class="col-sm-6"><%= @course.course_short %></dd>
-    <dt class="col-sm-3 offset-sm-3">Credential - Program</dt>
-    <dd class="col-sm-6"><%= @course.credential&.name %> - <%= @course.credential&.description %></dd>
     <dt class="col-sm-3 offset-sm-3">Credit hours:</dt>
     <dd class="col-sm-6"><%= @course.credit_hours %></dd>
     <dt class="col-sm-3 offset-sm-3">Estimated Start date:</dt>
@@ -45,18 +49,20 @@
 <hr>
 
 <h3 class="text-center mt-2">Approvals / Denials</h3>
-<div class="row">
-  <div class="col-6 text-right">
-    <div class="btn-group">
-      <%= button_to 'Approve Request (Manager)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "manager"}}, method: :post, class: "btn btn-sm btn-primary mr-1" %>
-      <%= button_to 'Approve Request (HR)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "human_resources"}}, method: :post, class: "btn btn-sm btn-primary" %>
+
+  <div class="row">
+    <div class="col-6 text-right">
+      <div class="btn-group">
+        <%= button_to 'Approve Request (Manager)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "manager"}}, method: :post, class: "btn btn-sm btn-primary mr-1" %>
+        <%= button_to 'Approve Request (HR)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "human_resources"}}, method: :post, class: "btn btn-sm btn-primary" %>
+      </div>
+    </div>
+    <div class="col-6">
+      <%= link_to 'Deny Request (Manager)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "manager"), class: "btn btn-sm btn-warning" %>
+      <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
     </div>
   </div>
-  <div class="col-6">
-    <%= link_to 'Deny Request (Manager)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "manager"), class: "btn btn-sm btn-warning" %>
-    <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
-  </div>
-</div>
+
 
 
 <% if @course.approvals.blank? %>

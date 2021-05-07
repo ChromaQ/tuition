@@ -12,8 +12,7 @@
           <th><%= sort_link(@q, :displayname, 'Name') %></th>
           <th><%= sort_link(@q, :username) %></th>
           <th><%= sort_link(@q, :employee_id, 'Employer + ID #') %></th>
-          <th>HR</th>
-          <th>Manager</th>
+          <th>Roles</th>
           <th># Requests</th>
           <th>Actions</th>
         </tr>
@@ -24,8 +23,16 @@
             <td><%= link_to user.displayname, user %></td>
             <td><%= user.username %></td>
             <td><%= user.company %>: <%= user.employee_id %></td>
-            <td><%= user.hr_access? ? 'Yes' : 'No' %></td>
-            <td><%= user.manager_access? ? 'Yes' : 'No' %></td>
+            <td>
+              <% if user.superuser? %>
+                <span class="badge badge-pill badge-secondary">Dev Team</span>
+                <% elsif user.hr_access? %>
+                <span class="badge badge-pill badge-primary">HR</span>
+               <% end %>
+              <% if user.manager? %>
+                <span class="badge badge-pill badge-primary">Manager</span>
+                <% end %>
+            </td>
             <td><%= user.courses.size %></td>
             <td><%= link_to 'View', user, class: 'btn btn-sm btn-primary' %>
               <% if current_user == user %>

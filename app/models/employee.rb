@@ -18,6 +18,7 @@
 #  city                :string(50)
 #  company             :integer          not null
 #  country             :string(2)
+#  credentialnumber    :string(20)
 #  department          :string(5)        not null
 #  dept_name           :string(30)
 #  dept_num            :string(50)
@@ -101,6 +102,7 @@ class Employee < ApplicationRecord
   # == Relationships =================================
   belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
   belongs_to :manager, class_name: 'Employee', foreign_key: :manager_id
+  has_many :subordinates, class_name: 'Employee', foreign_key: :manager_id
   delegate :status, to: :user, prefix: true
 
   # == Validations ===================================

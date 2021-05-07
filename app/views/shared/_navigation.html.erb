@@ -1,14 +1,16 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-teal">
-  <%= link_to 'https://hospitals.health.unm.edu/intranet', class: 'navbar-brand mr-4', target: '_blank', rel: 'noopener noreferrer' do %>
+<nav class="navbar navbar-expand-sm navbar-dark bg-teal">
+  <%= link_to 'https://hospitals.health.unm.edu/intranet', class: '', target: '_blank', rel: 'noopener noreferrer' do %>
     <%= image_tag 'UNM_Hospital_Vertical_White.png', height: '40px' %>
   <% end %>
-  <%= link_to '/', class: 'navbar-brand' do %>Tuition Reimbursement<% end %>
+  <%= link_to 'Tuition Reimbursement', '/', class: 'd-none d-lg-block navbar-brand mr-1' %>
+  <%= link_to 'Tuition', '/', class: 'd-lg-none navbar-brand mr-1' %>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link active d-none d-md-block" href="/">Home <span class="sr-only">(current)</span></a>
       <% if user_signed_in? %>
         <%= link_to 'Me', user_path(current_user.id), class: 'nav-item nav-link' %>
         <% if current_user.admin? %>
@@ -18,24 +20,26 @@
       <% end %>
     </div>
       <% if user_signed_in? %>
-        <ul class="nav navbar-nav ml-auto">
-          <li class="nav-item nav-link current_user navbar">
+        <div class="nav navbar-nav ml-auto">
+          <div class="col-auto nav-item nav-link current_user navbar m-1">
             <%= display_user %>
-          </li>
+          </div>
           <% if current_user.superuser? && current_user == true_user %>
-            <%= form_tag user_impersonation_path, class: 'form-inline my-2 my-lg-0' do %>
-              <div class="input-group input-group-sm">
-                <div class="input-group-prepend">
-                  <%= submit_tag "Log in as:", id: "ldap_form_button", class: 'btn btn-secondary btn-sm' %>
+            <div class="col-auto d-none d-xl-block">
+              <%= form_tag user_impersonation_path, class: 'form-inline' do %>
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <%= submit_tag "Log in as:", id: "ldap_form_button", class: 'btn btn-secondary btn-sm' %>
+                  </div>
+                  <%= text_field_tag :username, nil, placeholder: "username", class: 'form-control' %>
                 </div>
-                <%= text_field_tag :username, nil, class: 'form-control' %>
-              </div>
-            <% end %>
+              <% end %>
+            </div>
           <% end %>
-          <li>
-            <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-secondary btn-sm ml-2' %>
-          </li>
-        </ul>
+          <div class="m-0">
+            <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-secondary btn-sm' %>
+          </div>
+        </div>
       <% end %>
   </div>
 </nav>

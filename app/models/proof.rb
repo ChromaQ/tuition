@@ -11,7 +11,7 @@
 #  response    :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  approver_id :integer         fk user.id
+#  approver_id :integer
 #  course_id   :integer
 #
 # Indexes

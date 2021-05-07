@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_04_003512) do
+ActiveRecord::Schema.define(version: 2021_05_03_181744) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 2021_03_04_003512) do
     t.datetime "updated_at", null: false
     t.integer "status"
     t.integer "user_id"
-    t.integer "credential_id"
-    t.index ["credential_id"], name: "index_courses_on_credential_id"
+    t.integer "goal_id"
+    t.index ["goal_id"], name: "index_courses_on_goal_id"
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
@@ -84,6 +84,19 @@ ActiveRecord::Schema.define(version: 2021_03_04_003512) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.string "focus"
+    t.boolean "active", default: true
+    t.integer "user_id"
+    t.integer "school_id"
+    t.integer "credential_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["credential_id"], name: "index_goals_on_credential_id"
+    t.index ["school_id"], name: "index_goals_on_school_id"
+    t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
   create_table "impressions", force: :cascade do |t|
@@ -107,6 +120,18 @@ ActiveRecord::Schema.define(version: 2021_03_04_003512) do
     t.index ["course_id"], name: "index_proofs_on_course_id"
   end
 
+  create_table "schools", force: :cascade do |t|
+    t.integer "unitid", null: false
+    t.string "opeid"
+    t.string "name", null: false
+    t.string "city"
+    t.string "state", limit: 30
+    t.boolean "operating", default: true
+    t.string "aka"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "displayname"
@@ -127,6 +152,10 @@ ActiveRecord::Schema.define(version: 2021_03_04_003512) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "courses", "goals"
+  add_foreign_key "goals", "credentials"
+  add_foreign_key "goals", "schools"
+  add_foreign_key "goals", "users"
   add_foreign_key "impressions", "users"
   add_foreign_key "proofs", "courses"
   add_foreign_key "proofs", "users", column: "approver_id"

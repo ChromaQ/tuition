@@ -7,4 +7,8 @@ class UserMailerPreview < ActionMailer::Preview
   def approve
     UserMailer.with(user: User.first, course: Course.third_to_last).approve
   end
+
+  def reminder
+    UserMailer.with(user: User.first, course: Course.third_to_last).reminder
+  end
 end

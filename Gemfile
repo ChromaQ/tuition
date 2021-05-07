@@ -71,6 +71,7 @@ gem 'unmh-auth', unmh: 'unmh-auth_gem', branch: 'devise_cas' # user authenticati
 # Misc
 ##############################
 gem 'jbuilder'               # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'oj'                     # Parsing JSON in app
 gem 'meta-tags'              #  Used for adding dynamic titles when switching between pages.
 gem 'actionmailer'           # For email sending, previews, and templates
 gem 'unmh-ldap', unmh: 'unmh-ldap'  # An ldap helper gem, used for searching UNMH/LDAP by users, groups, etc.
@@ -79,10 +80,10 @@ git_source(:unmh){ |repo| "git@git.health.unm.edu:devgroup/#{repo}.git"}
 gem 'unmh-stats', unmh: 'unmh-stats'
 gem 'unmh-app_mail', unmh: 'unmh-app_mail'
 gem 'rest-client' # HTTP Client - make external API calls
-gem 'mime-types'  # required for rest-client
-gem 'netrc'       # required for rest-client
-gem 'http-accept' # required for rest-client
-gem 'http-cookie' # required for rest-client
+# gem 'mime-types'  # required for rest-client
+# gem 'netrc'       # required for rest-client
+# gem 'http-accept' # required for rest-client
+# gem 'http-cookie' # required for rest-client
 
 ##############################
 ### Performance Optimizations
