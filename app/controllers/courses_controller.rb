@@ -31,7 +31,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      redirect_to @course, notice: 'Tuition reimbursement request was successfully created.'
+      redirect_to @course, notice: 'Draft request for tuition reimbursement successfully created. TO GET MANAGER APPROVAL, CLICK THE "SUBMIT APPLICATION" BUTTON.'
     else
       render :new
     end
@@ -48,7 +48,7 @@ class CoursesController < ApplicationController
 
   # Submit to manager: status becomes "pending" - emails manager
   def submit
-    @course = Course.includes(:user, :credential).references(:user, :credential).find(params[:id])
+    @course = Course.includes(:goal).references(:user, :goal).find(params[:id])
     @course.pending!
     UserMailer.with(user: true_user || current_user, course: @course).request_approval.deliver_now
     redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
