@@ -15,7 +15,7 @@
   <dt>Course:</dt>
   <dd><%= @approval.course.course_title %></dd>
   <dt>Requested By:</dt>
-  <dd><%= @approval.course.user.displayname %></dd>
+  <dd><%= @approval.course.goal.user.displayname %></dd>
   <dt>Response From:</dt>
   <dd><%= @approval.user.displayname %></dd>
   <dt>Role:</dt>
@@ -27,5 +27,5 @@
     <dd><%= @approval.deny_reason %></dd>
   <% end %>
 </dl>
-<%= link_to 'Edit', edit_approval_path(@approval), class: 'btn btn-sm btn-secondary' %> |
-<%= link_to 'Back', @approval.course, class: 'btn btn-sm btn-primary' %>
+<%= link_to 'Edit', edit_approval_path(@approval), class: 'btn btn-sm btn-outline-secondary' %>
+<%= link_to 'Back', @approval.course, class: 'btn btn-sm btn-outline-primary' %>
