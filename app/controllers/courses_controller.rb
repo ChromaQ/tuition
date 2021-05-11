@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :edit, :update, :destroy]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :submit, :approve]
 
   # GET /courses
   def index
@@ -48,17 +48,19 @@ class CoursesController < ApplicationController
 
   # Submit to manager: status becomes "pending" - emails manager
   def submit
-    @course = Course.includes(:goal, goal: :user).references(:user, :goal).find(params[:id])
     @course.pending!
     UserMailer.with(user: true_user || current_user, course: @course).request_approval.deliver_now
     redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
   end
 
+  # Triggers when someone in HR approves the course request - manager approvals don't count
   def approve
-    @course = Course.includes(:goal, :approvals, goal: [:user, :school, :credential, :goal_details]).references(:goal, :user, :approvals).find(params[:id])
-    @course.approved!
-    UserMailer.with(user: true_user || current_user, course: @course).approve.deliver_now
-    redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
+    if @course.approve_course(current_user)
+      UserMailer.with(course: @course, user: @course.goal.user).approve.deliver_now
+      redirect_to @course, notice: 'Thanks! Your approval for this tuition reimbursement request has been logged, the user will be emailed on next steps to take.'
+    else
+      redirect_to @course, notice: 'Approval did not complete - Sorry about that! Please reload the page and try again.'
+    end
   end
 
   # DELETE /courses/1
