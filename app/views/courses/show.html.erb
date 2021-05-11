@@ -117,6 +117,7 @@
       <th scope="col">Type</th>
       <th scope="col">File Name</th>
       <th scope="col">Date</th>
+      <th scope="col">Status</th>
       <th scope="col">Actions</th>
     </tr>
     </thead>
@@ -136,13 +137,12 @@
             <% end %>
             </td>
         <td>
-          <% if proof.document.attached? %>
-            <%= proof.document.filename %>
-          <% end %>
+          <%= proof.document.attached? ? proof.document.filename : 'No attachment' %>
         </td>
-        <td> <%= proof.created_at.to_s(:datetime) %></td>
+        <td><%= proof.created_at.to_s(:datetime) %></td>
+        <td><%= proof.response? ? proof.response.titleize : 'Not yet reviewed' %></td>
         <td>
-          <%= link_to 'Show', proof, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to 'View', proof, class: 'btn btn-sm btn-outline-primary' %>
           <%= link_to 'Edit', edit_proof_path(proof), class: 'btn btn-sm btn-outline-secondary' %>
           <%= link_to 'Delete', proof, class: 'btn btn-sm btn-outline-warning', method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>

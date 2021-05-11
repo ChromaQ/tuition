@@ -4,7 +4,7 @@
     <%= f.hidden_field :approver_id %>
 
     <div class="form-group">
-      <% if @proof.document %>
+      <% unless @proof.document.blank? %>
         <h4>Attached Documentation:</h4>
         <p>FILE NAME: <%= @proof.document&.filename %></p>
         <p>DATE: <%= @proof.document.created_at.to_s(:date2yr) %></p>
@@ -20,30 +20,36 @@
         <%= f.label :grade %>
       </div>
       <h4>Upload a new or different file:</h4>
+      <p>Only one uploaded document per Proof.</p>
       <%= f.file_field :document, class: 'file-input', data: { max_file_size: 5.megabytes, max_files: 1 } %>
     </div>
 
 
-
-    <h4>Response:</h4>
-    <div class="form-group">
-      <%= @proof.response&.capitalize%>
+    <% if @proof.response? %>
+      <h4>Response:</h4>
+      <div class="form-group">
+        <%= @proof.response&.capitalize%>
+      </div>
+    <% end %>
+    <% if current_user.admin? %>
+    <div class="border-secondary m-2 p-2">
+      <h4>Admin control:</h4>
+        <div class="form-group">
+          <%= f.radio_button(:response, "approved") %>
+          <%= f.label :response, 'Approved', value: 'approved' %><br>
+          <%= f.radio_button(:response, "denied") %>
+          <%= f.label :response, 'Denied', value: 'denied' %>
+          <!-- <%= f.select :response, options_for_select(Proof.responses.keys, :selected => @proof.response), class: 'form-control' %> -->
+        </div>
+      <% if @proof.denied? %>
+        <h4>Reason for Denial:</h4>
+        <div class="form-group">
+          <%= f.label 'Reason only required for rejected proof documentation', class:'p' %>
+          <%= f.text_area :deny_reason, required: true, class: 'form-control', placeholder: 'Please enter the reason this proof is being rejected.'%>
+        </div>
+        <% end %>
+      <% end %>
     </div>
-  <% if current_user.admin? %>
-    <div class="form-group">
-      <%= f.radio_button(:response, "approved") %>
-      <%= f.label :response, 'Approved', value: 'approved' %><br>
-      <%= f.radio_button(:response, "denied") %>
-      <%= f.label :response, 'Denied', value: 'denied' %>
-      <!-- <%= f.select :response, options_for_select(Proof.responses.keys, :selected => @proof.response), class: 'form-control' %> -->
-    </div>
-    <h4>Reason for Denial:</h4>
-    <div class="form-group">
-      <%= f.label 'Reason only required for rejected proof documentation', class:'p' %>
-      <%= f.text_area :deny_reason, class: 'form-control', placeholder: 'Please enter the reason this proof is being rejected.'%>
-    </div>
-  <% end %>
-
 
     <div class="form-group">
       <%= f.submit class: "btn btn-primary" %>

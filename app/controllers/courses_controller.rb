@@ -55,7 +55,7 @@ class CoursesController < ApplicationController
   end
 
   def approve
-    @course = Course.includes(:goal, :approvals, goal: :user).references(:goal, :user, :approvals).find(params[:id])
+    @course = Course.includes(:goal, :approvals, goal: [:user, :school, :credential, :goal_details]).references(:goal, :user, :approvals).find(params[:id])
     @course.approved!
     UserMailer.with(user: true_user || current_user, course: @course).approve.deliver_now
     redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
