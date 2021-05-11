@@ -1,6 +1,8 @@
-<h1><%= title('Editing Goal') %></h1>
+<div class="container-fluid">
+  <h1><%= title('Editing Goal') %></h1>
 
-<%= render 'form', goal: @goal %>
+  <%= render 'form', goal: @goal %>
 
-<%= link_to 'View', @goal, class: 'btn btn-sm btn-outline-primary' %>
-<%= link_to 'Back', user_path(@goal.user), class: 'btn btn-sm btn-outline-primary' %>
+  <%= link_to 'View', @goal, class: 'btn btn-sm btn-outline-primary' %>
+  <%= link_to 'Back', user_path(@goal.user), class: 'btn btn-sm btn-outline-primary' %>
+</div>

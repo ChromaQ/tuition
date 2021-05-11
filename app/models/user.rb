@@ -30,7 +30,7 @@ class User < ApplicationRecord
   # == Relationships ==================================
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
   has_many :goals
-  has_many :courses, through: :goals
+  has_many :courses, through: :goals, class_name: 'Course'
   has_many :schools, through: :goals
   has_many :credentials, through: :goals
   has_many :impressions
