@@ -106,7 +106,7 @@ class User < ApplicationRecord
   # Create app users when they haven't logged in to Tuition Reimbursement app yet
   def self.from_employee(ldapid)
     employee = Employee.find_by(ldapid: ldapid)
-    u = User.new(username: employee.ldapid, displayname: employee.full_name, superuser: false, user_id: employee.employee_id, company: 'UNMH')
+    u = User.new(username: employee.ldapid, displayname: employee.full_name, superuser: false, employee_id: employee.employee_id, company: 'UNMH')
     u.save
     u
   end
