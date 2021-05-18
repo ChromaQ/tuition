@@ -41,9 +41,9 @@
     <dt class="col-sm-3 offset-sm-3">Credit Hours Available per year</dt>
     <dd class="col-sm-6"> <%= @user.employee.max_credits_per_year %></dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Reimbursed</dt>
-    <dd class="col-sm-6"><%= @user.reimbursed_courses.sum(:credit_hours) %></dd>
+    <dd class="col-sm-6"><%= @user.courses.blank? ? '0' : @user.reimbursed_courses.sum(:credit_hours) %></dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Approved</dt>
-    <dd class="col-sm-6"><%= @user.approved_courses.sum(:credit_hours) %></dd>
+    <dd class="col-sm-6"><%= @user.courses.blank? ? '0' : @user.approved_courses.sum(:credit_hours) %></dd>
   </dl>
 
 </section>
