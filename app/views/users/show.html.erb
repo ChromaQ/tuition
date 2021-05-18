@@ -68,11 +68,11 @@
         </div>
       </div>
 
-      <% @user.goals.order(active: :desc).each do |goal| %>
+      <% @user.goals.each do |goal| %>
         <div class="card mb-2">
           <div class="card-header">
             <div class='row align-items-center'>
-              <div class="col-3"><%= goal.credential&.name %> - <%= goal.credential&.description %></div>
+              <div class="col-3"><%= goal.credential.name %> - <%= goal.credential.description %></div>
               <div class="col-3"><%= goal.school.name %></div>
               <div class="col-3">Focus: <%= goal.focus %></div>
               <% if goal.active? %>
@@ -90,7 +90,7 @@
             </div>
           </div>
           <div class="card-body">
-            <% if goal.courses.blank? %>
+            <% if goal.courses.empty? %>
               <p class="card-text text-center text-muted"><%= @user.displayname %> has tuition reimbursement requests for this goal yet.</p>
             <% else %>
               <div class="card-text">
