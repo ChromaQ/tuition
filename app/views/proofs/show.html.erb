@@ -22,7 +22,7 @@
   <% if @proof.document.attached? %>
     <dt class="col-sm-2 offset-sm-4">File Name:</dt>
     <dd class="col-sm-6"><%= @proof.document.filename %>
-      <% unless @proof.document.previewable? %>
+      <% unless @proof.document.image? %>
         <%= link_to 'Download File', rails_blob_path(@proof.document), disposition: "attachment",  class: 'btn btn-sm btn-secondary' %>
       <% end %>
     </dd>
