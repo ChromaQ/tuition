@@ -5,7 +5,7 @@
     <% if current_user.admin? %>
       <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
       <% else %>
-      <%= link_to @course.user.displayname, user_path(@course.user), class: 'li breadcrumb-item' %>
+      <%= link_to @course.goal.user.displayname, user_path(@course.goal.user), class: 'li breadcrumb-item' %>
     <% end %>
     <li class="breadcrumb-item active" aria-current="page">Request Details</li>
   </ol>

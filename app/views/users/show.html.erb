@@ -28,7 +28,7 @@
       <% end %>
     </dd>
   </dl>
-  <h4 class="text-center">Eligibility Check: <%= @user.employee.eligibility %></h4>
+  <h4 class="text-center">Eligibility Check: <span class=" <%= @user.employee.eligible? ? 'text-success' : 'text-warning' %>"><%= @user.employee.eligibility %></span></h4>
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">Employer</dt>
     <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"> <%= @user.company %> </dd>
@@ -51,7 +51,7 @@
 
 <section id="requests">
   <div class="text-center">
-    <% if @user.goals.blank? %>
+    <% if @goals.blank? %>
       <h3 class="text-center">Reimbursement Requests</h3>
       <h4 class="text-primary">Step 1: set up an Educational Goal:</h4>
       <%= link_to '+ Create a New Educational Goal', new_goal_path, class:"btn btn-sm btn-secondary" %>
@@ -62,13 +62,13 @@
       <div class="row mb-2">
         <div class="col text-center">
           <%= link_to '+ Create a New Educational Goal', new_goal_path, class:"btn btn-sm btn-secondary" %>
-          <% if @user.employee.eligible? && !@user.goals.blank? %>
+          <% if @user.employee.eligible? && !@goals.blank? %>
             <%= link_to '+ Create a New Course Reimbursement Request', new_course_path, class:"btn btn-sm btn-primary" %>
           <% end %>
         </div>
       </div>
 
-      <% @user.goals.each do |goal| %>
+      <% @goals.each do |goal| %>
         <div class="card mb-2">
           <div class="card-header">
             <div class='row align-items-center'>
@@ -109,7 +109,7 @@
                   </thead>
 
                   <tbody>
-                  <% goal.courses.order(updated_at: :desc).each do |course| %>
+                  <% goal.courses.each do |course| %>
                     <tr class="align-items-center">
                       <td><%= link_to truncate(course.course_title), course %></td>
                       <td><%= course.course_short %></td>

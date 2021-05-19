@@ -15,7 +15,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.includes(:goals, :courses, goals: [:user, :school, :credential]).references(:courses, :employee, :school, :credential).find(params[:id])
+    @goals = Goal.where(user_id: params[:id]).includes(:school, :credential, :user, :courses).eager_load(:courses).references(:employee, :courses, :employee, :school, :credential).order(active: :desc)
+    @user = @goals.first&.user || User.references(:employee).find(params[:id])
   end
 
   def employee_info
@@ -43,11 +44,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.includes(:goals, goals: [:user, :school, :credential, :courses]).references(:goals, :courses, :employee, :school, :credential).find(params[:id])
-  end
-
-  def set_goal
-    @goal = Goal.includes(:school, :credential, :courses).find(params[:id])
+    @user = User.includes(goals: [:user, :school, :credential]).eager_load(:courses).references(:goals, :courses, :employee, :school, :credential).find(params[:id])
   end
 
 end
