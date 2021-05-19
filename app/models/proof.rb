@@ -29,6 +29,7 @@ class Proof < ApplicationRecord
   belongs_to :approver, class_name: 'User', optional: true
   has_one_attached :document, dependent: :delete
   validates :course_id, presence: true
+  validates :document, presence: true
 
   enum response: { pending: 0, denied: 1, approved: 2 }
 

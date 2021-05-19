@@ -11,7 +11,8 @@ gem 'puma'
 ##############################
 # Used to allow ActiveStorage to store uploads as database blobs
 gem 'activestorage-database-service', github: 'TitovDigital/activestorage-database-service'
-gem 'image_processing' # Preview PDF files in browser window
+gem 'image_processing', '~> 1.12.1' # Preview PDF files in browser window
+gem 'mini_magick', '~> 4.11' # Manipulate images with minimal use of memory
 
 
 ##############################
