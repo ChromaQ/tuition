@@ -36,9 +36,9 @@ class Proof < ApplicationRecord
   # Display what kind of proof documentation is being submitted - if a word doc is submitted, it could have multiple images for both types of proof, for example.
   def proof_type
     if receipt? && grade?
-      'Receipt & Grade'
+      'Account Statement & Grade'
     elsif receipt?
-      'Receipt'
+      'Account Statement'
     elsif grade?
       'Grade'
     else

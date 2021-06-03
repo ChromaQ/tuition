@@ -102,7 +102,7 @@
 <h3 class="text-center pt-3">Documentation</h3>
 <p class="text-center text-muted">Employee documentation of proof of payment and proof of grade</p>
 <div class="row">
-  <div class="col text-center">
+  <div class="col text-center mb-2">
     <%= link_to '+ Add Proof Document', new_proof_path(course_id: @course.id), class: "btn btn-sm btn-primary" %>
   </div>
 </div>
@@ -124,15 +124,7 @@
     <% @course.proofs.each do |proof| %>
       <tr>
         <td>
-          <% if proof.receipt? && proof.grade? %>
-            Receipt & Grade
-            <% elsif proof.receipt? %>
-          Receipt
-            <% elsif proof.grade? %>
-          Grade
-            <% else %>
-          Unknown
-            <% end %>
+          <%= proof.proof_type %>
             </td>
         <td>
           <%= proof.document.attached? ? proof.document.filename : 'No attachment' %>
