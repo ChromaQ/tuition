@@ -5,7 +5,8 @@ class CredentialsController < ApplicationController
 
   # GET /credentials
   def index
-    @credentials = Credential.includes(:degree).references(:degree).all
+    @q = Credential.ransack(params[:q])
+    @credentials = @q.result.includes(:degree).references(:degree)
   end
 
   # GET /credentials/1
