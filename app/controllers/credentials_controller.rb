@@ -57,6 +57,6 @@ class CredentialsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def credential_params
-    params.require(:credential).permit(:credential, :description, :auto_approve, :degree_id)
+    params.require(:credential).permit(:credential, :description, :auto_approve, :degree_id, :degree_name)
   end
 end
