@@ -1,6 +1,5 @@
 class GoalsController < ApplicationController
   before_action :set_goal, only: [:show, :edit, :update, :destroy]
-  before_action :degrees_creds, only: [:new, :edit, :create, :update]
 
   # GET /goals
   def index
@@ -15,7 +14,7 @@ class GoalsController < ApplicationController
 
   # GET /goals/new
   def new
-    @goal = Goal.new(user_id: current_user.id)
+    @goal = Goal.new(user_id: current_user.id, degree_id: 3)
   end
 
   # GET /goals/1/edit
@@ -61,12 +60,6 @@ class GoalsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_goal
     @goal = Goal.includes(:user, :credential, :school, :courses).references(:user, :credential, :degree, :school, :courses).find(params[:id])
-  end
-
-  #grab the degrees and credentials to use on the educational goal
-  def degrees_creds
-    @degrees = Degree.all
-    @credentials = Credential.where("degree_id = ?", Degree.third.id)
   end
 
   # Only allow a trusted parameter "white list" through.
