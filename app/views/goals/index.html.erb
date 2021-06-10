@@ -23,7 +23,7 @@
         <td class="btn-group">
           <%= link_to 'Show', goal, class: 'btn btn-sm btn-primary mr-1' %>
           <%= link_to 'Edit', edit_goal_path(goal), class: 'btn btn-sm btn-secondary' %>
-          <%= link_to 'Destroy', goal, method: :delete, class: 'btn btn-sm btn-warning ml-1', data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Delete', goal, method: :delete, class: 'btn btn-sm btn-warning ml-1', data: { confirm: 'Are you sure you want to delete this goal permanently?' } %>
         </td>
       </tr>
     <% end %>
