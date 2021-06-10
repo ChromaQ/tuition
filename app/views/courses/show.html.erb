@@ -5,7 +5,7 @@
     <% if current_user.admin? %>
       <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
       <% else %>
-      <%= link_to @course.user.displayname, user_path(@course.user), class: 'li breadcrumb-item' %>
+      <%= link_to @course.goal.user.displayname, user_path(@course.goal.user), class: 'li breadcrumb-item' %>
     <% end %>
     <li class="breadcrumb-item active" aria-current="page">Request Details</li>
   </ol>
@@ -54,7 +54,7 @@
     <div class="col-6 text-right">
       <div class="btn-group">
         <%= button_to 'Approve Request (Manager)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "manager"}}, method: :post, class: "btn btn-sm btn-primary mr-1" %>
-        <%= button_to 'Approve Request (HR)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "human_resources"}}, method: :post, class: "btn btn-sm btn-primary" %>
+        <%= button_to 'Approve Request (HR)', approve_path(@course), method: :post, class: "btn btn-sm btn-primary" %>
       </div>
     </div>
     <div class="col-6">
@@ -62,8 +62,6 @@
       <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
     </div>
   </div>
-
-
 
 <% if @course.approvals.blank? %>
   <p class="text-center mt-2">No approvals or denials logged yet.</p>
@@ -102,21 +100,22 @@
 <% end %>
 <hr>
 <h3 class="text-center pt-3">Documentation</h3>
+<p class="text-center text-muted">Employee documentation of proof of payment and proof of grade</p>
 <div class="row">
-  <div class="text-right col-lg-8 col-sm-auto">
-    <p>Employee documentation of proof of payment and proof of grade</p>
-  </div>
-  <div class="col col-5-lg text-right">
+  <div class="col text-center mb-2">
     <%= link_to '+ Add Proof Document', new_proof_path(course_id: @course.id), class: "btn btn-sm btn-primary" %>
   </div>
 </div>
-<% if @course.proofs %>
+<% if @course.proofs.blank? %>
+  <p class="text-center mt-2">No documentation has been uploaded yet.</p>
+  <% else %>
   <table class="table table-sm table-hover table-sm">
     <thead>
     <tr>
       <th scope="col">Type</th>
       <th scope="col">File Name</th>
       <th scope="col">Date</th>
+      <th scope="col">Status</th>
       <th scope="col">Actions</th>
     </tr>
     </thead>
@@ -125,24 +124,15 @@
     <% @course.proofs.each do |proof| %>
       <tr>
         <td>
-          <% if proof.receipt? && proof.grade? %>
-            Receipt & Grade
-            <% elsif proof.receipt? %>
-          Receipt
-            <% elsif proof.grade? %>
-          Grade
-            <% else %>
-          Unknown
-            <% end %>
+          <%= proof.proof_type %>
             </td>
         <td>
-          <% if proof.document.attached? %>
-            <%= proof.document.filename %>
-          <% end %>
+          <%= proof.document.attached? ? proof.document.filename : 'No attachment' %>
         </td>
-        <td> <%= proof.created_at.to_s(:datetime) %></td>
+        <td><%= proof.created_at.to_s(:datetime) %></td>
+        <td><%= proof.response? ? proof.response.titleize : 'Not yet reviewed' %></td>
         <td>
-          <%= link_to 'Show', proof, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to 'View', proof, class: 'btn btn-sm btn-outline-primary' %>
           <%= link_to 'Edit', edit_proof_path(proof), class: 'btn btn-sm btn-outline-secondary' %>
           <%= link_to 'Delete', proof, class: 'btn btn-sm btn-outline-warning', method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>

@@ -587,7 +587,7 @@ DEPENDENCIES
   font-awesome-rails
   font-awesome-sass
   fuubar
-  image_processing
+  image_processing (~> 1.12.1)
   jbuilder
   jquery-rails
   jquery-ui-rails
@@ -595,6 +595,7 @@ DEPENDENCIES
   lograge
   logstop
   meta-tags
+  mini_magick (~> 4.11)
   mini_racer
   oj
   pretender

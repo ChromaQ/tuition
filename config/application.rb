@@ -33,6 +33,9 @@ module Tuitrem
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.logger = Rails.logger
 
+    config.active_storage.variant_processor = :mini_magick
+
+
 
 
     # Settings in config/environments/* take precedence over those specified here.

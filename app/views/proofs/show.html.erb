@@ -4,14 +4,14 @@
     <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
     <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
     <%= link_to 'Request Detail', course_path(@proof.course), class: 'li breadcrumb-item' %>
-    <li class="breadcrumb-item active" aria-current="page">Supporting Documentation</li>
+    <li class="breadcrumb-item active" aria-current="page">Supporting Proof Document</li>
   </ol>
 </nav>
-<h1 class="mb-1 text-center">Supporting Documentation</h1>
+<h1 class="mb-1 text-center">Supporting Proof Document</h1>
 <% if current_user.admin? %>
   <div class="row justify-content-center m-2">
-    <%= button_to 'Approve Document (HR)', proof_path(@proof),  params: { proof: { response: "approved", approver_id: current_user.id } }, method: :patch, class: "col-auto btn btn-sm btn-primary" %>  &nbsp;
-    <%= button_to 'Reject Document (HR)', edit_proof_path(@proof), params:  { response: "denied", approver_id: current_user.id }, method: :get, class: "col-auto btn btn-sm btn-warning" %>
+    <%= button_to 'Approve Proof (HR)', proof_path(@proof),  params: { proof: { response: "approved", approver_id: current_user.id } }, method: :patch, class: "col-auto btn btn-sm btn-primary" %>
+    <%= button_to 'Reject Proof (HR)', edit_proof_path(@proof), params:  { response: "denied", approver_id: current_user.id }, method: :get, class: "col-auto btn btn-sm btn-warning ml-1" %>
   </div>
 <% end %>
 <dl class="row justify-content-center">
@@ -21,27 +21,34 @@
   <dd class="col-sm-6"><%= @proof.proof_type %> </dd>
   <% if @proof.document.attached? %>
     <dt class="col-sm-2 offset-sm-4">File Name:</dt>
-    <dd class="col-sm-6"><%= @proof.document.filename %></dd>
+    <dd class="col-sm-6"><%= @proof.document.filename %>
+      <% unless @proof.document.image? %>
+        <%= link_to 'Download File', rails_blob_path(@proof.document), disposition: "attachment",  class: 'btn btn-sm btn-secondary' %>
+      <% end %>
+    </dd>
     <dt class="col-sm-2 offset-sm-4">File Type:</dt>
     <dd class="col-sm-6"><%= @proof.document.content_type %></dd>
-  <% end %>
+
+<% end %>
   <dt class="col-sm-2 offset-sm-4">Response:</dt>
   <dd class="col-sm-6"><%= @proof.response&.capitalize || 'Not Yet Submitted' %></dd>
   <% if @proof.approver_id %>
     <dt class="col-sm-2 offset-sm-4">Reviewed by:</dt>
     <dd class="col-sm-6"><%= @proof.approver.displayname %></dd>
   <% end %>
-  <% if @proof.deny_reason %>
+  <% if @proof.deny_reason? %>
     <dt class="col-sm-2 offset-sm-4">Deny reason:</dt>
     <dd class="col-sm-6"><%= @proof.deny_reason %></dd>
   <% end %>
+  <div class="justify-content-center m-2">
+    <%= link_to 'Edit', edit_proof_path(@proof), class: 'btn btn-sm btn-outline-secondary' %>
+    <%= link_to 'Back', @proof.course, class: 'btn btn-sm btn-outline-primary' %>
+  </div>
   <% if @proof.document.image? %>
     <dt class="col-sm-8 offset-sm-4">Preview:</dt>
-    <dd class="col-sm-12 text-center"><%= image_tag(@proof.document) %></dd>
-    <% else %>
-    <dt class="col-sm-8 offset-sm-4"><%= link_to 'Download File', rails_blob_path(@proof.document), disposition: "attachment",  class: 'btn btn-sm btn-secondary' %></dt>
+    <dd class="col-12 text-center">
+      <%= image_tag @proof.document, style: 'max-width: -webkit-fill-available' %>
+    </dd>
 <% end %>
 </dl>
 
-<%= link_to 'Edit', edit_proof_path(@proof), class: 'btn btn-sm btn-secondary' %> |
-<%= link_to 'Back', @proof.course, class: 'btn btn-sm btn-primary' %>

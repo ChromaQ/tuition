@@ -1,16 +1,17 @@
 <%= form_with(model: @goal, local: true) do |f| %>
   <%= errors_for(@goal) %>
     <div class="form-group">
+      <%= f.hidden_field :user_id, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
       <%= f.radio_button(:active, true) %>
-      <%= f.label :active, 'Active', value: true %>
+      <%= f.label :active, 'Active', value: true %><br>
       <%= f.radio_button(:active, false) %>
       <%= f.label :active, 'Inactive', value: false %>
     </div>
 
-    <div class="form-group">
-      <%= f.label :user %>
-      <%= f.text_field :user_id, class: 'form-control' %>
-    </div>
+
 
     <div class="form-group">
       <%= f.label :school %>
@@ -19,12 +20,16 @@
 
 
     <div class="form-group">
-      <%= f.label 'Select Degree level' %>
-      <%= select :degree, :degree_id, options_for_select(@degrees.collect { |degree|
-        [degree.name.titleize, degree.id] }, 3), {}, { id: 'degrees_select' } %> <br>
-      <%= f.label 'Next, select the specific Credential' %>
-      <%= f.select :credential_id, options_for_select(@credentials.collect { |credential| [credential.full_info, credential.id] }, 0), {}, { id: 'credentials_select' } %>
+      <%= f.label 'Degree level' %>
+      <%= f.select :degree_id, Degree.all.collect { |degree|
+        [degree.name.titleize, degree.id] }, {}, id: 'degrees_select' %> <br>
+      <%= f.label 'Select the specific Credential' %>
+      <%= f.select :credential_id, Credential.where(degree_id: @goal.degree_id).collect { |credential| [credential.full_info, credential.id] }, {}, id: 'credentials_select' %>
     </div>
+
+
+
+
 
     <div class="form-group">
       <%= f.label 'Program / Focus / Major / Field of Study' %>

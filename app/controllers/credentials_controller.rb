@@ -5,7 +5,8 @@ class CredentialsController < ApplicationController
 
   # GET /credentials
   def index
-    @credentials = Credential.includes(:degree).references(:degree).all
+    @q = Credential.ransack(params[:q])
+    @credentials = @q.result.includes(:degree).references(:degree)
   end
 
   # GET /credentials/1
@@ -56,6 +57,6 @@ class CredentialsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def credential_params
-    params.require(:credential).permit(:credential, :description, :auto_approve, :degree_id)
+    params.require(:credential).permit(:credential, :description, :auto_approve, :degree_id, :degree_name)
   end
 end

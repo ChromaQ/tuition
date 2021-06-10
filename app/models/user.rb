@@ -30,10 +30,13 @@ class User < ApplicationRecord
   # == Relationships ==================================
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
   has_many :goals
-  has_many :courses, through: :goals
-  has_many :schools, through: :goals
-  has_many :credentials, through: :goals
+  accepts_nested_attributes_for :goals
+  has_many :courses, through: :goals, class_name: 'Course'
+  has_many :credentials, through: :goals, class_name: 'Credential'
+  has_many :schools, through: :goals, class_name: 'School'
   has_many :impressions
+
+  has_many :active_goals, -> { where(active: true) }, class_name: 'Goal'
 
   has_many :approved_courses, -> { where(status: 'approved') }, class_name: 'Course'
   has_many :pending_courses, -> { where(status: 'pending') }, class_name: 'Course'
@@ -106,7 +109,7 @@ class User < ApplicationRecord
   # Create app users when they haven't logged in to Tuition Reimbursement app yet
   def self.from_employee(ldapid)
     employee = Employee.find_by(ldapid: ldapid)
-    u = User.new(username: employee.ldapid, displayname: employee.full_name, superuser: false, user_id: employee.employee_id, company: 'UNMH')
+    u = User.new(username: employee.ldapid, displayname: employee.full_name, superuser: false, employee_id: employee.employee_id, email: employee.email, company: 'UNMH')
     u.save
     u
   end

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post   'users/impersonation',      to: 'users#impersonate',        as: 'user_impersonation'
   post   'users/stop_impersonating', to: 'users#stop_impersonating', as: 'stop_impersonating_users'
   get 'courses/:id/submit', to: 'courses#submit', as: 'submit'
+  post 'courses/:id/approve', to: 'courses#approve', as: 'approve'
   get 'impressions', to: 'users#impressions'
   get 'noaccess', to: 'pages#noaccess', as: :noaccess
   get 'template', to: 'pages#template', as: :template

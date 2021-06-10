@@ -29,15 +29,16 @@ class Proof < ApplicationRecord
   belongs_to :approver, class_name: 'User', optional: true
   has_one_attached :document, dependent: :delete
   validates :course_id, presence: true
+  validates :document, presence: true
 
   enum response: { pending: 0, denied: 1, approved: 2 }
 
   # Display what kind of proof documentation is being submitted - if a word doc is submitted, it could have multiple images for both types of proof, for example.
   def proof_type
     if receipt? && grade?
-      'Receipt & Grade'
+      'Account Statement & Grade'
     elsif receipt?
-      'Receipt'
+      'Account Statement'
     elsif grade?
       'Grade'
     else

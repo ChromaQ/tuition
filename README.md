@@ -1,8 +1,14 @@
-# tuitrem
+# Tuition Reimbursement
 
-*Ruby:* 2.7.1
-Rails: 5.2.4.3
+*Ruby:* 2.7.2
+
+Rails: 6.0
+
 Database: multidb
+
+### Purpose:
+This is a complete replacement of a ColdFusion application in Ruby on Rails.
+
 
 ### Database Strucutre (ERD):
 ![](tuitrem_erd.png)

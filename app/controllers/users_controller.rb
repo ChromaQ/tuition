@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   # need to tweak to allow HR access -- before_action :require_superuser?, except: :stop_impersonating
-  before_action :set_user, except: [:index, :impersonate, :stop_impersonating, :impressions]
+  before_action :set_user, except: [:index, :show, :impersonate, :stop_impersonating, :impressions]
 
   def index
     @q = User.ransack(params[:q])
@@ -15,6 +15,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    @goals = Goal.where(user_id: params[:id]).includes(:school, :credential, :user).eager_load(:courses).references(:employee, :school, :credential).order(active: :desc)
+    @user = @goals.first&.user || User.references(:employee).find(params[:id])
   end
 
   def employee_info
@@ -42,11 +44,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.includes(goals:[:school, :credential, :courses]).references(:courses, :goals, :employee, :credentials, :schools).find(params[:id])
-  end
-
-  def set_course
-    @course = Course.find(params[:course_id])
+    @user = User.includes(goals: [:user, :school, :credential]).eager_load(:courses).references(:goals, :employee, :school, :credential).find(params[:id])
   end
 
 end

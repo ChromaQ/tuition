@@ -28,7 +28,7 @@
       <% end %>
     </dd>
   </dl>
-  <h4 class="text-center">Eligibility Check: <%= @user.employee.eligibility %></h4>
+  <h4 class="text-center">Eligibility Check: <span class=" <%= @user.employee.eligible? ? 'text-success' : 'text-warning' %>"><%= @user.employee.eligibility %></span></h4>
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">Employer</dt>
     <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"> <%= @user.company %> </dd>
@@ -40,12 +40,10 @@
     <dd class="col-sm-6"> <%= @user.employee.eligible_at.to_s(:date2yr) %> (Hire date: <%= @user.employee.hire_date.to_s(:date2yr) %>)</dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Available per year</dt>
     <dd class="col-sm-6"> <%= @user.employee.max_credits_per_year %></dd>
-    <%# unless @user.courses.blank? %>
-<!--      <dt class="col-sm-3 offset-sm-3">Credit Hours Reimbursed</dt>-->
-<!--      <dd class="col-sm-6"><%#= @user.courses.reimbursed_courses.sum(:credit_hours) %></dd>-->
-<!--      <dt class="col-sm-3 offset-sm-3">Credit Hours Approved</dt>-->
-<!--      <dd class="col-sm-6"><%#= @user.courses.pending_courses.sum(:credit_hours) %></dd>-->
-    <%# end %>
+    <dt class="col-sm-3 offset-sm-3">Credit Hours Reimbursed</dt>
+    <dd class="col-sm-6"><%= @user.courses.blank? ? '0' : @user.reimbursed_courses.sum(:credit_hours) %></dd>
+    <dt class="col-sm-3 offset-sm-3">Credit Hours Approved</dt>
+    <dd class="col-sm-6"><%= @user.courses.blank? ? '0' : @user.approved_courses.sum(:credit_hours) %></dd>
   </dl>
 
 </section>
@@ -53,94 +51,92 @@
 
 <section id="requests">
   <div class="text-center">
-    <% if @user.goals.blank? %>
+    <% if @goals.blank? %>
       <h3 class="text-center">Reimbursement Requests</h3>
       <h4 class="text-primary">Step 1: set up an Educational Goal:</h4>
       <%= link_to '+ Create a New Educational Goal', new_goal_path, class:"btn btn-sm btn-secondary" %>
       <h4 class="text-center text-primary mt-3">Step 2: Make reimbursement requests!</h4>
       <p class="text-center font-weight-bold">Once you've created an educational goal, you can create reimbursement requests if you're eligible for the program.</p>
-    <% end %>
-  </div>
-
-  <section id="goals">
-    <% if @user.goals %>
+      <% else %>
       <h3 class="text-center">Educational Goals and Reimbursement Requests</h3>
       <div class="row mb-2">
         <div class="col text-center">
           <%= link_to '+ Create a New Educational Goal', new_goal_path, class:"btn btn-sm btn-secondary" %>
-          <% if @user.employee.eligible? && @user.goals.any? %>
+          <% if @user.employee.eligible? && !@goals.blank? %>
             <%= link_to '+ Create a New Course Reimbursement Request', new_course_path, class:"btn btn-sm btn-primary" %>
           <% end %>
         </div>
       </div>
 
-        <% @user.goals.order(active: :desc).each do |goal| %>
+      <% @goals.each do |goal| %>
         <div class="card mb-2">
           <div class="card-header">
             <div class='row align-items-center'>
-              <div class="col-3"><%= goal.credential&.name %> - <%= goal.credential&.description %></div>
+              <div class="col-3"><%= goal.credential.name %> - <%= goal.credential.description %></div>
               <div class="col-3"><%= goal.school.name %></div>
               <div class="col-3">Focus: <%= goal.focus %></div>
               <% if goal.active? %>
                 <div class="col-1 text-success">Active Goal</div>
-                <% else %>
+              <% else %>
                 <div class="col-1 text-warning">Inactive Goal</div>
-                <% end %>
-              <div class="col-2 text-center">
-                <%= link_to 'View', goal, class: 'btn btn-sm btn-primary mr-1' %>
+              <% end %>
+              <div class="col-2">
+                <%= link_to 'View', goal, class: 'btn btn-sm btn-primary' %>
                 <%= link_to 'Edit', edit_goal_path(goal), class: 'btn btn-sm btn-secondary' %>
-                <%#= link_to 'Destroy', goal, method: :delete, class: 'btn btn-sm btn-warning ml-1', data: { confirm: 'Are you sure?' } %>
+                <% if goal.courses.blank? %>
+                  <%= link_to 'Delete', goal, method: :delete, class: 'btn btn-sm btn-warning', data: { confirm: 'Are you sure you want to permanently delete this goal?' } %>
+                <% end %>
               </div>
             </div>
           </div>
           <div class="card-body">
-          <% if goal.courses.any? %>
-            <div class="card-text">
-              <table class="table table-sm table-hover table-sm">
-                <thead>
-                <tr>
-                  <th scope="col" class="col-auto">Course Title</th>
-                  <th scope="col" class="col-auto">Course ID</th>
-                  <th scope="col" class="col-auto">Dates</th>
-                  <th scope="col" class="col-auto">Credits</th>
-                  <th scope="col" class="col-auto">Cost</th>
-                  <th scope="col" class="col-auto">Updated</th>
-                  <th scope="col" class="col-auto">Status</th>
-                  <th scope="col" class="col-auto">Actions</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <% goal.courses.sort_by(&:created_at).each do |course| %>
-                  <tr class="align-items-center">
-                    <td><%= link_to truncate(course.course_title), course %></td>
-                    <td><%= course.course_short %></td>
-                    <td><%= course.start_date.to_s(:date2yr) %> - <%= course.end_date.to_s(:date2yr) %></td>
-                    <td><%= course.credit_hours %></td>
-                    <td><%= number_to_currency(course.cost) %></td>
-                    <td><%= time_ago_in_words(course.updated_at) %> ago</td>
-                    <td><%= course.status&.capitalize %></td>
-                    <td>
-                      <%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %>
-                      <% if course.employee_id == current_user.employee_id || current_user.superuser? %>
-                        <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
-                        <% if course.status == 'draft' %>
-                          <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %>
-                        <% end %>
-                      <% end %>
-                    </td>
-                  </tr>
-                <% end %>
-                </tbody>
-              </table>
-            </div>
+            <% if goal.courses.empty? %>
+              <p class="card-text text-center text-muted"><%= @user.displayname %> has tuition reimbursement requests for this goal yet.</p>
             <% else %>
-            <p class="card-text text-center text-muted"><%= @user.displayname %> has tuition reimbursement requests for this goal yet.</p>
-          <% end %>
+              <div class="card-text">
+                <table class="table table-sm table-hover table-sm">
+                  <thead>
+                  <tr>
+                    <th scope="col" class="col-auto">Course Title</th>
+                    <th scope="col" class="col-auto">Course ID</th>
+                    <th scope="col" class="col-auto">Dates</th>
+                    <th scope="col" class="col-auto">Credits</th>
+                    <th scope="col" class="col-auto">Cost</th>
+                    <th scope="col" class="col-auto">Updated</th>
+                    <th scope="col" class="col-auto">Status</th>
+                    <th scope="col" class="col-auto">Actions</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <% goal.courses.each do |course| %>
+                    <tr class="align-items-center">
+                      <td><%= link_to truncate(course.course_title), course %></td>
+                      <td><%= course.course_short %></td>
+                      <td><%= course.start_date.to_s(:date2yr) %> - <%= course.end_date.to_s(:date2yr) %></td>
+                      <td><%= course.credit_hours %></td>
+                      <td><%= number_to_currency(course.cost) %></td>
+                      <td><%= time_ago_in_words(course.updated_at) %> ago</td>
+                      <td><%= course.status&.capitalize %></td>
+                      <td>
+                        <%= link_to 'View', course, class:"btn btn-sm btn-outline-primary" %>
+                        <% if course.employee_id == current_user.employee_id || current_user.superuser? %>
+                          <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
+                          <% if course.status == 'draft' %>
+                            <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %>
+                          <% end %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% end %>
           </div>
         </div>
-        <% end %>
+      <% end %>
     <% end %>
-  </section>
+  </div>
 </section>
 

@@ -8,7 +8,6 @@
       <th scope="col">Role</th>
       <th scope="col">Response</th>
       <th scope="col">Deny reason</th>
-      <th scope="col">Course</th>
       <th colspan="3" scope="col"></th>
     </tr>
   </thead>
@@ -16,12 +15,11 @@
   <tbody>
     <% @approvals.each do |approval| %>
       <tr>
-        <td><%= approval.course_id %></td>
-        <td><%= approval.employee_id %></td>
+        <td><%= link_to approval.course&.course_title, approval.course %></td>
+        <td><%= approval.user.username %></td>
         <td><%= approval.role %></td>
         <td><%= approval.response %></td>
         <td><%= approval.deny_reason %></td>
-        <td><%= approval.course_id %></td>
         <td><%= link_to 'Show', approval %></td>
         <td><%= link_to 'Edit', edit_approval_path(approval) %></td>
         <td><%= link_to 'Destroy', approval, method: :delete, data: { confirm: 'Are you sure?' } %></td>

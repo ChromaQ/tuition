@@ -3,49 +3,80 @@
     <%= f.hidden_field :course_id, class: 'form-control disabled' %>
     <%= f.hidden_field :approver_id %>
 
-    <div class="form-group">
-      <% if @proof.document %>
-        <h4>Attached Documentation:</h4>
-        <p>FILE NAME: <%= @proof.document&.filename %></p>
-        <p>DATE: <%= @proof.document.created_at.to_s(:date2yr) %></p>
-      <% end %>
-      <h4>Type of Documentation:</h4>
-      <div class="form-check">
-        <%= f.check_box :receipt, class: 'form-check-input' %>
-        <%= f.label :receipt %>
+    <div class="ml-1">
+      <% if @proof.document.blank? %>
+        <div class="form-group">
+        <h4>Upload your proof file file:</h4>
+        <p>Only one uploaded document per Proof.</p>
+        <%= f.file_field :document, class: 'file-input', data: { max_file_size: 5.megabytes, max_files: 1 } %>
+          <div>
+            <h4>Type of Documentation:</h4>
+            <div class="form-check">
+              <%= f.check_box :receipt, class: 'form-check-input' %>
+              <%= f.label :receipt %>
+            </div>
+            <div class="form-check">
+              <%= f.check_box :grade, class: 'form-check-input' %>
+              <%= f.label :grade %>
+            </div>
+          </div>
+        </div>
+        <% else %>
+          <h3>Attached Documentation:</h3>
+          <div class="row">
+            <div class="col-5">
+              <dt>FILE NAME: </dt>
+              <dd><%= @proof.document&.filename %></dd>
+              <dt>DATE:</dt>
+              <dd><%= @proof.document.created_at.to_s(:date2yr) %></dd>
+              <h4>Type of Documentation:</h4>
+              <div class="form-check">
+                <%= f.check_box :receipt, class: 'form-check-input' %>
+                <%= f.label :receipt %>
+              </div>
+              <div class="form-check">
+                <%= f.check_box :grade, class: 'form-check-input' %>
+                <%= f.label :grade %>
+              </div>
+              <% if @proof.response? %>
+                <h4>Response:</h4>
+                <div class="form-group"><%= @proof.response&.capitalize %></div>
+              <% end %>
+              <% if @proof.denied? %>
+                <h4>Reason for Denial:</h4>
+                <div class="form-group">
+                  <%= f.label 'Reason only required for rejected proof documentation', class:'p' %>
+                  <%= f.text_area :deny_reason, required: true, class: 'form-control', placeholder: 'Please enter the reason this proof is being rejected.'%>
+                </div>
+              <% end %>
+              <% if current_user.admin? %>
+                <div class="border-secondary p-2 m-2">
+                  <h4>Admin control:</h4>
+                  <div class="form-group">
+                    <%= f.radio_button(:response, "approved") %>
+                    <%= f.label :response, 'Approved', value: 'approved' %><br>
+                    <%= f.radio_button(:response, "denied") %>
+                    <%= f.label :response, 'Denied', value: 'denied' %>
+                    <!-- <%= f.select :response, options_for_select(Proof.responses.keys, :selected => @proof.response), class: 'form-control' %> -->
+                  </div>
+                </div>
+              <% end %>
+              <div class="mb-2">
+                <h4>Upload different file:</h4>
+                <p>Only one uploaded document per Proof. Selecting a new file will replace the file shown on this page.</p>
+                <%= f.file_field :document, class: 'file-input', data: { max_file_size: 5.megabytes, max_files: 1 } %>
+              </div>
+            </div>
+            <% if @proof.document.image? %>
+              <div class="col-4 border border-light">
+                <dt class="text-center">PREVIEW:</dt>
+                <dd class="text-center"><%= image_tag @proof.document, style: 'max-width: -webkit-fill-available' %></dd>
+              </div>
+            <% end %>
+        </div>
+          <% end %>
+      <div class="form-group">
+        <%= f.submit class: "btn btn-primary" %>
       </div>
-
-      <div class="form-check">
-        <%= f.check_box :grade, class: 'form-check-input' %>
-        <%= f.label :grade %>
-      </div>
-      <h4>Upload a new or different file:</h4>
-      <%= f.file_field :document, class: 'file-input', data: { max_file_size: 5.megabytes, max_files: 1 } %>
-    </div>
-
-
-
-    <h4>Response:</h4>
-    <div class="form-group">
-      <%= @proof.response&.capitalize%>
-    </div>
-  <% if current_user.admin? %>
-    <div class="form-group">
-      <%= f.radio_button(:response, "approved") %>
-      <%= f.label :response, 'Approved', value: 'approved' %><br>
-      <%= f.radio_button(:response, "denied") %>
-      <%= f.label :response, 'Denied', value: 'denied' %>
-      <!-- <%= f.select :response, options_for_select(Proof.responses.keys, :selected => @proof.response), class: 'form-control' %> -->
-    </div>
-    <h4>Reason for Denial:</h4>
-    <div class="form-group">
-      <%= f.label 'Reason only required for rejected proof documentation', class:'p' %>
-      <%= f.text_area :deny_reason, class: 'form-control', placeholder: 'Please enter the reason this proof is being rejected.'%>
-    </div>
-  <% end %>
-
-
-    <div class="form-group">
-      <%= f.submit class: "btn btn-primary" %>
     </div>
 <% end %>

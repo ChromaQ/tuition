@@ -42,4 +42,14 @@ class Goal < ApplicationRecord
   def goal_details
     "#{credential.name}" ' - ' "#{credential.description}" ' from ' "#{school.name}"
   end
+
+  def degree_id
+    self.credential&.degree_id || @degree_id
+  end
+
+  def degree_id=(degree_id)
+    @degree_id = degree_id
+  end
+
+
 end
