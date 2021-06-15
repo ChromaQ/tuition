@@ -32,6 +32,7 @@ class Goal < ApplicationRecord
   belongs_to :school
   belongs_to :credential
   has_many :courses
+  has_many :approvals
 
   # == Validations ====================================
   validates :credential_id, presence: true

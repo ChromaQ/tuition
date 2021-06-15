@@ -12,15 +12,26 @@
 #  updated_at  :datetime         not null
 #  course_id   :integer
 #  employee_id :string
+#  goal_id     :integer
+#  proof_id    :integer
 #  user_id     :integer
 #
 # Indexes
 #
 #  index_approvals_on_course_id  (course_id)
+#  index_approvals_on_goal_id    (goal_id)
+#  index_approvals_on_proof_id   (proof_id)
+#
+# Foreign Keys
+#
+#  goal_id   (goal_id => goals.id)
+#  proof_id  (proof_id => proofs.id)
 #
 class Approval < ApplicationRecord
   # == Relationships ==================================
-  belongs_to :course
+  belongs_to :course, optional: true
+  belongs_to :goal, optional: true
+  belongs_to :proof, optional: true
   belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
 
   enum role:     { applicant: 0, manager: 1, human_resources: 2, auto_approval: 3 }

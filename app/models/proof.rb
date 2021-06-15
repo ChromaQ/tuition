@@ -27,6 +27,7 @@
 class Proof < ApplicationRecord
   belongs_to :course
   belongs_to :approver, class_name: 'User', optional: true
+  has_many :approvals
   has_one_attached :document, dependent: :delete
   validates :course_id, presence: true
   validates :document, presence: true

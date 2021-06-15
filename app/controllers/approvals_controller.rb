@@ -7,17 +7,15 @@ class ApprovalsController < ApplicationController
   # GET /approvals
   def index
     @approvals = Approval.all
-
   end
 
   # GET /approvals/1
   def show
-
   end
 
   # GET /approvals/new
   def new
-    @approval = Approval.new(course_id: @course.id, user_id: current_user.id, employee_id: current_user.employee_id, response: params[:response], role: params[:role])
+    @approval = Approval.new(user_id: current_user.id, employee_id: current_user.employee_id, response: params[:response], role: params[:role], course_id: params[:course_id], goal_id: params[:goal_id], proof_id: params[:proof_id])
   end
 
   # GET /approvals/1/edit
@@ -63,6 +61,6 @@ class ApprovalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def approval_params
-    params.require(:approval).permit(:course_id, :user_id, :employee_id, :role, :response, :deny_reason)
+    params.require(:approval).permit(:course_id, :goal_id, :proof_id, :user_id, :employee_id, :role, :response, :deny_reason)
   end
 end
