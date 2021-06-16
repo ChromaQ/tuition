@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
   # before_action :get_user_perms?
   # before_action :has_access?
 
+  def set_response_as_json
+    request.format = :json
+  end
+
   private
 
   def require_superuser?

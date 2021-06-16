@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'autocomplete/schools', to: 'autocomplete#schools', constraints: { format: %w[js json] }, as: :autocomplete_schools
+  post 'autocomplete/create_school/:school_name', to: 'autocomplete#create_school', as: :create_school_by_name, constraints: { format: %w[js json] }
+
+
   get 'goals/update_credentials', as: 'update_credentials'
   resources :goals
   resources :credentials

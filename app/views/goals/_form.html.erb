@@ -15,7 +15,8 @@
 
     <div class="form-group">
       <%= f.label :school %>
-      <%= f.collection_select :school_id, School.all, :id, :name %>
+      <%= f.hidden_field :school_id %>
+      <%= f.text_field :school, minLength: 3, data: { 'afterselect' => 'addSchoolToApplication', 'source-query'=> autocomplete_schools_path, provide: 'typeahead', 'field-id' => 'goal_school_id' }, autocomplete: 'off' %>
     </div>
 
 
@@ -27,10 +28,6 @@
       <%= f.select :credential_id, Credential.where(degree_id: @goal.degree_id).collect { |credential| [credential.full_info, credential.id] }, {}, id: 'credentials_select' %>
     </div>
 
-
-
-
-
     <div class="form-group">
       <%= f.label 'Program / Focus / Major / Field of Study' %>
       <%= f.text_field :focus, class: 'form-control' %>
@@ -40,3 +37,15 @@
     <%= f.submit class: "btn btn-secondary" %>
   </div>
 <% end %>
+
+
+<script>
+  function addSchoolToApplication(e){
+    $.post( "/autocomplete/create_school/" + e, function( data ) {
+      $('#goal_school_id').val(data.id);
+    })
+    .fail(function(){
+      $('#goal_school_id').val('');
+    })
+  }
+</script>
