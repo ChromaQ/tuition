@@ -51,6 +51,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mini_racer', platforms: :ruby # C based alternative instead of rubyracer
 gem 'sass-rails'
+gem 'simple_form'
 gem 'sprockets'
 gem 'turbolinks'                   # turbolinks for browsing your application faster
 gem 'uglifier'                     # Use Uglifier as compressor for JavaScript assets
