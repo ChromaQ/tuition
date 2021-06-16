@@ -1,0 +1,83 @@
+variables: # gitlab-ci variables: https://docs.gitlab.com/ee/ci/variables/
+  # Build the registry image based on the current commit, this prevents having to using versioning
+  APP_REGISTRY_PATH: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
+  APP_REGISTRY_LATEST: $CI_REGISTRY_IMAGE:latest
+  GIT_SSL_NO_VERIFY: "true" # Disable GIT_SSL verification, because of self-signed certs
+  TZ: "American/Denver"
+  # => Rails specific
+  BUNDLE_PATH: vendor/cache # Where gems for the application should be installed
+  DISABLE_SPRING: 1         # SPRING tends to cause issues with alot of Rails apps
+  RAILS_ENV: "test"         # Default RAILS_ENV because about half the environemnts are testing
+
+cache:  # cache gems and yarn packages across the several build stages
+  paths:
+    - vendor/       # Cache gems across the builds
+    - node_modules  # Cache yarn packages across builds
+
+stages:
+  - build           # for building your applications container image
+  - deploy_staging  # only deploy staging
+  - deploy_prod     # deploy the applications container to either prod
+
+# Build the docker image for the application
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - name: uh-registry.health.unm.edu/devgroup/unmh_dind:latest
+      command: ["--experimental"]
+  variables:
+    # We use the overlay driver for improved performance.
+    # See: https://docs.gitlab.com/ce/ci/docker/using_docker_build.html#using-the-overlayfs-driver
+    DOCKER_DRIVER: overlay
+    RAILS_ENV: production
+  before_script:
+    - touch .env # prevents an error where docker-compose tries to move a non-existant file.
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  script:
+    - docker build --compress --squash --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY --build-arg RAILS_ENV=$RAILS_ENV -t $APP_REGISTRY_PATH -t $APP_REGISTRY_LATEST .
+    - docker push $APP_REGISTRY_PATH && docker push $APP_REGISTRY_LATEST
+    - docker rmi -f $APP_REGISTRY_PATH && docker rmi -f $APP_REGISTRY_LATEST
+  only:
+    - staging
+    - master
+
+deploy_staging: # Deploy the rails applications docker image to staging
+   stage: deploy_staging
+   # A docker image with SSH keys added to conenct to staging -> https://git.health.unm.edu/devgroup/docker_base
+   image: uh-registry.health.unm.edu/devgroup/docker_base:latest
+   services:
+     - uh-registry.health.unm.edu/devgroup/unmh_dind:latest
+   variables:
+     DEPLOYMENT_SERVER: uh-staging3.health.unm.edu
+     RAILS_ENV: staging
+     SUBDOMAIN: staging        # default deployment environment for: *.health.unm.edu
+     REPLICAS: 1               # default number of the replicas for the application
+   before_script:
+     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+   script:
+     - echo $CI_REGISTRY_PASSWORD | docker -H ssh://root@$DEPLOYMENT_SERVER login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+     - docker -H ssh://root@$DEPLOYMENT_SERVER pull $APP_REGISTRY_PATH
+     - docker -H ssh://root@$DEPLOYMENT_SERVER stack deploy $SERVICE_NAME -c docker-stack.yml --resolve-image=always --with-registry-auth
+   only:
+     - staging
+
+deploy_prod: # Deploy the rails applications docker image to production
+  stage: deploy_prod
+  # A docker image with SSH keys added to conenct to staging -> https://git.health.unm.edu/devgroup/docker_base
+  image: uh-registry.health.unm.edu/devgroup/docker_base:latest
+  services:
+    - uh-registry.health.unm.edu/devgroup/unmh_dind:latest
+  variables:
+    DEPLOYMENT_SERVER: uh-web-prod1.health.unm.edu
+    RAILS_ENV: production
+    SUBDOMAIN: uhapps        # default deployment environment for: *.health.unm.edu
+    REPLICAS: 2               # default number of the replicas for the application
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker -H ssh://root@$DEPLOYMENT_SERVER login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker -H ssh://root@$DEPLOYMENT_SERVER pull $APP_REGISTRY_PATH
+    - docker -H ssh://root@$DEPLOYMENT_SERVER stack deploy $SERVICE_NAME -c docker-stack.yml --resolve-image=always --with-registry-auth
+  only:
+    - master

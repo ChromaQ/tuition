@@ -2,11 +2,11 @@
 #
 # Table name: impressions
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  target_id  :integer
-#  user_id    :integer
+#  user_id    :bigint
 #
 # Indexes
 #
@@ -14,7 +14,7 @@
 #
 # Foreign Keys
 #
-#  user_id  (user_id => users.id)
+#  fk_rails_...  (user_id => users.id)
 #
 FactoryBot.define do
   factory :impression do

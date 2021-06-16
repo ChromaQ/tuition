@@ -2,15 +2,15 @@
 #
 # Table name: proofs
 #
-#  id          :integer          not null, primary key
-#  deny_reason :string
+#  id          :bigint           not null, primary key
+#  deny_reason :string(4000)
 #  grade       :boolean
 #  receipt     :boolean
 #  response    :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  approver_id :integer
-#  course_id   :integer
+#  approver_id :bigint
+#  course_id   :bigint
 #
 # Indexes
 #
@@ -19,8 +19,8 @@
 #
 # Foreign Keys
 #
-#  approver_id  (approver_id => users.id)
-#  course_id    (course_id => courses.id)
+#  fk_rails_...  (approver_id => users.id)
+#  fk_rails_...  (course_id => courses.id)
 #
 FactoryBot.define do
   factory :proof do

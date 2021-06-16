@@ -4,19 +4,19 @@
 #
 # Table name: courses
 #
-#  id           :integer          not null, primary key
+#  id           :bigint           not null, primary key
 #  cost         :float
-#  course_short :string
-#  course_title :string
+#  course_short :string(4000)
+#  course_title :string(4000)
 #  credit_hours :integer
 #  end_date     :datetime
 #  start_date   :datetime
 #  status       :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  employee_id  :string
-#  goal_id      :integer
-#  user_id      :integer
+#  employee_id  :string(4000)
+#  goal_id      :bigint
+#  user_id      :bigint
 #
 # Indexes
 #
@@ -25,7 +25,8 @@
 #
 # Foreign Keys
 #
-#  goal_id  (goal_id => goals.id)
+#  fk_rails_...  (goal_id => goals.id)
+#  fk_rails_...  (user_id => users.id)
 #
 class Course < ApplicationRecord
   # == Relationships ==================================

@@ -4,22 +4,22 @@
 #
 # Table name: users
 #
-#  id                 :integer          not null
-#  company            :string
+#  id                 :bigint           not null
+#  company            :string(4000)
 #  current_sign_in_at :datetime
-#  current_sign_in_ip :string
-#  displayname        :string
-#  email              :string
+#  current_sign_in_ip :string(4000)
+#  displayname        :string(4000)
+#  email              :string(4000)
 #  hr_access          :boolean
 #  last_sign_in_at    :datetime
-#  last_sign_in_ip    :string
+#  last_sign_in_ip    :string(4000)
 #  manager_access     :boolean
 #  sign_in_count      :integer          default(0), not null
 #  superuser          :boolean          default(FALSE)
-#  username           :string           not null
+#  username           :string(4000)     not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  employee_id        :string
+#  employee_id        :string(4000)
 #
 # Indexes
 #

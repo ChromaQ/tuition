@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  app:
+    image: "${APP_REGISTRY_PATH}"
+    environment:
+      - RAILS_SERVE_STATIC_FILES=true
+      - RAILS_ENV=${RAILS_ENV}
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - RAILS_LOG_TO_STDOUT=false
+    deploy:
+      replicas: ${REPLICAS}      # up this number if it's a high demand application
+      update_config:
+        parallelism: 1
+        delay: 30s
+      resources:
+        limits:
+          cpus: '0.5' # set the max CPU's usage limit as 50%
+          memory: 1G  # set the max Memory limit as 2g
+      labels:
+        - "traefik.backend=${SERVICE_NAME}"
+        - "traefik.backend.loadbalancer.swarm=true"
+        - "traefik.backend.loadbalancer.method=drr"
+        - "traefik.docker.network=traefik_proxy"
+        - "traefik.enable=true"
+        - "traefik.frontend.rule=Host:${SERVICE_NAME}.${SUBDOMAIN}.health.unm.edu"
+        - "traefik.port=3000"
+      placement:
+        constraints: [node.role == worker]
+    networks:
+      - traefik_proxy
+      - default
+    logging:
+      driver: none
+
+networks:
+  traefik_proxy:
+    external: true
+    # driver: overlay

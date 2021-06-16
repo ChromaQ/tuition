@@ -2,14 +2,14 @@
 #
 # Table name: goals
 #
-#  id            :integer          not null, primary key
+#  id            :bigint           not null, primary key
 #  active        :boolean          default(TRUE)
-#  focus         :string
+#  focus         :string(4000)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  credential_id :integer
-#  school_id     :integer
-#  user_id       :integer
+#  credential_id :bigint
+#  school_id     :bigint
+#  user_id       :bigint
 #
 # Indexes
 #
@@ -19,9 +19,9 @@
 #
 # Foreign Keys
 #
-#  credential_id  (credential_id => credentials.id)
-#  school_id      (school_id => schools.id)
-#  user_id        (user_id => users.id)
+#  fk_rails_...  (credential_id => credentials.id)
+#  fk_rails_...  (school_id => schools.id)
+#  fk_rails_...  (user_id => users.id)
 #
 require 'rails_helper'
 

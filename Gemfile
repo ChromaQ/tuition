@@ -18,13 +18,9 @@ gem 'mini_magick', '~> 4.11' # Manipulate images with minimal use of memory
 ##############################
 ### Database
 ##############################
-group :development, :production, :staging do
-  gem 'activerecord-oracle_enhanced-adapter', '~> 6.0'
-  gem 'ruby-oci8', require: 'oci8' # only for CRuby users
-end
-group :development, :production, :staging do
-  gem 'activerecord-sqlserver-adapter', '~> 6.0'
-end
+gem 'activerecord-oracle_enhanced-adapter', '~> 6.0'
+gem 'ruby-oci8', require: 'oci8' # only for CRuby users
+gem 'activerecord-sqlserver-adapter', '~> 6.0'
 gem 'sqlite3'
 gem 'rails-erd', group: :development # Generate an application ERD
 gem 'ransack', github: 'activerecord-hackery/ransack' # forms searching and manipulation, sort table data
@@ -77,7 +73,6 @@ gem 'meta-tags'              #  Used for adding dynamic titles when switching be
 gem 'actionmailer'           # For email sending, previews, and templates
 gem 'unmh-ldap', unmh: 'unmh-ldap'  # An ldap helper gem, used for searching UNMH/LDAP by users, groups, etc.
 # Require the unmh-stats gem in the applications gemfile
-git_source(:unmh){ |repo| "git@git.health.unm.edu:devgroup/#{repo}.git"}
 gem 'unmh-stats', unmh: 'unmh-stats'
 gem 'unmh-app_mail', unmh: 'unmh-app_mail'
 gem 'rest-client' # HTTP Client - make external API calls
