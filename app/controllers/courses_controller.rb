@@ -17,8 +17,8 @@ class CoursesController < ApplicationController
 
   # GET /courses/new
   def new
-    @course = Course.new(user_id: current_user.id, employee_id: current_user.employee_id, status: 'draft')
-    @goal = Goal.includes(:credential, :school).references(:credential, :school).where(user_id: current_user.id)
+    @goal = Goal.includes(:credential, :school).references(:credential, :school).where(user_id: current_user.id, active: 1)
+    @course = Course.new(user_id: current_user.id, employee_id: current_user.employee_id, status: 'draft', goal_id: @goal.first.id)
   end
 
   # GET /courses/1/edit
