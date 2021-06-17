@@ -3,7 +3,7 @@
 <table class="table table-striped table-hover table-sm">
   <thead>
     <tr>
-      <th scope="col">Course</th>
+      <th scope="col">Approval Type</th>
       <th scope="col">Employee</th>
       <th scope="col">Role</th>
       <th scope="col">Response</th>
@@ -15,18 +15,25 @@
   <tbody>
     <% @approvals.each do |approval| %>
       <tr>
-        <td><%= link_to approval.course&.course_title, approval.course %></td>
+        <td>
+          <% if approval.course_id %>
+            <%= link_to approval.course&.course_title, approval.course %>
+            <% elsif approval.goal_id %>
+            <%= link_to approval.goal&.goal_details, approval.goal %>
+            <% elsif approval.proof_id %>
+            <%= link_to approval.proof&.document.filename, approval.proof %>
+            <% else %>
+            Unknown
+            <% end %>
+        </td>
         <td><%= approval.user.username %></td>
         <td><%= approval.role %></td>
         <td><%= approval.response %></td>
         <td><%= approval.deny_reason %></td>
         <td><%= link_to 'Show', approval %></td>
         <td><%= link_to 'Edit', edit_approval_path(approval) %></td>
-        <td><%= link_to 'Destroy', approval, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', approval, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-<%= link_to 'New Approval', new_approval_path %>
