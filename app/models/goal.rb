@@ -38,6 +38,7 @@ class Goal < ApplicationRecord
   validates :credential_id, presence: true
   validates :user_id, presence: true
   validates :school_id, presence: true
+  validates :focus, presence: true, unless: proc { |goal| goal.credential.auto_approve? }
 
 
   def goal_details
@@ -45,7 +46,7 @@ class Goal < ApplicationRecord
   end
 
   def degree_id
-    self.credential&.degree_id || @degree_id
+    credential&.degree_id || @degree_id
   end
 
   def degree_id=(degree_id)

@@ -63,6 +63,7 @@
         <div class="col text-center">
           <%= link_to '+ Create a New Educational Goal', new_goal_path, class:"btn btn-sm btn-secondary" %>
           <% if @user.employee.eligible? && !@goals.blank? %>
+            <!-- TODO: if user has only one goal, just select that goal when they create a new course request -->
             <%= link_to '+ Create a New Course Reimbursement Request', new_course_path, class:"btn btn-sm btn-primary" %>
           <% end %>
         </div>
@@ -74,7 +75,7 @@
             <div class='row align-items-center'>
               <div class="col-3"><%= goal.credential.name %> - <%= goal.credential.description %></div>
               <div class="col-3"><%= goal.school.name %></div>
-              <div class="col-3">Focus: <%= goal.focus %></div>
+              <div class="col-3"><%= goal.focus? ? ('Focus: ' + goal.focus) : '' %></div>
               <% if goal.active? %>
                 <div class="col-1 text-success">Active Goal</div>
               <% else %>

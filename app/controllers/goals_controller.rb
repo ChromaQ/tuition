@@ -26,7 +26,7 @@ class GoalsController < ApplicationController
     @goal = Goal.new(goal_params)
 
     if @goal.save
-      redirect_to @goal, notice: 'Goal was successfully created.'
+      redirect_to @goal, notice: 'Education Goal was successfully created.'
     else
       render :new
     end
@@ -35,7 +35,7 @@ class GoalsController < ApplicationController
   # PATCH/PUT /goals/1
   def update
     if @goal.update(goal_params)
-      redirect_to @goal, notice: 'Goal was successfully updated.'
+      redirect_to @goal, notice: 'Education Goal was successfully updated.'
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class GoalsController < ApplicationController
   # DELETE /goals/1
   def destroy
     @goal.destroy
-    redirect_to @goal.user, notice: 'Goal was successfully destroyed.'
+    redirect_to @goal.user, notice: 'Education Goal was successfully deleted.'
   end
 
   # for use in adding credentials to a goal by changing the degree type
