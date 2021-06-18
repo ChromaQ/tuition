@@ -4,45 +4,43 @@
       <li class="breadcrumb-item active" aria-current="page">User List</li>
     </ol>
   </nav>
-  <div class="container">
-    <h1 class="text-center mb-3"><%= title('Application Users') %></h1>
-    <table class="table table-sm table-hover mx-auto" id="user-index">
-      <thead class="thead">
+  <h1 class="text-center mb-3"><%= title('Application Users') %></h1>
+  <table class="table table-sm table-hover mx-auto" style="width:auto" id="user-index">
+    <thead class="thead">
+      <tr>
+        <th><%= sort_link(@q, :displayname, 'Name') %></th>
+        <th><%= sort_link(@q, :username) %></th>
+        <th><%= sort_link(@q, :employee_id, 'Employer + ID #') %></th>
+        <th>Roles</th>
+        <th># Requests</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="users-list">
+      <% @users.each do |user| %>
         <tr>
-          <th><%= sort_link(@q, :displayname, 'Name') %></th>
-          <th><%= sort_link(@q, :username) %></th>
-          <th><%= sort_link(@q, :employee_id, 'Employer + ID #') %></th>
-          <th>Roles</th>
-          <th># Requests</th>
-          <th>Actions</th>
+          <td><%= link_to user.displayname, user %></td>
+          <td><%= user.username %></td>
+          <td><%= user.company %>: <%= user.employee_id %></td>
+          <td>
+            <% if user.superuser? %>
+              <span class="badge badge-pill badge-secondary">Dev Team</span>
+              <% elsif user.hr_access? %>
+              <span class="badge badge-pill badge-primary">HR</span>
+             <% end %>
+            <% if user.manager? %>
+              <span class="badge badge-pill badge-primary">Manager</span>
+              <% end %>
+          </td>
+          <td><%= user.courses.size %></td>
+          <td><%= link_to 'View', user, class: 'btn btn-sm btn-primary' %>
+            <% if current_user == user %>
+            (That's you!)
+          <% elsif current_user.superuser? %>
+            <%=  link_to 'Impersonate', user_impersonation_path(username: user.username), method: :post, class: 'btn btn-sm btn-secondary'  %>
+          <% end %>
+          </td>
         </tr>
-      </thead>
-      <tbody id="users-list">
-        <% @users.each do |user| %>
-          <tr>
-            <td><%= link_to user.displayname, user %></td>
-            <td><%= user.username %></td>
-            <td><%= user.company %>: <%= user.employee_id %></td>
-            <td>
-              <% if user.superuser? %>
-                <span class="badge badge-pill badge-secondary">Dev Team</span>
-                <% elsif user.hr_access? %>
-                <span class="badge badge-pill badge-primary">HR</span>
-               <% end %>
-              <% if user.manager? %>
-                <span class="badge badge-pill badge-primary">Manager</span>
-                <% end %>
-            </td>
-            <td><%= user.courses.size %></td>
-            <td><%= link_to 'View', user, class: 'btn btn-sm btn-primary' %>
-              <% if current_user == user %>
-              (That's you!)
-            <% elsif current_user.superuser? %>
-              <%=  link_to 'Impersonate', user_impersonation_path(username: user.username), method: :post, class: 'btn btn-sm btn-secondary'  %>
-            <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+      <% end %>
+    </tbody>
+  </table>

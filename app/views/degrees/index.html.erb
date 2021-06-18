@@ -1,10 +1,10 @@
-<h1><%= title('Degrees') %></h1>
+<h1 class="text-center"><%= title('Degrees') %></h1>
 
-<table class="table table-striped table-hover table-sm">
+<table class="table table-hover table-sm mx-auto" style="width:auto">
   <thead>
     <tr>
       <th scope="col">Degree</th>
-      <th colspan="3" scope="col"></th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
 
@@ -12,9 +12,11 @@
     <% @degrees.each do |degree| %>
       <tr>
         <td><%= degree.name %></td>
-        <td><%= link_to 'Show', degree %></td>
-        <td><%= link_to 'Edit', edit_degree_path(degree) %></td>
-        <td><%= link_to 'Destroy', degree, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= link_to 'Show', degree, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to 'Edit', edit_degree_path(degree), class: 'btn btn-sm btn-outline-secondary' %>
+          <%#= link_to 'Delete', degree, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger' %>
+        </td>
       </tr>
     <% end %>
   </tbody>
