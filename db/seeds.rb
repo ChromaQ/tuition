@@ -137,7 +137,7 @@ credentials = [
                            "auto_approve": true
                        },
                        {
-                           "name": "B.S.",
+                           "name": "B.S. or S.B.",
                            "description": "Bachelor of Science",
                            "degree_id": 4,
                            "auto_approve": false
@@ -293,7 +293,7 @@ credentials = [
                            "auto_approve": true
                        },
                        {
-                           "name": "J.D.",
+                           "name": "J.D. or LL.D.",
                            "description": "Doctor of Laws",
                            "degree_id": 6,
                            "auto_approve": true
@@ -309,12 +309,6 @@ credentials = [
                            "description": "Doctor of Humane Letters",
                            "degree_id": 6,
                            "auto_approve": false
-                       },
-                       {
-                           "name": "LL.D.",
-                           "description": "Doctor of Laws",
-                           "degree_id": 6,
-                           "auto_approve": true
                        },
                        {
                            "name": "M.D.",
@@ -485,13 +479,7 @@ credentials = [
                            "auto_approve": true
                        },
                        {
-                           "name": "M.Th.",
-                           "description": "Master of Theology",
-                           "degree_id": 5,
-                           "auto_approve": false
-                       },
-                       {
-                           "name": "Th.M.",
+                           "name": "M.Th. or Th.M.",
                            "description": "Master of Theology",
                            "degree_id": 5,
                            "auto_approve": false
