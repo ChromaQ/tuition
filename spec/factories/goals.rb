@@ -5,6 +5,7 @@
 #  id            :bigint           not null, primary key
 #  active        :boolean          default(TRUE)
 #  focus         :string(4000)
+#  status        :integer          default(0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  credential_id :bigint

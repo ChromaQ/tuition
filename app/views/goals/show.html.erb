@@ -10,9 +10,11 @@
     <dt class="col-sm-2 offset-sm-3">Degree:</dt>
     <dd class="col-sm-6"><%= @goal.credential&.name %> - <%= @goal.credential&.description %></dd>
     <dt class="col-sm-2 offset-sm-3">Focus:</dt>
-    <dd class="col-sm-6"><%= @goal.focus %></dd>
+    <dd class="col-sm-6"><%= @goal.focus? ? @goal.focus : 'N/A or not required' %></dd>
     <dt class="col-sm-2 offset-sm-3">School:</dt>
     <dd class="col-sm-6"><%= @goal.school.name %></dd>
+    <dt class="col-sm-2 offset-sm-3">Goal Status:</dt>
+    <dd class="col-sm-6"><%= @goal.status&.titleize %></dd>
 
   </dl>
   <div class="text-center">

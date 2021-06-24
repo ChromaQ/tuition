@@ -52,7 +52,7 @@ class ApprovalsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_approval
-    @approval = Approval.includes(:course).references(:user, :course, :goal, goal: [:user]).find(params[:id])
+    @approval = Approval.includes(:course, :goal, :proof).references(:user, :course, :goal, :proof).find(params[:id])
   end
 
   def set_course

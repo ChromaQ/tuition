@@ -14,7 +14,7 @@ class GoalsController < ApplicationController
 
   # GET /goals/new
   def new
-    @goal = Goal.new(user_id: current_user.id, degree_id: 3)
+    @goal = Goal.new(user_id: current_user.id, degree_id: 3, status: 0)
   end
 
   # GET /goals/1/edit
@@ -64,6 +64,6 @@ class GoalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def goal_params
-    params.require(:goal).permit(:focus, :active, :user_id, :school_id, :credential_id, :degree_id)
+    params.require(:goal).permit(:focus, :active, :user_id, :school_id, :credential_id, :degree_id, :status)
   end
 end
