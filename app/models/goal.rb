@@ -7,6 +7,7 @@
 #  id            :bigint           not null, primary key
 #  active        :boolean          default(TRUE)
 #  focus         :string(4000)
+#  status        :integer          default(0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  credential_id :bigint
@@ -34,6 +35,12 @@ class Goal < ApplicationRecord
   has_many :courses
   has_many :approvals
 
+  attr_writer :degree_id
+
+  # attr_reader :school_name
+
+  enum status: { draft: 0, pending: 1, denied: 2, auto_approved: 3, hr_approved: 4, withdrawn: 5 }
+
   # == Validations ====================================
   validates :credential_id, presence: true
   validates :user_id, presence: true
@@ -45,6 +52,10 @@ class Goal < ApplicationRecord
     "#{credential.name}" ' - ' "#{credential.description}" ' from ' "#{school.name}"
   end
 
+  def school_name
+    self.school&.name
+  end
+
   def degree_id
     credential&.degree_id || @degree_id
   end
@@ -53,5 +64,15 @@ class Goal < ApplicationRecord
     @degree_id = degree_id
   end
 
+  # once hr approves goal, update goal status to approved after creating an approval record
+  def approve_course(approved_by)
+    approval = Approval.new(goal_id: self.id, user_id: approved_by.id, employee_id: approved_by.employee_id, response: 'approved', role: 'human_resources')
+    if approval.save
+      self.approved!
+      true
+    else
+      false
+    end
+  end
 
 end
