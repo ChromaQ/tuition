@@ -16,7 +16,6 @@
     <div class="form-group">
       <%= f.label 'University or College', class: 'required col-form-label has-danger' %>
       <%= f.hidden_field :school_id %>
-      <!-- TODO: need to make this resolve to the actual school name on the "edit" function -->
       <%= f.text_field :school_name, minLength: 3, data: { 'afterselect' => 'addSchoolToApplication', 'source-query'=> autocomplete_schools_path, provide: 'typeahead', 'field-id' => 'goal_school_id' }, autocomplete: 'off', class: 'form-control', placeholder: 'Type in Institution Name', required: true %>
       <div class="invalid-feedback" id="error_explanation">Must provide name of an accredited educational institution, such as: University of New Mexico - Main Campus.</div>
     </div>
@@ -35,10 +34,14 @@
       <%= f.text_field :focus, class: 'form-control' %>
     </div>
 
-  <%= f.radio_button(:status, 'pending') %>
-  <%= f.label :status, 'Submit for approval', value: 'pending' %><br>
-  <%= f.radio_button(:status, 'draft') %>
-  <%= f.label :status, 'Create as a draft to submit later', value: 'draft' %><br>
+  <% if !@goal.id %>
+    <%= f.radio_button(:status, 'pending') %>
+    <%= f.label :status, 'Submit for approval', value: 'pending' %><br>
+    <%= f.radio_button(:status, 'draft') %>
+    <%= f.label :status, 'Create as a draft to submit later', value: 'draft' %><br>
+    <% else %>
+    <%= f.hidden_field :status %>
+    <% end %>
 
   <div class="form-group">
 

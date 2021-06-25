@@ -3,8 +3,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
-    <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
-    <%= link_to 'Request Details', @approval.course, class: 'li breadcrumb-item' %>
+    <%= link_to 'Request Details', @approval.course || @approval.goal, class: 'li breadcrumb-item' %>
     <li class="breadcrumb-item active" aria-current="page">Response Details</li>
   </ol>
 </nav>
@@ -12,10 +11,20 @@
 <h1 class="text-center">Details of Response</h1>
 
 <dl>
-  <dt>Course:</dt>
-  <dd><%= @approval.course.course_title %></dd>
-  <dt>Requested By:</dt>
-  <dd><%= @approval.course.goal.user.displayname %></dd>
+  <% if @approval.course_id %>
+    <dt>Course:</dt>
+    <dd><%= @approval.course.course_title %></dd>
+    <dt>Requested By:</dt>
+    <dd><%= @approval.course.goal.user.displayname %></dd>
+    <% end %>
+
+  <% if @approval.goal_id %>
+    <dt>Goal:</dt>
+    <dd><%= @approval.goal.goal_details %></dd>
+    <dt>Requested By:</dt>
+    <dd><%= @approval.goal.user.displayname %></dd>
+    <% end %>
+
   <dt>Response From:</dt>
   <dd><%= @approval.user.displayname %></dd>
   <dt>Role:</dt>

@@ -1,5 +1,5 @@
 class GoalsController < ApplicationController
-  before_action :set_goal, only: [:show, :edit, :update, :destroy]
+  before_action :set_goal, only: [:show, :edit, :update, :destroy, :submit, :approve]
 
   # GET /goals
   def index
@@ -45,6 +45,27 @@ class GoalsController < ApplicationController
   def destroy
     @goal.destroy
     redirect_to @goal.user, notice: 'Education Goal was successfully deleted.'
+  end
+
+  # Submit goal for review - if the credential is auto-approvable, status becomes "auto-approved"; else status becomes "pending" for HR review.
+  def submit
+    if @goal.credential.auto_approve == true
+      @goal.auto_approved!
+      redirect_to @goal, notice: 'Your goal has been approved automatically. Good luck with your studies!'
+    else
+      @goal.pending!
+      redirect_to @goal, notice: 'Your goal has been submitted to Human Resources for review.'
+    end
+  end
+
+  # Triggers when HR approves the educational goal
+  def approve
+    if @goal.approve_goal(current_user)
+      # UserMailer.with(course: @course, user: @course.goal.user).approve.deliver_now
+      redirect_to @goal, notice: 'Thanks! Your approval for this educational goal has been logged.'
+    else
+      redirect_to @goal, notice: 'Approval did not complete - Sorry about that! Please reload the page and try again.'
+    end
   end
 
   # for use in adding credentials to a goal by changing the degree type

@@ -1,4 +1,15 @@
 <%- title('Goal') %>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
+    <% if current_user.admin? %>
+      <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
+    <% else %>
+      <%= link_to @course.goal.user.displayname, user_path(@course.goal.user), class: 'li breadcrumb-item' %>
+    <% end %>
+    <li class="breadcrumb-item active" aria-current="page">Request Details</li>
+  </ol>
+</nav>
 <div class="container">
   <h2 class="text-center">Educational Goal for <%= link_to @goal.user.displayname, @goal.user %></span></h2>
   <% if @goal.active? %>
@@ -15,10 +26,64 @@
     <dd class="col-sm-6"><%= @goal.school.name %></dd>
     <dt class="col-sm-2 offset-sm-3">Goal Status:</dt>
     <dd class="col-sm-6"><%= @goal.status&.titleize %></dd>
-
   </dl>
-  <div class="text-center">
-    <%= link_to 'Edit', edit_goal_path(@goal), class: 'btn btn-sm btn-outline-secondary' %>
-    <%= link_to 'Back', user_path(@goal.user), class: 'btn btn-sm btn-outline-primary' %>
-  </div>
+
+  <% if @goal.user == current_user %>
+    <div class="row justify-content-center">
+      <div class="btn-group mb-2">
+        <% if @goal.status == 'draft' %>
+          <%= link_to 'Submit Goal', submit_goal_path(@goal),  class: 'btn btn-secondary mr-1' %>
+        <% end %>
+        <%= link_to 'Edit', edit_goal_path(@goal), class: 'btn btn-sm btn-outline-secondary mr-1' %>
+        <%= link_to 'Back', user_path(@goal.user), class: 'btn btn-sm btn-outline-primary' %>
+      </div>
+    </div>
+  <% end %>
+
+  <h3 class="text-center mt-4">Approvals / Denials</h3>
+  <% if current_user.admin? %>
+    <div class="row justify-content-center">
+      <div class="btn-group mb-2">
+        <%= button_to 'HR: Approve Goal', approve_goal_path(@goal), method: :post, class: "btn btn-sm btn-outline-primary mr-1" %>
+        <%= link_to 'HR: Deny Goal', new_approval_path(goal_id: @goal.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-outline-warning" %>
+      </div>
+    </div>
+  <% end %>
+
+
+  <% if @goal.approvals.blank? %>
+    <p class="text-center mt-2">No approvals or denials logged yet.</p>
+  <% else %>
+    <table class="table table-sm table-hover table-sm">
+      <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Employee</th>
+        <th scope="col">Role</th>
+        <th scope="col">Response</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @goal.approvals.each do |approval| %>
+        <tr>
+          <td><%= approval.created_at.to_s(:datetime) %></td>
+          <td><%= approval.user.displayname %></td>
+          <td><%= approval.role&.titleize %></td>
+          <td><%= approval.response.titleize %>
+            <% if approval.deny_reason %>
+              - <%= approval.deny_reason %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'Show', approval, class: 'btn btn-sm btn-outline-primary' %>
+            <%= link_to 'Edit', edit_approval_path(approval), class: 'btn btn-sm btn-outline-secondary' %>
+            <%= link_to 'Delete', approval, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-warning' %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div>

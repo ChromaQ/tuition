@@ -11,32 +11,30 @@
   </ol>
 </nav>
 <h1 class="text-center pb-1">Tuition Reimbursement Request</h1>
-<div class="container">
-  <dl class="row justify-content-center">
-    <dt class="col-sm-3 offset-sm-3">From Employee:</dt>
-    <dd class="col-sm-6"><%= link_to @course.goal.user.displayname, user_path(@course.user_id) %> </dd>
-    <dt class="col-sm-3 offset-sm-3">Educational Goal:</dt>
-    <dd class="col-sm-6"><%= link_to @course.goal&.goal_details, @course.goal %></dd>
-    <dt class="col-sm-3 offset-sm-3">Status of Request:</dt>
-    <dd class="col-sm-6"><%= @course.status&.titleize %></dd>
-    <dt class="col-sm-3 offset-sm-3">Course title:</dt>
-    <dd class="col-sm-6"><%= @course.course_title %></dd>
-    <dt class="col-sm-3 offset-sm-3">Course Identifier:</dt>
-    <dd class="col-sm-6"><%= @course.course_short %></dd>
-    <dt class="col-sm-3 offset-sm-3">Credit hours:</dt>
-    <dd class="col-sm-6"><%= @course.credit_hours %></dd>
-    <dt class="col-sm-3 offset-sm-3">Estimated Start date:</dt>
-    <dd class="col-sm-6"><%= @course.start_date.to_s(:fancy) %></dd>
-    <dt class="col-sm-3 offset-sm-3">Estimated End date:</dt>
-    <dd class="col-sm-6"><%= @course.end_date.to_s(:fancy) %></dd>
-    <dt class="col-sm-3 offset-sm-3">Estimated Cost:</dt>
-    <dd class="col-sm-6"><%= number_to_currency(@course.cost) %></dd>
-    <dt class="col-sm-3 offset-sm-3">Request Created On:</dt>
-    <dd class="col-sm-6"><%= @course.created_at.to_s(:datetime) %></dd>
-    <dt class="col-sm-3 offset-sm-3">Last Updated On:</dt>
-    <dd class="col-sm-6"><%= @course.updated_at.to_s(:datetime) %></dd>
-  </dl>
-</div>
+<dl class="row justify-content-center">
+  <dt class="col-sm-2 offset-sm-3">From Employee:</dt>
+  <dd class="col-sm-6"><%= link_to @course.goal.user.displayname, user_path(@course.user_id) %> </dd>
+  <dt class="col-sm-2 offset-sm-3">Educational Goal:</dt>
+  <dd class="col-sm-6"><%= link_to @course.goal&.goal_details, @course.goal %> <span class="badge badge-pill badge-secondary "><%= @course.goal.status %></span></dd>
+  <dt class="col-sm-2 offset-sm-3">Status of Request:</dt>
+  <dd class="col-sm-6"><%= @course.status&.titleize %></dd>
+  <dt class="col-sm-2 offset-sm-3">Course title:</dt>
+  <dd class="col-sm-6"><%= @course.course_title %></dd>
+  <dt class="col-sm-2 offset-sm-3">Course Identifier:</dt>
+  <dd class="col-sm-6"><%= @course.course_short %></dd>
+  <dt class="col-sm-2 offset-sm-3">Credit hours:</dt>
+  <dd class="col-sm-6"><%= @course.credit_hours %></dd>
+  <dt class="col-sm-2 offset-sm-3">Estimated Start date:</dt>
+  <dd class="col-sm-6"><%= @course.start_date.to_s(:fancy) %></dd>
+  <dt class="col-sm-2 offset-sm-3">Estimated End date:</dt>
+  <dd class="col-sm-6"><%= @course.end_date.to_s(:fancy) %></dd>
+  <dt class="col-sm-2 offset-sm-3">Estimated Cost:</dt>
+  <dd class="col-sm-6"><%= number_to_currency(@course.cost) %></dd>
+  <dt class="col-sm-2 offset-sm-3">Request Created On:</dt>
+  <dd class="col-sm-6"><%= @course.created_at.to_s(:datetime) %></dd>
+  <dt class="col-sm-2 offset-sm-3">Last Updated On:</dt>
+  <dd class="col-sm-6"><%= @course.updated_at.to_s(:datetime) %></dd>
+</dl>
 <div class="row justify-content-center">
   <div class="col-auto">
     <div class="btn-group">
@@ -52,14 +50,14 @@
 
   <div class="row">
     <div class="col-6 text-right">
-      <div class="btn-group">
-        <%= button_to 'Approve Request (Manager)', approvals_path,  params: {approval: {course_id: @course.id, employee_id: current_user.employee_id, response: "approved", role: "manager"}}, method: :post, class: "btn btn-sm btn-primary mr-1" %>
-        <%= button_to 'Approve Request (HR)', approve_path(@course), method: :post, class: "btn btn-sm btn-primary" %>
+      <div class="btn-group mb-2">
+        <%= button_to 'Manager: Approve Request', approve_path(@course), method: :post, class: "btn btn-sm btn-outline-primary mr-1" %>
+        <%#= button_to 'Approve Request (HR)', approve_path(@course), method: :post, class: "btn btn-sm btn-primary" %>
       </div>
     </div>
     <div class="col-6">
-      <%= link_to 'Deny Request (Manager)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "manager"), class: "btn btn-sm btn-warning" %>
-      <%= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
+      <%= link_to 'Manager: Deny Request', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "manager"), class: "btn btn-sm btn-outline-warning" %>
+      <%#= link_to 'Deny Request (HR)', new_approval_path(course_id: @course.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
     </div>
   </div>
 

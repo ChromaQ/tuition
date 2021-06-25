@@ -1,10 +1,19 @@
 <%= form_with(model: @approval, local: true) do |f| %>
   <%= errors_for(@approval) %>
-  <h4>Course Title:</h4>
-  <p><%= @approval.course.course_title&.titleize %></p>
-  <h4>Requested By:</h4>
-  <p><%= @approval.course.goal.user.displayname %></p>
-  <%= f.hidden_field :course_id, class: 'form-control' %>
+  <% if @approval.course %>
+    <h4>Course Title:</h4>
+    <p><%= @approval.course.course_title&.titleize %></p>
+    <h4>Requested By:</h4>
+    <p><%= @approval.course.goal.user.displayname %></p>
+    <%= f.hidden_field :course_id, class: 'form-control' %>
+    <% end %>
+  <% if @approval.goal %>
+    <h4>Goal:</h4>
+    <p><%= @approval.goal.goal_details %></p>
+    <h4>Requested By:</h4>
+    <p><%= @approval.goal.user.displayname %></p>
+    <%= f.hidden_field :goal_id, class: 'form-control' %>
+    <% end %>
   <%= f.hidden_field :user_id, class: 'form-control' %>
   <%= f.hidden_field :employee_id, class: 'form-control' %>
   <%= f.hidden_field :role, class: 'form-control' %>
