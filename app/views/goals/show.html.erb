@@ -15,10 +15,51 @@
     <dd class="col-sm-6"><%= @goal.school.name %></dd>
     <dt class="col-sm-2 offset-sm-3">Goal Status:</dt>
     <dd class="col-sm-6"><%= @goal.status&.titleize %></dd>
-
   </dl>
-  <div class="text-center">
+
+  <div class="btn-group">
+    <%= button_to 'Approve Goal (HR)', approve_goal_path(@goal), method: :post, class: "btn btn-sm btn-primary mr-1" %>
+    <%= link_to 'Deny Goal (HR)', new_approval_path(goal_id: @goal.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-warning" %>
+  </div>
+
+  <div class="text-center mb-2">
     <%= link_to 'Edit', edit_goal_path(@goal), class: 'btn btn-sm btn-outline-secondary' %>
     <%= link_to 'Back', user_path(@goal.user), class: 'btn btn-sm btn-outline-primary' %>
   </div>
+
+  <% if @goal.approvals.blank? %>
+    <p class="text-center mt-2">No approvals or denials logged yet.</p>
+  <% else %>
+    <table class="table table-sm table-hover table-sm">
+      <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Employee</th>
+        <th scope="col">Role</th>
+        <th scope="col">Response</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @goal.approvals.each do |approval| %>
+        <tr>
+          <td><%= approval.created_at.to_s(:datetime) %></td>
+          <td><%= approval.user.displayname %></td>
+          <td><%= approval.role&.titleize %></td>
+          <td><%= approval.response.titleize %>
+            <% if approval.deny_reason %>
+              - <%= approval.deny_reason %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'Show', approval, class: 'btn btn-sm btn-outline-primary' %>
+            <%= link_to 'Edit', edit_approval_path(approval), class: 'btn btn-sm btn-outline-secondary' %>
+            <%= link_to 'Delete', approval, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-warning' %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div>

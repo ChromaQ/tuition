@@ -39,7 +39,7 @@ class Goal < ApplicationRecord
 
   # attr_reader :school_name
 
-  enum status: { draft: 0, pending: 1, denied: 2, auto_approved: 3, hr_approved: 4, withdrawn: 5 }
+  enum status: { draft: 0, pending: 1, denied: 2, auto_approved: 3, approved: 4, withdrawn: 5 }
 
   # == Validations ====================================
   validates :credential_id, presence: true
@@ -65,7 +65,7 @@ class Goal < ApplicationRecord
   end
 
   # once hr approves goal, update goal status to approved after creating an approval record
-  def approve_course(approved_by)
+  def approve_goal(approved_by)
     approval = Approval.new(goal_id: self.id, user_id: approved_by.id, employee_id: approved_by.employee_id, response: 'approved', role: 'human_resources')
     if approval.save
       self.approved!

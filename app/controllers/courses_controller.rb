@@ -17,7 +17,7 @@ class CoursesController < ApplicationController
 
   # GET /courses/new
   def new
-    @goal = Goal.includes(:credential, :school).references(:credential, :school).where(user_id: current_user.id, active: 1)
+    @goal = Goal.includes(:credential, :school).references(:credential, :school).where(user_id: current_user.id, active: true)
     @course = Course.new(user_id: current_user.id, employee_id: current_user.employee_id, status: 'draft', goal_id: @goal.first.id)
   end
 
@@ -53,7 +53,7 @@ class CoursesController < ApplicationController
     redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
   end
 
-  # Triggers when someone in HR approves the course request - manager approvals don't count
+  # Triggers when manager approves the request, or someone in HR approves the course request if the user has no manager
   def approve
     if @course.approve_course(current_user)
       UserMailer.with(course: @course, user: @course.goal.user).approve.deliver_now

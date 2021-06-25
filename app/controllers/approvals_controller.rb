@@ -2,7 +2,7 @@
 
 class ApprovalsController < ApplicationController
   before_action :set_approval, only: [:show, :edit, :update, :destroy]
-  before_action :set_course, only: :new
+  # before_action :set_course, only: :new
 
   # GET /approvals
   def index
@@ -55,9 +55,9 @@ class ApprovalsController < ApplicationController
     @approval = Approval.includes(:course, :goal, :proof).references(:user, :course, :goal, :proof).find(params[:id])
   end
 
-  def set_course
-    @course = Course.includes(:goal, goal: :user).references(:user, :goal).find(params[:course_id])
-  end
+  # def set_course
+  #   @course = Course.includes(:goal, goal: :user).references(:user, :goal).find(params[:course_id])
+  # end
 
   # Only allow a trusted parameter "white list" through.
   def approval_params
