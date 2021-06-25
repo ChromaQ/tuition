@@ -33,7 +33,7 @@ class Goal < ApplicationRecord
   belongs_to :school
   belongs_to :credential
   has_many :courses
-  has_many :approvals
+  has_many :approvals, dependent: :destroy
 
   attr_writer :degree_id
 

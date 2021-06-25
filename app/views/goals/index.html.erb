@@ -1,12 +1,17 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
+    <li class="breadcrumb-item active" aria-current="page">Goals List</li>
+  </ol>
+</nav>
 <h1 class="text-center"><%= title('Goals') %></h1>
-
 <table class="table table-hover table-sm mx-auto" style="width:auto">
   <thead>
     <tr>
       <th scope="col"><%= sort_link(@q, :user_displayname, 'Name') %></th>
-      <th scope="col"><%= sort_link(@q, :school_name, 'Institution') %></th>
       <th scope="col"><%= sort_link(@q, :credential_name, 'Credential') %> - <%= sort_link(@q, :credential_description, 'Description') %></th>
       <th scope="col">Focus</th>
+      <th scope="col"><%= sort_link(@q, :school_name, 'Institution') %></th>
       <th scope="col"><%= sort_link(@q, :active) %></th>
       <th scope="col"><%= sort_link(@q, :status) %></th>
       <th scope="col">Actions</th>
@@ -17,15 +22,17 @@
     <% @goals.each do |goal| %>
       <tr>
         <td><%= link_to goal.user.displayname, goal.user %></td>
-        <td><%= goal.school.name %></td>
-        <td><%= goal.credential&.name %> - <%= goal.credential&.description %></td>
+        <td><%= link_to goal.credential&.name, goal %> - <%= link_to goal.credential&.description, goal %></td>
         <td><%= goal.focus %></td>
+        <td><%= goal.school.name %></td>
         <td><%= goal.active? ? 'Yes' : 'No' %></td>
         <td><%= goal.status&.titleize %></td>
         <td class="btn-group">
           <%= link_to 'Show', goal, class: 'btn btn-sm btn-outline-primary mr-1' %>
           <%= link_to 'Edit', edit_goal_path(goal), class: 'btn btn-sm btn-outline-secondary' %>
-          <%= link_to 'Delete', goal, method: :delete, class: 'btn btn-sm btn-outline-warning ml-1', data: { confirm: 'Are you sure you want to delete this goal permanently?' } %>
+          <% if goal.user == current_user && goal.status == 'draft' %>
+            <%= link_to 'Delete', goal, method: :delete, class: 'btn btn-sm btn-outline-warning ml-1', data: { confirm: 'Are you sure you want to delete this goal permanently?' } %>
+            <% end %>
         </td>
       </tr>
     <% end %>
