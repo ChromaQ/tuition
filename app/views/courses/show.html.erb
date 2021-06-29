@@ -62,8 +62,9 @@
   </div>
 
 <% if @course.approvals.blank? %>
-  <p class="text-center mt-2">No approvals or denials logged yet.</p>
+  <p class="text-center mt-2">No approvals or denials logged yet. <strong>Please note that approval of this course does not guarantee reimbursement.</strong></p>
   <% else %>
+  <p class="text-center text-muted"><strong>Please note that approval of this course does not guarantee reimbursement.</strong></p>
   <table class="table table-sm table-hover table-sm">
     <thead>
       <tr>
