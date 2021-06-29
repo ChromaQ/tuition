@@ -56,9 +56,11 @@ class Approval < ApplicationRecord
   end
 
   def approval_type
-    return 'Course' if course?
-    return 'Goal' if goal?
-    return 'Proof' if proof?
+    return :course if course?
+    return :goal if goal?
+    return :proof if proof?
+
+    raise 'Unknown Type'
   end
 
   def manager_approved?
