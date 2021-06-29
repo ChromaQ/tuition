@@ -60,4 +60,13 @@ class Course < ApplicationRecord
     end
   end
 
+  # estimate fiscal year of course - currently based on course end_date value
+  def fiscalyear_estimate
+    time = self.end_date
+    if time.month >= 7
+      (time.year.to_s[2, 2] + (time + 1.year).year.to_s[2, 2]).freeze
+    else
+      ((time - 1.year).year.to_s[2, 2] + time.year.to_s[2, 2]).freeze
+    end
+  end
 end

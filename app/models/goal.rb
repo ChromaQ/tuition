@@ -39,7 +39,7 @@ class Goal < ApplicationRecord
 
   # attr_reader :school_name
 
-  enum status: { draft: 0, pending: 1, denied: 2, auto_approved: 3, approved: 4, withdrawn: 5 }
+  enum status: { pending: 0, auto_approved: 1, denied: 2, approved: 3, draft: 4, withdrawn: 5 }
 
   # == Validations ====================================
   validates :credential_id, presence: true

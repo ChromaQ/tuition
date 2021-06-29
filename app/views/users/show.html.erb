@@ -72,16 +72,19 @@
       <% @goals.each do |goal| %>
         <div class="card mb-2">
           <div class="card-header">
-            <div class='row align-items-center'>
-              <div class="col-3"><%= goal.credential.name %> - <%= goal.credential.description %></div>
+            <div class='row align-items-center justify-content-between'>
+              <div class="col-auto"><%= link_to goal.credential.name, goal %> - <%= link_to goal.credential.description, goal %></div>
               <div class="col-3"><%= goal.school.name %></div>
               <div class="col-3"><%= goal.focus? ? ('Focus: ' + goal.focus) : '' %></div>
-              <% if goal.active? %>
-                <div class="col-1 text-success">Active Goal</div>
-              <% else %>
-                <div class="col-1 text-warning">Inactive Goal</div>
-              <% end %>
-              <div class="col-2">
+              <div class="col-2">Goal Statuses:
+                <% if goal.active? %>
+                  <div class="badge badge-pill badge-success">Active</div>
+                <% else %>
+                  <div class="badge badge-pill badge-danger">Inactive</div>
+                <% end %>
+                <span class="badge badge-pill badge-dark"><%= goal.status&.titleize %></span>
+              </div>
+              <div class="col-auto">
                 <%= link_to 'View', goal, class: 'btn btn-sm btn-primary' %>
                 <%= link_to 'Edit', edit_goal_path(goal), class: 'btn btn-sm btn-secondary' %>
                 <% if goal.courses.blank? %>
@@ -92,7 +95,7 @@
           </div>
           <div class="card-body">
             <% if goal.courses.empty? %>
-              <p class="card-text text-center text-muted"><%= @user.displayname %> has tuition reimbursement requests for this goal yet.</p>
+              <p class="card-text text-center text-muted"><%= @user.displayname %> has not yet made any tuition reimbursement requests for this goal.</p>
             <% else %>
               <div class="card-text">
                 <table class="table table-sm table-hover table-sm">

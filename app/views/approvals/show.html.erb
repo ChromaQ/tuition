@@ -13,14 +13,14 @@
 <dl>
   <% if @approval.course_id %>
     <dt>Course:</dt>
-    <dd><%= @approval.course.course_title %></dd>
+    <dd><%= link_to @approval.course.course_title, @approval.course %></dd>
     <dt>Requested By:</dt>
     <dd><%= @approval.course.goal.user.displayname %></dd>
     <% end %>
 
   <% if @approval.goal_id %>
     <dt>Goal:</dt>
-    <dd><%= @approval.goal.goal_details %></dd>
+    <dd><%= link_to @approval.goal.goal_details, @approval.goal %></dd>
     <dt>Requested By:</dt>
     <dd><%= @approval.goal.user.displayname %></dd>
     <% end %>
