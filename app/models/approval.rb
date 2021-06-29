@@ -40,8 +40,11 @@ class Approval < ApplicationRecord
 
 
   # == Scopes =========================================
-  scope :is_course, -> { where(course_id.present?) }
-  scope :is_goal, -> { where(goal_id.present?) }
+  scope :is_course, -> { where('course_id > 0') }
+  scope :is_goal, -> { where('goal_id > 0') }
+  scope :is_proof, -> { where('proof_id > 0') }
+  scope :is_denied, -> { where(response: 'denied') }
+  scope :is_approved, -> { where(response: 'approved') }
 
   def course?
     course_id?
