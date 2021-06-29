@@ -4,7 +4,7 @@ class GoalsController < ApplicationController
   # GET /goals
   def index
     @q = Goal.ransack(params[:q])
-    @q.sorts = ['updated_at desc'] if @q.sorts.empty?
+    @q.sorts = ['status = pending'] if @q.sorts.empty?
     @goals = @q.result.includes(:user, :credential, :school).references(:user, :credential, :school)
   end
 
