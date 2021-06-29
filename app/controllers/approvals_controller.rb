@@ -6,7 +6,9 @@ class ApprovalsController < ApplicationController
 
   # GET /approvals
   def index
-    @approvals = Approval.all
+    @q = Approval.ransack(params[:q])
+    @q.sorts = ['updated_at desc'] if @q.sorts.empty?
+    @approvals = @q.result.includes(:course, :proof, :user, goal:[:school, :credential]).references(:user, :course, :goal, :proof)
   end
 
   # GET /approvals/1
@@ -25,7 +27,7 @@ class ApprovalsController < ApplicationController
   # POST /approvals
   def create
     @approval = Approval.new(approval_params)
-
+    @approval.course.denied! || @approval.goal.denied! if @approval.denied?
     if @approval.save
       redirect_to @approval, notice: 'Your response to this request was successfully logged.'
     else
@@ -61,6 +63,6 @@ class ApprovalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def approval_params
-    params.require(:approval).permit(:course_id, :goal_id, :proof_id, :user_id, :employee_id, :role, :response, :deny_reason)
+    params.require(:approval).permit(:course_id, :goal_id, :proof_id, :user_id, :employee_id, :role, :response, :deny_reason, :goal_details, :school, :credential, :approval_type)
   end
 end

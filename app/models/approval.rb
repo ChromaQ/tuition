@@ -39,6 +39,27 @@ class Approval < ApplicationRecord
   enum response: { denied: 0, approved: 1 }
 
 
+  # == Scopes =========================================
+  scope :is_course, -> { where(course_id.present?) }
+  scope :is_goal, -> { where(goal_id.present?) }
+
+  def course?
+    course_id?
+  end
+
+  def goal?
+    goal_id?
+  end
+
+  def proof?
+    proof_id?
+  end
+
+  def approval_type
+    return 'Course' if course?
+    return 'Goal' if goal?
+    return 'Proof' if proof?
+  end
 
   def manager_approved?
     approved? && manager?
