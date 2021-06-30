@@ -27,9 +27,17 @@ class ApprovalsController < ApplicationController
   # POST /approvals
   def create
     @approval = Approval.new(approval_params)
-    @approval.course.denied! || @approval.goal.denied! if @approval.denied?
     if @approval.save
-      redirect_to @approval, notice: 'Your response to this request was successfully logged.'
+      if @approval.course? && @approval.denied?
+        @approval.course.denied!
+        UserMailer.with(approval: @approval, course: @approval.course, user: @approval.course.goal.user).deny_course.deliver_now
+      elsif @approval.goal? && @approval.denied?
+        @approval.goal.denied!
+        UserMailer.with(approval: @approval, goal: @approval.goal, user: @approval.goal.user).deny_goal.deliver_now
+      else
+        # waiting to wire up proofs
+      end
+      redirect_to @approval, notice: 'Your response to this request was successfully logged. The user has been notified by email of this response.'
     else
       render :new
     end
