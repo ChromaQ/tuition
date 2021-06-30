@@ -56,7 +56,7 @@ class CoursesController < ApplicationController
   # Triggers when manager approves the request, or someone in HR approves the course request if the user has no manager
   def approve
     if @course.approve_course(current_user)
-      UserMailer.with(course: @course, user: @course.goal.user).approve.deliver_now
+      UserMailer.with(course: @course, user: @course.goal.user).approve_course.deliver_now
       redirect_to @course, notice: 'Thanks! Your approval for this tuition reimbursement request has been logged, the user will be emailed on next steps to take.'
     else
       redirect_to @course, notice: 'Approval did not complete - Sorry about that! Please reload the page and try again.'
