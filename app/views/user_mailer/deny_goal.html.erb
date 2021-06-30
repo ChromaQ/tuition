@@ -1,0 +1,13 @@
+<div class="callout-white">
+  <h1>Tuition Reimbursement Notice</h1>
+  <h2>Your Tuition Reimbursement Educational Goal was denied, please review.</h2>
+  <p><strong>Credential/Degree being pursued: </strong> <%= @goal.goal_details %></p>
+
+  <p class="cherry"><strong>REASON FOR DENIAL:</strong> <%= @approval.deny_reason %> </p>
+  <p><strong>WHAT DO I DO NOW?</strong></p>
+  <p>Please log in to the Tuition Reimbursement application. If you can remedy the above issue, make the needed changes, and re-submit your goal.</p>
+  <p>Otherwise, please review the goal, delete it, or edit it to correct the issues or to and mark it as "inactive."</p>
+  <p>If you have questions on the Tuition Reimbursement program, please review the policy manual and contact UNMH Human Resources at 272-2325 With further questions.</p>
+
+  <h3><%= link_to 'Review your Tuition Reimbursement Educational Goal, and edit this goal to mark it as inactive or re-submit with your changes.', goal_url(@goal) %> </h3>
+</div>

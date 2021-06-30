@@ -66,7 +66,8 @@ class UserMailer < ApplicationMailer
   # Send to requesting user when Human Resources denies an educational goal
   def deny_goal
     @user = params[:user]
-    @goal = params[:goal]
+    @approval = params[:approval]
+    @goal = @approval.goal
     @url = 'localhost:3000'
     mail(
       to: @user.email,

@@ -28,6 +28,6 @@ class UserMailerPreview < ActionMailer::Preview
 
   # Send to requesting user when Human Resources denies an educational goal
   def deny_goal
-    UserMailer.with(user: User.first, goal: Goal.first).deny_goal
+    UserMailer.with(user: User.first, approval: Approval.is_goal.is_denied.first).deny_goal
   end
 end
