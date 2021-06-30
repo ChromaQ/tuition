@@ -1,6 +1,6 @@
 <div class="callout-white">
-  <h1>Tuition Reimbursement Request Approved</h1>
-  <p><strong><%= @user.displayname %></strong> has requested tuition reimbursement and needs your approval!  </p>
+  <h1>A Tuition Reimbursement Request Still Needs Your Attention!</h1>
+  <p><strong><%= @user.displayname %></strong> has requested tuition reimbursement and needs your approval:  </p>
   <p><strong>Educational goal being pursued: </strong> <%= @course.goal&.goal_details %></p>
   <p><strong>Course: </strong> <%= @course.course_short %> - <%= @course.course_title %> for <%= pluralize(@course.credit_hours, 'credit') %> </p>
   <p><strong>Start Date:</strong> <%= @course.start_date.to_s(:fancy) %> &nbsp; <strong> End Date: </strong> <%= @course.end_date.to_s(:fancy) %></p>

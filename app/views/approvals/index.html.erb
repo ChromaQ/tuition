@@ -16,7 +16,7 @@
   <tbody>
     <% @approvals.each do |approval| %>
       <tr>
-        <td><%= approval.approval_type %></td>
+        <td><%= t(approval.approval_type) %></td>
         <td>
           <% if approval.course? %>
             <%= link_to approval.course&.course_title, approval.course %>

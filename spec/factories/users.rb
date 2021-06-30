@@ -26,8 +26,9 @@
 FactoryBot.define do
   factory(:user) do
     username { Faker::Internet.username }
-    superuser { false }
+    superuser { Faker::Boolean.boolean }
     displayname { Faker::Name.name }
     employee_id { '1000' }
+    hr_access { Faker::Boolean.boolean }
   end
 end

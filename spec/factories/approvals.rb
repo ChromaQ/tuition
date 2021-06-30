@@ -31,8 +31,10 @@ FactoryBot.define do
     course_id { 1 }
     employee_id { "MyString" }
     role { "MyString" }
-    response { "MyString" }
+    response { 1 }
     deny_reason { "MyText" }
-    course { nil }
+    goal_id { nil }
+    proof_id { nil }
+    user_id { 1 }
   end
 end
