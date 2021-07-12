@@ -13,7 +13,7 @@ class UserMailerPreview < ActionMailer::Preview
 
   # Send when manager denies a course reimbursement request
   def deny_course
-    UserMailer.with(user: User.first, approval: Approval.is_course.is_denied.first).deny_course
+    UserMailer.with(user: User.first, approval: Approval.is_course.denied.first).deny_course
   end
 
   # Send to manager to remind them to respond to a course reimbursement request
@@ -28,6 +28,6 @@ class UserMailerPreview < ActionMailer::Preview
 
   # Send to requesting user when Human Resources denies an educational goal
   def deny_goal
-    UserMailer.with(user: User.first, approval: Approval.is_goal.is_denied.first).deny_goal
+    UserMailer.with(user: User.first, approval: Approval.is_goal.denied.first).deny_goal
   end
 end
