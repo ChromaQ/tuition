@@ -26,7 +26,6 @@
 #  index_users_on_username  (username) UNIQUE
 #
 class User < ApplicationRecord
-
   # == Relationships ==================================
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
   has_many :goals
@@ -35,12 +34,11 @@ class User < ApplicationRecord
   has_many :credentials, through: :goals, class_name: 'Credential'
   has_many :schools, through: :goals, class_name: 'School'
   has_many :impressions
-
   has_many :active_goals, -> { where(active: true) }, class_name: 'Goal'
-
   has_many :approved_courses, -> { where(status: 'approved') }, class_name: 'Course'
   has_many :pending_courses, -> { where(status: 'pending') }, class_name: 'Course'
   has_many :reimbursed_courses, -> { where(status: 'reimbursed') }, class_name: 'Course'
+
   # == Attributes =====================================
   alias_attribute :employeeid, :employee_id
 
@@ -64,7 +62,6 @@ class User < ApplicationRecord
   # == Scopes =========================================
 
   # == Callbacks ======================================
-
   #after_update do
     # Invalidate caches, involving users when a change has been made
   #invalidate_user_index_row(self.username)
@@ -113,13 +110,13 @@ class User < ApplicationRecord
     u.save
     u
   end
+
   # By default sort users by lower(displayname)
   ransacker :name_case_insensitive, type: :string do
     arel_table[:displayname].lower
   end
 
   # == InstanceMethods ================================
-
   # Determine which company Abbreviation the employee is associated with
   # @param company [String] the Company name in which the employee is associated with in LDAP
   # @return [String] the organizations Abbreviation in which the employee is associated with

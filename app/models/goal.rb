@@ -35,6 +35,8 @@ class Goal < ApplicationRecord
   has_many :courses
   has_many :approvals, dependent: :destroy
 
+
+
   attr_writer :degree_id
 
   # attr_reader :school_name
@@ -47,7 +49,17 @@ class Goal < ApplicationRecord
   validates :school_id, presence: true
   validates :focus, presence: true, unless: proc { |goal| goal.credential.auto_approve? }
 
+  # == Scopes =========================================
+  scope :credential_autoapproved, -> { where(credential.auto_approve = true) }
 
+  # == InstanceMethods ===================================
+
+  # Goal is autoapprovable if the associated credential has auto_approve = true
+  def autoapproveable?
+    credential&.auto_approve?
+  end
+
+  # Summarize the fields for sake of convenience and consistent display
   def goal_details
     "#{credential.name}" ' - ' "#{credential.description}" ' from ' "#{school.name}"
   end

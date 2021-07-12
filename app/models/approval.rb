@@ -38,14 +38,20 @@ class Approval < ApplicationRecord
   enum role:     { applicant: 0, manager: 1, human_resources: 2, auto_approval: 3 }
   enum response: { denied: 0, approved: 1 }
 
-
   # == Scopes =========================================
   scope :is_course, -> { where('course_id > 0') }
   scope :is_goal, -> { where('goal_id > 0') }
   scope :is_proof, -> { where('proof_id > 0') }
-  scope :is_denied, -> { where(response: 'denied') }
-  scope :is_approved, -> { where(response: 'approved') }
 
+  # == Validations ====================================
+  validates :user_id, presence: true
+  validates :employee_id, presence: true
+  validates :response, presence: true
+  validates :deny_reason, presence: true, if: proc { |approval| approval.denied? }
+
+  # == ClassMethods ===================================
+
+  # == InstanceMethods ================================
   def course?
     course_id?
   end

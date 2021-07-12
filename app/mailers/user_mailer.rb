@@ -7,7 +7,6 @@ class UserMailer < ApplicationMailer
   def request_approval
     @user = params[:user]
     @course = params[:course]
-    @url = 'localhost:3000'
     mail(
       to: @user.email,
       cc: 'saswanson@salud.unm.edu',
@@ -19,9 +18,8 @@ class UserMailer < ApplicationMailer
   def manager_reminder
     @user = params[:user]
     @course = params[:course]
-    @url = 'localhost:3000'
     mail(
-      to: @user.email,
+      to: @user.employee.manager.email,
       cc: 'saswanson@salud.unm.edu',
       subject: "Your action needed! Tuition Reimbursement application submitted by #{@user.displayname}"
     )
@@ -31,7 +29,6 @@ class UserMailer < ApplicationMailer
   def approve_course
     @user = params[:user]
     @course = params[:course]
-    @url = 'localhost:3000'
     mail(
       to: @user.email,
       cc: 'saswanson@salud.unm.edu',
@@ -44,7 +41,6 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     @approval = params[:approval]
     @course = @approval.course
-    @url = 'localhost:3000'
     mail(
       to: @user.email,
       cc: 'saswanson@salud.unm.edu',
@@ -55,7 +51,6 @@ class UserMailer < ApplicationMailer
   def proof_reminder
     @user = params[:user]
     @course = params[:course]
-    @url = 'localhost:3000'
     mail(
       to: @user.email,
       cc: 'saswanson@salud.unm.edu',
@@ -68,7 +63,6 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     @approval = params[:approval]
     @goal = @approval.goal
-    @url = 'localhost:3000'
     mail(
       to: @user.email,
       cc: 'saswanson@salud.unm.edu',

@@ -49,6 +49,7 @@ class Course < ApplicationRecord
         .order(updated_at: :desc)
   }
 
+  # == InstanceMethods ===================================
   # once manager approves course, update course status to approved after creating an approval record
   def approve_course(approved_by)
     approval = Approval.new(course_id: self.id, user_id: approved_by.id, employee_id: approved_by.employee_id, response: 'approved', role: 'manager')
