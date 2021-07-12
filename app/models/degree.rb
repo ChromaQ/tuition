@@ -11,4 +11,9 @@
 #
 class Degree < ApplicationRecord
   has_many :credentials
+
+  # enum name: { other: 0, certificate: 1, associate: 2, bachelor: 3, master: 4, doctorate: 5, engineering: 6 }
+
+  # == Scopes =========================================
+
 end

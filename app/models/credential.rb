@@ -32,8 +32,22 @@ class Credential < ApplicationRecord
   validates :degree_id, presence: true
   validates :auto_approve, presence: true
 
-  # == Methods ====================================
+  # == Scopes =========================================
+  scope :is_auto_approve, -> { where(auto_approve: true) }
+  scope :not_auto_approve, -> { where(auto_approve: false) }
+
+  # == Class Methods ====================================
+  # Return the credentials that have a given degree id
+  def self.from_degree(degree_id)
+    where(degree_id: degree_id)
+  end
+
+  # == Instance Methods ====================================
+
+  # Return the credential abbreviation (name) and the credential description for convenience
   def full_info
     "#{name}" ' - ' "#{description}"
   end
+
+
 end
