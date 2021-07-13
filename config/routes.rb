@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :approvals
   resources :proofs
   get 'pages/welcome'
+  get 'pages/hr'
   get 'pages/noaccess'
   get 'pages/template'
   get 'users/index'
