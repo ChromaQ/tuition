@@ -46,7 +46,7 @@ class CoursesController < ApplicationController
     end
   end
 
-  # Submit to manager: status becomes "pending" - emails manager
+  # Submit to manager: status becomes "pending" and emails manager - see app/mailers/user_mailer.rb if changing to, cc, or email subject
   def submit
     @course.pending!
     UserMailer.with(user: true_user || current_user, course: @course).request_approval.deliver_now
@@ -54,6 +54,7 @@ class CoursesController < ApplicationController
   end
 
   # Triggers when manager approves the request, or someone in HR approves the course request if the user has no manager
+  # See app/mailers/user_mailer.rb if changing to, cc, or email subject
   def approve
     if @course.approve_course(current_user)
       UserMailer.with(course: @course, user: @course.goal.user).approve_course.deliver_now

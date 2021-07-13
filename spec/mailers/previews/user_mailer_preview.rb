@@ -1,4 +1,4 @@
-# Preview all emails at http://localhost:3000/rails/mailers/user_mailer
+# Preview all emails at [localhost:3000 || tuition.staging.health.unm.edu]/rails/mailers/user_mailer
 class UserMailerPreview < ActionMailer::Preview
 
   # Send to requesting user's Lawson-assigned manager when user requests approval for a course request
