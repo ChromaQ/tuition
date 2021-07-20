@@ -26,7 +26,7 @@
             <% if user.superuser? %>
               <span class="badge badge-pill badge-secondary">Dev Team</span>
               <% elsif user.hr_access? %>
-              <span class="badge badge-pill badge-primary">HR</span>
+              <span class="badge badge-pill badge-secondary">Benefits Team</span>
              <% end %>
             <% if user.manager? %>
               <span class="badge badge-pill badge-primary">Manager</span>

@@ -41,6 +41,7 @@ class User < ApplicationRecord
 
   # == Attributes =====================================
   alias_attribute :employeeid, :employee_id
+  alias_attribute :ldapid, :username
 
   # == Validations ====================================
   # ensure a valid username is returned from CASino
@@ -85,8 +86,9 @@ class User < ApplicationRecord
         # Verify if the person hitting the app is part of devgroup
         self.superuser = value.include?('CN=devgroup,OU=UNMH_IT_Admin,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu')
         # If they are part of HR they should automatically be assigned HR Access
-        #   First HR group is for UH HR the second HR group is for SRMC HR - commented out for now as this is a UNMH Employee benefit app
-        self.hr_access = value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') # || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
+        # First HR group is for UH HR the second HR group is for SRMC HR - commented out for now as this is a UNMH Employee benefit app
+        self.hr_access = (employee_id.blank? ? false : self.employee.benefits_team?)
+          # value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') # || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
         # When the user logs in, verify if they have manager access or not.
         # => This is set for when they login because people change departments, access levels, etc.
         self.manager_access = (employee_id.blank? ? false : Employee.where(manager_id: self.employee_id).exists?)
@@ -106,7 +108,7 @@ class User < ApplicationRecord
   # Create app users when they haven't logged in to Tuition Reimbursement app yet
   def self.from_employee(ldapid)
     employee = Employee.find_by(ldapid: ldapid)
-    u = User.new(username: employee.ldapid, displayname: "#{employee.first_name} #{employee.last_name}", superuser: false, employee_id: employee.employee_id, email: employee.email, company: 'UNMH')
+    u = User.new(username: employee.ldapid, displayname: "#{employee.first_name} #{employee.last_name}", superuser: false, hr_access: employee.benefits_team?, employee_id: employee.employee_id, email: employee.email, company: 'UNMH')
     u.save
     u
   end
