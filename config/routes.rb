@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :approvals
   resources :proofs
   get 'pages/welcome'
+  get 'pages/hr'
   get 'pages/noaccess'
   get 'pages/template'
   get 'users/index'
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
   get 'impressions', to: 'users#impressions'
   get 'noaccess', to: 'pages#noaccess', as: :noaccess
   get 'template', to: 'pages#template', as: :template
+  get 'hr', to: 'pages#hr', as: :hr
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'pages#welcome'
 end
