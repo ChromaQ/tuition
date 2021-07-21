@@ -233,6 +233,11 @@ class Employee < ApplicationRecord
     dept_num == '101094010' && status == 'active'
   end
 
+  # Is this employee a manager?
+  def manager?
+    Employee.where(manager_id: employee_id).exists?
+  end
+
   def eligible_at
     hire_date + 6.months
   end
