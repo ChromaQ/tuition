@@ -83,7 +83,6 @@ class Employee < ApplicationRecord
   attribute :manager_id, :integer
   attribute :fte_status, :float # this is because it's a number Oracle/Rails like to assign it as a shorthand number 1e-3
 
-
   alias_attribute :id, :employee_id
   alias_attribute :department, :dept_num
   alias_attribute :firstname, :first_name
@@ -149,22 +148,6 @@ class Employee < ApplicationRecord
     end
   end
 
-  # How many credits per fiscal year is an employee eligible for, based on an employee's FTE status in HR Payroll
-  def max_credits_per_year
-    return 0 if fte_status.blank? # If you don't have an FTE status in HR Payroll, you don't get any credit allotment.
-
-    case fte_status.to_f
-    when (0.9...) # between 0.9 and 1.0 FTE, eligible for 24 credits per fiscal year
-      24
-    when (0.7..0.9) # between 0.7 and under 0.9 FTE, eligible for 21 credits per fiscal year
-      21
-    when (0.5..0.7) # between 0.5 and under 0.7 FTE, eligible for 18 credits per fiscal year
-      18
-    else
-      0 # under 0.5 FTE, ineligible for tuition reimbursement program
-    end
-  end
-
   # Is someone eligible for the tuition reimbursement program?
   def eligible_for_reimbursement?
     @eligible_for_reimbursement ||= (max_credits_per_year.positive? ? true : false)
@@ -224,6 +207,23 @@ class Employee < ApplicationRecord
   end
 
   # == Instance Methods ==============================
+
+  # How many credits per fiscal year is an employee eligible for, based on an employee's FTE status in HR Payroll
+  def max_credits_per_year
+    return 0 if fte_status.blank? # If you don't have an FTE status in HR Payroll, you don't get any credit allotment.
+
+    case fte_status.to_f
+    when (0.9...) # between 0.9 and 1.0 FTE, eligible for 24 credits per fiscal year
+      24
+    when (0.7..0.9) # between 0.7 and under 0.9 FTE, eligible for 21 credits per fiscal year
+      21
+    when (0.5..0.7) # between 0.5 and under 0.7 FTE, eligible for 18 credits per fiscal year
+      18
+    else
+      0 # under 0.5 FTE, ineligible for tuition reimbursement program
+    end
+  end
+
   def search_display_name
     "#{firstname} #{lastname}"
   end

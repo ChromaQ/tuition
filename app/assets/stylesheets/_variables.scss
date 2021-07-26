@@ -15,158 +15,159 @@ $cherry:            #ba0c2f;
 $lobogray:          #63666a;
 $silver:            #a7a8aa;
 
-//////////////////////////////
-// Vaporwave Colors (these are unused for anything)
-//////////////////////////////
-$cool_vapor_blue:   #2a3f81;
-$cool_vapor_green:  #00d3cd;
-$vapor_gray:        #bfcfd9;
-$vapor_red:         #f13e5a;
-$vapor_pink:        #ff71ce;
-$vapor_purple:      #b967ff;
-$vapor_blue:        #01cdfe;
-$vapor_green:       #05ffa1;
-$vapor_yellow:      #fffb96;
+// Yeti 5.0.2, Lux 5.0.2  used
+// Bootswatch
 
-//////////////////////////////
-// Mild toned colors
-//////////////////////////////
-$softgreen:         #74d0a6;
-$mintgreen:         #29c272;
-$softsand:          #ffc25b;
-// #007bff is the default bootstrap success color
-$chillblue:         lighten(#007bff, 12%);
-$coolblue:          #66bfed;
-$softcherry:        #ff705b;
-$springcherry:      #d9534f;
-$burntfall:         #59287a;
-$softplum:          #67013e;
-
-//
-// Color system: Bootswatch Lux 4.5.1
-//
+// Color system //
 
 $white:    #fff !default;
 $gray-100: #f8f9fa !default;
-$gray-200: #f7f7f9 !default;
-$gray-300: #eceeef !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
 $gray-400: #ced4da !default;
 $gray-500: #adb5bd !default;
-$gray-600: #919aa1 !default;
-$gray-700: #55595c !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
 $gray-800: #343a40 !default;
-$gray-900: #1a1a1a !default;
+$gray-900: #212529 !default;
 $black:    #000 !default;
 
-$blue:     #2196f3;
-$light-blue: #03a9f4;
-$indigo:    #3f51b5;
-$deep-purple: #673ab7;
-$purple:    #8e24aa;
-$pink:     #e91e63;
-$light-pink: #f06292;
-$red:      #e53935;
-$orange:    #fb8c00;
-$amber:     #ffc107;
-$yellow:    #ffeb3b;
-$green:     #4bbf73;
-$light-green: #8bc34a;
-$lime:     #cddc39;
-$teal:     #009688;
-$light-teal: #e0f2f1;
-$cyan:     #00bcd4;
+// Colors I kind of made up
+$blue:         #3a8fd9 !default;
+$blue2:        #2196f3;
+$blue3:        #2780e3 !default;
+$light-blue:   #03a9f4;
+$indigo:       #6610f2 !default;
+$indigo2:      #3f51b5;
+$purple:       #9954bb !default;
+$purple1:      #686dc3 !default;
+$purple2:      #613d7c;
+$purple3:      #8e24aa;
+$deep-purple:  #673ab7;
+$pink:         #e83283 !default;
+$pink2:        #e91e63;
+$pink3:        #e83e8c !default;
+$light-pink:   #f06292;
+$red:          #ff0039 !default;
+$red2:         #fc346f;
+$red3:         #e53935;
+$orange:       #ff7518 !default;
+$orange2:      #fd7e14;
+$orange3:      #fb8c00;
+$amber:        #ffc107;
+$yellow:       #f0ad4e !default;
+$yellow1:      #ffc107;
+$yellow2:      #ffeb3b;
+$green:        #3fb618 !default;
+$green1:       #41d7a7;
+$green2:       #4bbf73;
+$light-green:  #8bc34a;
+$lime:         #cddc39;
+$teal:         #20c997 !default;
+$teal1:        #528fb3;
+$teal2:        #009688;
+$light-teal:   #e0f2f1;
+$cyan:         #39cbfb !default;
+$cyan2:        #00bcd4;
 
-$primary:    $unm_teal;
+// setting in-app colors to override bootstrap default colors
+
+$primary:     (lighten($unm_teal, 2%));
 $secondary:   $highnoon;
-$success:    $green;
-$info:      $purple;
-$warning:    $cherry;
-$danger:     $pink;
-$light:     $light-teal;
-$dark:      $lobogray;
+$success:     $green;
+$info:        (lighten($deep-purple, 5%));
+$warning:     $orange;
+$danger:      (lighten($cherry, 5%));
+$light:       $light-teal;
+$dark:        $lobogray;
 
-$yiq-contrasted-threshold:  185 !default;
+$min-contrast-ratio:   2.3 !default;
+$yiq-contrasted-threshold: 200 !default;
 
-// Options
+// Components
 
-$enable-rounded:                              false !default;
+$border-radius:               0 !default;
+$border-radius-lg:            0 !default;
+$border-radius-sm:            0 !default;
 
 // Body
 
 $body-color:                $gray-900;
 
-// Components
-
-// $border-radius:               0 !default;
-// $border-radius-lg:            0 !default;
-// $border-radius-sm:            0 !default;
-
 // Fonts
 
-$font-family-sans-serif:      "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
-
-$font-size-base:              0.9rem !default;
-
+$font-family-sans-serif:      "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$headings-font-weight:        300 !default;
 $h1-font-size:                2rem !default;
 $h2-font-size:                1.75rem !default;
 $h3-font-size:                1.5rem !default;
 $h4-font-size:                1.25rem !default;
 $h5-font-size:                1rem !default;
-$h6-font-size:                0.9rem !default;
-
+$h6-font-size:                .75rem !default;
 $headings-font-weight:        600 !default;
 $headings-color:              $gray-900 !default;
 
 // Tables
 
-$table-border-color:          rgba(0, 0, 0, 0.05) !default;
-
-// Buttons + Forms
-
-$input-btn-border-width:      0px !default;
+$table-border-color:          rgba(0, 0, 0, 0.1) !default;
 
 // Buttons
 
-$btn-line-height:             1.5rem !default;
+$input-btn-padding-x:         .5rem !default;
+$btn-font-weight:             300 !default;
 
-$input-btn-padding-y:         0.75rem !default;
-$input-btn-padding-x:         1.5rem !default;
+// Dropdowns
 
-$input-btn-padding-y-sm:      .5rem !default;
-$input-btn-padding-x-sm:      1rem !default;
+$dropdown-border-color:             rgba($black, .1) !default;
+$dropdown-divider-bg:               rgba($black, .1) !default;
 
-$input-btn-padding-y-lg:      2rem !default;
-$input-btn-padding-x-lg:      2rem !default;
 
-$btn-font-weight:             600 !default;
+// Navs
 
-// Forms
-
-$input-line-height:                     1.5 !default;
-
-$input-bg:                              $gray-200 !default;
-$input-disabled-bg:                     $gray-300 !default;
-
-$input-group-addon-bg:                  $gray-300 !default;
+$nav-link-disabled-color:           $gray-400 !default;
+$nav-tabs-border-color:             $dropdown-border-color !default;
+$nav-tabs-link-hover-border-color:  $nav-tabs-border-color !default;
+$nav-tabs-link-active-border-color: $nav-tabs-border-color !default;
 
 // Navbar
 
-$navbar-padding-y:                  1.5rem !default;
-
+$navbar-dark-color:                 rgba($white, .7) !default;
 $navbar-dark-hover-color:           $white !default;
-
-$navbar-light-color:              $gray-600;
-$navbar-light-hover-color:          $gray-900 !default;
-$navbar-light-active-color:         $gray-900 !default;
 
 // Pagination
 
-$pagination-border-color:           transparent !default;
+$pagination-color:                  $gray-600 !default;
+$pagination-border-color:           $nav-tabs-border-color !default;
+$pagination-active-border-color:    darken($primary, 5%) !default;
+$pagination-disabled-color:         $gray-200 !default;
 
-$pagination-hover-border-color:     $pagination-border-color !default;
+// Badges
 
-$pagination-disabled-border-color:  $pagination-border-color !default;
+$badge-font-weight:                 300 !default;
+$badge-padding-x:                   1rem !default;
+
+// Alerts
+
+$alert-link-font-weight:            400 !default;
+$alert-bg-scale:                    0 !default;
+
+// Progress bars
+
+$progress-bg:                       $gray-400 !default;
+$progress-bar-color:                $white !default;
+
+// List group
+
+$list-group-disabled-bg:            $gray-200 !default;
 
 // Breadcrumbs
 
 $breadcrumb-bg:                     transparent !default;
+$breadcrumb-padding-y:              .375rem !default;
+$breadcrumb-padding-x:              .75rem !default;
+$breadcrumb-border-radius:          3px !default;
+
+// Close
+
+$btn-close-color:            $gray-600 !default;
+$close-text-shadow:          none !default;
