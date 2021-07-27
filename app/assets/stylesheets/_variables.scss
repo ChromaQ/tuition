@@ -76,7 +76,7 @@ $primary:     (lighten($unm_teal, 2%));
 $secondary:   $highnoon;
 $success:     $green;
 $info:        (lighten($deep-purple, 5%));
-$warning:     $orange;
+$warning:     $orange3;
 $danger:      (lighten($cherry, 5%));
 $light:       $light-teal;
 $dark:        $lobogray;
@@ -170,4 +170,6 @@ $breadcrumb-border-radius:          3px !default;
 // Close
 
 $btn-close-color:            $gray-600 !default;
-$close-text-shadow:          none !default;
+$btn-close-opacity:          .6 !default;
+$btn-close-hover-opacity:    1 !default;
+
