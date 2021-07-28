@@ -13,7 +13,7 @@ module ApplicationHelper
       next unless !message.nil? && message.to_s.length.positive?
 
       concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)}", role: 'alert') do
-        concat content_tag(:button, '&times;', class: 'close', data: { dismiss: 'alert' })
+        concat content_tag(:button, 'x', class: 'close', data: { dismiss: 'alert' })
         concat message
       end)
     end
