@@ -46,7 +46,7 @@
     <div class="row justify-content-center">
       <div class="btn-group mb-2">
         <%= button_to 'HR: Approve Goal', approve_goal_path(@goal), method: :post, class: "btn btn-sm btn-outline-primary mr-1" %>
-        <%= link_to 'HR: Deny Goal', new_approval_path(goal_id: @goal.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-outline-warning" %>
+        <%= link_to 'HR: Deny Goal', new_approval_path(goal_id: @goal.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-outline-danger" %>
       </div>
     </div>
   <% end %>
