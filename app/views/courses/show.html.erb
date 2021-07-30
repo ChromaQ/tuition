@@ -15,7 +15,7 @@
   <dt class="col-sm-2 offset-sm-3">From Employee:</dt>
   <dd class="col-sm-6"><%= link_to @course.goal.user.displayname, user_path(@course.user_id) %> </dd>
   <dt class="col-sm-2 offset-sm-3">Educational Goal:</dt>
-  <dd class="col-sm-6"><%= link_to @course.goal&.goal_details, @course.goal %> <span class="badge badge-pill badge-secondary "><%= @course.goal.status %></span></dd>
+  <dd class="col-sm-6"><%= link_to @course.goal&.goal_details, @course.goal %> <span class="badge badge-pill badge-secondary "><%= @course.goal&.status.titleize %></span></dd>
   <dt class="col-sm-2 offset-sm-3">Status of Request:</dt>
   <dd class="col-sm-6"><%= @course.status&.titleize %></dd>
   <dt class="col-sm-2 offset-sm-3">Course title:</dt>
@@ -38,7 +38,7 @@
 <div class="row justify-content-center">
   <div class="col-auto">
     <div class="btn-group">
-      <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-sm btn-secondary mr-2' %>
+      <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-sm btn-outline-secondary mr-2' %>
       <%= link_to 'Submit Application', submit_path(@course),  class: 'btn btn-sm btn-secondary' %>
     </div>
   </div>
@@ -129,7 +129,7 @@
           <%= proof.document.attached? ? proof.document.filename : 'No attachment' %>
         </td>
         <td><%= proof.created_at.to_s(:datetime) %></td>
-        <td><%= proof.response? ? proof.response.titleize : 'Not yet reviewed' %></td>
+        <td><%= proof.response? ? proof.response.titleize : 'Pending Review' %></td>
         <td>
           <%= link_to 'View', proof, class: 'btn btn-sm btn-outline-primary' %>
           <%= link_to 'Edit', edit_proof_path(proof), class: 'btn btn-sm btn-outline-secondary' %>

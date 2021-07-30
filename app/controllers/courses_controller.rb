@@ -31,7 +31,12 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      redirect_to @course, notice: 'Draft request for tuition reimbursement successfully created. TO GET MANAGER APPROVAL, CLICK THE "SUBMIT APPLICATION" BUTTON.'
+      if @course.pending?
+        UserMailer.with(user: true_user || current_user, course: @course).request_approval.deliver_now
+        redirect_to @course, notice: 'Request for tuition reimbursement successfully created and sent to your manager for approval.'
+      else
+        redirect_to @course, notice: 'Draft request for tuition reimbursement successfully created. TO GET MANAGER APPROVAL, CLICK THE "SUBMIT APPLICATION" BUTTON.'
+      end
     else
       render :new
     end
