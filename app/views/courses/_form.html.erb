@@ -65,7 +65,7 @@
   Creating this request is an agreement to the conditions and requirements of <a href="https://unmh.policymedical.net/" target="_blank" class="text-primary">HR Policy 370: Tuition Reimbursement on the Policies & Procedures site</a>. Actual reimbursement to you may be less than your tuition cost.
 </div>
 
-  <% unless @course.id %>
+  <% if !@course.id %>
     <%= f.radio_button(:status, 'draft') %>
     <%= f.label :status, 'Create as a draft to submit later', value: 'draft' %>
     <br>
