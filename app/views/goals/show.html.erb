@@ -3,11 +3,10 @@
   <ol class="breadcrumb">
     <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
     <% if current_user.admin? %>
-      <%= link_to 'Request List', courses_path, class: 'li breadcrumb-item' %>
-    <% else %>
-      <%= link_to @course.goal.user.displayname, user_path(@course.goal.user), class: 'li breadcrumb-item' %>
+      <%= link_to 'Goal Index', goals_path, class: 'li breadcrumb-item' %>
+      <%= link_to @goal.user.displayname, user_path(@goal.user), class: 'li breadcrumb-item' %>
     <% end %>
-    <li class="breadcrumb-item active" aria-current="page">Request Details</li>
+    <li class="breadcrumb-item active" aria-current="page">Goal Details</li>
   </ol>
 </nav>
 <div class="container">
