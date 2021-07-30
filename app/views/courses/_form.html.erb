@@ -4,7 +4,6 @@
     <div class="form-group">
       <%= f.hidden_field :user_id, class: 'form-control' %>
       <%= f.hidden_field :employee_id, class: 'form-control' %>
-      <%= f.hidden_field :status, class: 'form-control' %>
     </div>
 
     <div class="form-group row">
@@ -48,7 +47,7 @@
 
     <div class="form-group row">
       <%= f.label :credit_hours, class: 'col-sm-2 required col-form-label' %>
-      <%= f.number_field :credit_hours, required: true, max: 4, class: 'col-sm-2 form-control' %>
+      <%= f.number_field :credit_hours, required: true, max: 15, class: 'col-sm-2 form-control' %>
       <div class="invalid-feedback" id="error_explanation">Maximum of 4 credit hours per course.</div>
     </div>
 
@@ -65,6 +64,17 @@
 <div class="h5 text-center">
   Creating this request is an agreement to the conditions and requirements of <a href="https://unmh.policymedical.net/" target="_blank" class="text-primary">HR Policy 370: Tuition Reimbursement on the Policies & Procedures site</a>. Actual reimbursement to you may be less than your tuition cost.
 </div>
+
+  <% if !@course.id %>
+    <%= f.radio_button(:status, 'draft') %>
+    <%= f.label :status, 'Create as a draft to submit later', value: 'draft' %>
+    <br>
+    <%= f.radio_button(:status, 'pending') %>
+    <%= f.label :status, 'Submit this request now for manager approval', value: 'pending' %>
+
+    <% else %>
+      <%= f.hidden_field :status, class: 'form-control' %>
+  <% end %>
 
   <div class="form-group">
     <%= f.submit 'Submit', class: "btn btn-primary" %>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :submit, :approve]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :submit, :withdraw, :approve]
 
   # GET /courses
   def index
@@ -31,7 +31,12 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      redirect_to @course, notice: 'Draft request for tuition reimbursement successfully created. TO GET MANAGER APPROVAL, CLICK THE "SUBMIT APPLICATION" BUTTON.'
+      if @course.pending?
+        UserMailer.with(user: true_user || current_user, course: @course).request_approval.deliver_now
+        redirect_to @course, notice: 'Request for tuition reimbursement successfully created and sent to your manager for approval.'
+      else
+        redirect_to @course, notice: 'Draft request for tuition reimbursement successfully created. TO GET MANAGER APPROVAL, CLICK THE "SUBMIT APPLICATION" BUTTON.'
+      end
     else
       render :new
     end
@@ -51,6 +56,12 @@ class CoursesController < ApplicationController
     @course.pending!
     UserMailer.with(user: true_user || current_user, course: @course).request_approval.deliver_now
     redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
+  end
+
+  # Withdraw course request - regardless of current status, user can withdraw their request to free up allotted credits (if course was approved)
+  def withdraw
+    @course.withdrawn!
+    redirect_to @course, notice: 'This request for tuition reimbursement has been withdrawn. If the request was previously approved, the credits have been released.'
   end
 
   # Triggers when manager approves the request, or someone in HR approves the course request if the user has no manager

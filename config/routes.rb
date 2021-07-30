@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   post   'users/stop_impersonating', to: 'users#stop_impersonating', as: 'stop_impersonating_users'
   get 'courses/:id/submit', to: 'courses#submit', as: 'submit'
   post 'courses/:id/approve', to: 'courses#approve', as: 'approve'
+  patch 'courses/:id/withdraw', to: 'courses#withdraw', as: 'withdraw'
   get 'goals/:id/submit', to: 'goals#submit', as: 'submit_goal'
   post 'goals/:id/approve', to: 'goals#approve', as: 'approve_goal'
   get 'impressions', to: 'users#impressions'

@@ -2,7 +2,7 @@
   <ol class="breadcrumb">
     <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
     <%= link_to 'Users List', users_path, class: 'li breadcrumb-item' %>
-    <li class="breadcrumb-item active" aria-current="page">User Details & Requests</li>
+    <li class="breadcrumb-item active" aria-current="page">User Details, Goals, & Requests</li>
   </ol>
 </nav>
 <!-- information from in-app user table -->
@@ -59,36 +59,34 @@
       <p class="text-center font-weight-bold">Once you've created an educational goal, you can create reimbursement requests if you're eligible for the program.</p>
       <% else %>
       <h3 class="text-center">Educational Goals and Reimbursement Requests</h3>
-      <div class="row mb-2">
-        <div class="col text-center">
-          <%= link_to '+ Create a New Educational Goal', new_goal_path, class:"btn btn-sm btn-secondary" %>
-          <% if @user.employee.eligible? && !@goals.blank? %>
-            <!-- TODO: if user has only one goal, just select that goal when they create a new course request -->
-            <%= link_to '+ Create a New Course Reimbursement Request', new_course_path, class:"btn btn-sm btn-primary" %>
-          <% end %>
+      <% unless @user != current_user %>
+        <div class="row mb-2">
+          <div class="col text-center">
+            <%= link_to '+ Create a New Educational Goal', new_goal_path, class:"btn btn-sm btn-secondary" %>
+            <% if @user.employee.eligible? && !@goals.blank? %>
+              <%= link_to '+ Create a New Course Reimbursement Request', new_course_path, class:"btn btn-sm btn-primary" %>
+            <% end %>
+          </div>
         </div>
-      </div>
+      <% end %>
 
       <% @goals.each do |goal| %>
-        <div class="card mb-2">
-          <div class="card-header">
+        <div class="card mb-2 border-silver">
+          <div class="card-header bg-silver">
             <div class='row align-items-center justify-content-between'>
-              <div class="col-auto"><%= link_to goal.credential.name, goal %> - <%= link_to goal.credential.description, goal %></div>
+              <% if goal.active? %>
+                <span>Active Goal</span>
+              <% else %>
+                <span>Inactive Goal</span>
+              <% end %>
+              <div class="col-auto"><%= link_to goal.credential.name, goal %> - <%= link_to goal.credential.description, goal %> <span class="badge badge-pill badge-secondary"><%= goal.status&.titleize %></span></div>
               <div class="col-3"><%= goal.school.name %></div>
               <div class="col-3"><%= goal.focus? ? ('Focus: ' + goal.focus) : '' %></div>
-              <div class="col-2">Goal Statuses:
-                <% if goal.active? %>
-                  <div class="badge badge-pill badge-success">Active</div>
-                <% else %>
-                  <div class="badge badge-pill badge-danger">Inactive</div>
-                <% end %>
-                <span class="badge badge-pill badge-dark"><%= goal.status&.titleize %></span>
-              </div>
               <div class="col-auto">
                 <%= link_to 'View', goal, class: 'btn btn-sm btn-primary' %>
                 <%= link_to 'Edit', edit_goal_path(goal), class: 'btn btn-sm btn-secondary' %>
                 <% if goal.courses.blank? %>
-                  <%= link_to 'Delete', goal, method: :delete, class: 'btn btn-sm btn-warning', data: { confirm: 'Are you sure you want to permanently delete this goal?' } %>
+                  <%= link_to 'Delete', goal, method: :delete, class: 'btn btn-sm btn-danger', data: { confirm: 'Are you sure you want to permanently delete this goal?' } %>
                 <% end %>
               </div>
             </div>
@@ -98,7 +96,7 @@
               <p class="card-text text-center text-muted"><%= @user.displayname %> has not yet made any tuition reimbursement requests for this goal.</p>
             <% else %>
               <div class="card-text">
-                <table class="table table-sm table-hover table-sm">
+                <table class="table table-sm table-hover table-sm text-justify">
                   <thead>
                   <tr>
                     <th scope="col" class="col-auto">Course Title</th>
@@ -114,7 +112,7 @@
 
                   <tbody>
                   <% goal.courses.each do |course| %>
-                    <tr class="align-items-center">
+                    <tr class="justify-content-between">
                       <td><%= link_to truncate(course.course_title), course %></td>
                       <td><%= course.course_short %></td>
                       <td><%= course.start_date.to_s(:date2yr) %> - <%= course.end_date.to_s(:date2yr) %></td>
@@ -127,7 +125,7 @@
                         <% if course.employee_id == current_user.employee_id || current_user.superuser? %>
                           <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
                           <% if course.status == 'draft' %>
-                            <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %>
+                            <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure? This will permanently delete this request.' }, class:"btn btn-sm btn-outline-danger" %>
                           <% end %>
                         <% end %>
                       </td>
