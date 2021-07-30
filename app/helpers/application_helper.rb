@@ -3,7 +3,7 @@
 module ApplicationHelper
   # https://gist.github.com/fjahr/b3828b9f4e333e74ba1894687d65e055
   def bootstrap_class_for(flash_type)
-    { success: 'alert-success', error: 'alert-danger', alert: 'alert-warning', notice: 'alert-secondary' }.stringify_keys[flash_type.to_s] || flash_type.to_s
+    { success: 'alert-success', error: 'alert-danger', alert: 'alert-warning', notice: 'alert-primary' }.stringify_keys[flash_type.to_s] || flash_type.to_s
   end
 
   def flash_messages(_opts = [])
