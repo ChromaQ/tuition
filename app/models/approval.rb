@@ -44,8 +44,8 @@ class Approval < ApplicationRecord
   scope :is_proof, -> { where('proof_id > 0') }
 
   # == Validations ====================================
-  validates :user_id, presence: true
-  validates :employee_id, presence: true
+  validates :user_id, presence: true, if: proc { |approval| approval.denied? }
+  validates :employee_id, presence: true, if: proc { |approval| approval.denied? }
   validates :response, presence: true
   validates :deny_reason, presence: true, if: proc { |approval| approval.denied? }
 

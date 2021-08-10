@@ -69,7 +69,7 @@
       <% @goal.approvals.each do |approval| %>
         <tr>
           <td><%= approval.created_at.to_s(:datetime) %></td>
-          <td><%= approval.user.displayname %></td>
+          <td><%= approval.user&.displayname || 'Auto Approval Process' %></td>
           <td><%= approval.role&.titleize %></td>
           <td><%= approval.response.titleize %>
             <% if approval.deny_reason %>
