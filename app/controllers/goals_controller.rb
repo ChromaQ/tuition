@@ -14,7 +14,7 @@ class GoalsController < ApplicationController
 
   # GET /goals/new
   def new
-    @goal = Goal.new(user_id: current_user.id, degree_id: 3, status: 0)
+    @goal = Goal.new(user_id: current_user.id, degree_id: 3)
   end
 
   # GET /goals/1/edit
@@ -26,7 +26,11 @@ class GoalsController < ApplicationController
     @goal = Goal.new(goal_params)
 
     if @goal.save
-      redirect_to @goal, notice: 'Education Goal was successfully created.'
+      if @goal.approved?
+        redirect_to @goal, notice: 'Your goal has been approved automatically. Good luck with your studies!'
+      else
+        redirect_to @goal, notice: 'Education Goal was successfully created.'
+      end
     else
       render :new
     end
@@ -49,9 +53,8 @@ class GoalsController < ApplicationController
 
   # Submit goal for review - if the credential is auto-approvable, status becomes "auto-approved"; else status becomes "pending" for HR review.
   def submit
-    if @goal.credential.auto_approve == true
-      @goal.auto_approved!
-      redirect_to @goal, notice: 'Your goal has been approved automatically. Good luck with your studies!'
+    if @goal.autoapproveable? # if the goal's selected credential has auto-approval enabled
+      redirect_to @goal, notice: 'Your goal has been approved automatically. Good luck with your studies!' if @goal.goal_autoapproval # creates approval record and updates the goal status to approved
     else
       @goal.pending!
       redirect_to @goal, notice: 'Your goal has been submitted to Human Resources for review.'
@@ -61,7 +64,6 @@ class GoalsController < ApplicationController
   # Triggers when HR approves the educational goal
   def approve
     if @goal.approve_goal(current_user)
-      # UserMailer.with(course: @course, user: @course.goal.user).approve.deliver_now
       redirect_to @goal, notice: 'Thanks! Your approval for this educational goal has been logged.'
     else
       redirect_to @goal, notice: 'Approval did not complete - Sorry about that! Please reload the page and try again.'

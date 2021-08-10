@@ -35,13 +35,12 @@ class Goal < ApplicationRecord
   has_many :courses
   has_many :approvals, dependent: :destroy
 
-
-
   attr_writer :degree_id
-
   # attr_reader :school_name
 
   enum status: { pending: 0, auto_approved: 1, denied: 2, approved: 3, draft: 4, withdrawn: 5 }
+
+  after_create :goal_autoapproval
 
   # == Validations ====================================
   validates :credential_id, presence: true
@@ -55,7 +54,7 @@ class Goal < ApplicationRecord
   # == InstanceMethods ===================================
 
   # Goal is autoapprovable if the associated credential has auto_approve = true
-  def autoapproveable?
+  def auto_approvable?
     credential&.auto_approve?
   end
 
@@ -76,7 +75,7 @@ class Goal < ApplicationRecord
     @degree_id = degree_id
   end
 
-  # once hr approves goal, update goal status to approved after creating an approval record
+  # once hr manually approves goal, update goal status to approved after creating an approval record
   def approve_goal(approved_by)
     approval = Approval.new(goal_id: self.id, user_id: approved_by.id, employee_id: approved_by.employee_id, response: 'approved', role: 'human_resources')
     if approval.save
@@ -87,4 +86,14 @@ class Goal < ApplicationRecord
     end
   end
 
+  # Used for goals that HR has set to auto_approve = true - when submitted they'll automatically get approved but an approval record must be made for consistency.
+  def goal_autoapproval
+    if self.pending? && self.auto_approvable?
+      approval = Approval.new(goal_id: self.id, response: 'approved', role: 'auto_approval')
+      approval.save!
+      self.approved!
+    else
+      true
+    end
+  end
 end

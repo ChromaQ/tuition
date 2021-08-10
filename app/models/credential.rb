@@ -49,5 +49,9 @@ class Credential < ApplicationRecord
     "#{name}" ' - ' "#{description}"
   end
 
+  def autoapprove?
+    auto_approve == true
+  end
+
 
 end
