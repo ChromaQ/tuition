@@ -8,7 +8,7 @@ class ApprovalsController < ApplicationController
   def index
     @q = Approval.ransack(params[:q])
     @q.sorts = ['updated_at desc'] if @q.sorts.empty?
-    @approvals = @q.result.includes(:course, :proof, :user, goal:[:school, :credential]).references(:user, :course, :goal, :proof)
+    @approvals = @q.result.includes(:course, :proof, :user, goal: [:school, :credential]).references(:user, :course, :goal, :proof)
   end
 
   # GET /approvals/1
