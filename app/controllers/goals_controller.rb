@@ -27,9 +27,11 @@ class GoalsController < ApplicationController
 
     if @goal.save
       if @goal.approved?
-        redirect_to @goal, notice: 'Your goal has been approved automatically. Good luck with your studies!'
+        redirect_to @goal, notice: 'Your goal has been created and automatically approved based on the credential you are pursuing. Good luck with your studies!'
+      elsif @goal.pending?
+        redirect_to @goal, notice: 'Your goal has been created, and has been submitted to Human Resources for review.'
       else
-        redirect_to @goal, notice: 'Education Goal was successfully created.'
+        redirect_to @goal, notice: 'Education Goal was successfully created as a draft. Please make sure to submit this goal for approval!'
       end
     else
       render :new
@@ -39,7 +41,7 @@ class GoalsController < ApplicationController
   # PATCH/PUT /goals/1
   def update
     if @goal.update(goal_params)
-      redirect_to @goal, notice: 'Education Goal was successfully updated.'
+      redirect_to @goal, notice: 'Goal has been successfully updated. Make sure to re-submit this goal for approval if necessary.'
     else
       render :edit
     end
@@ -53,10 +55,11 @@ class GoalsController < ApplicationController
 
   # Submit goal for review - if the credential is auto-approvable, status becomes "auto-approved"; else status becomes "pending" for HR review.
   def submit
-    if @goal.autoapproveable? # if the goal's selected credential has auto-approval enabled
-      redirect_to @goal, notice: 'Your goal has been approved automatically. Good luck with your studies!' if @goal.goal_autoapproval # creates approval record and updates the goal status to approved
+    @goal.pending!
+    @goal.goal_autoapproval
+    if @goal.approved?
+      redirect_to @goal, notice: 'Your goal has been updated and automatically approved based on the credential you are pursuing. Good luck with your studies!'
     else
-      @goal.pending!
       redirect_to @goal, notice: 'Your goal has been submitted to Human Resources for review.'
     end
   end
