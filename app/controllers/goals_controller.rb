@@ -26,7 +26,7 @@ class GoalsController < ApplicationController
     @goal = Goal.new(goal_params)
 
     if @goal.save
-      if @goal.approved?
+      if @goal.auto_approved?
         redirect_to @goal, notice: 'Your goal has been created and automatically approved based on the credential you are pursuing. Good luck with your studies!'
       elsif @goal.pending?
         redirect_to @goal, notice: 'Your goal has been created, and has been submitted to Human Resources for review.'
@@ -57,8 +57,8 @@ class GoalsController < ApplicationController
   def submit
     @goal.pending!
     @goal.goal_autoapproval
-    if @goal.approved?
-      redirect_to @goal, notice: 'Your goal has been updated and automatically approved based on the credential you are pursuing. Good luck with your studies!'
+    if @goal.auto_approved?
+      redirect_to @goal, notice: 'Your goal has been submitted and automatically approved based on the credential you are pursuing. Good luck with your studies!'
     else
       redirect_to @goal, notice: 'Your goal has been submitted to Human Resources for review.'
     end

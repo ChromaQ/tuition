@@ -37,7 +37,7 @@ class Goal < ApplicationRecord
 
   attr_writer :degree_id
 
-  enum status: { pending: 0, auto_approved: 1, denied: 2, approved: 3, draft: 4, withdrawn: 5 }
+  enum status: { draft: 0, pending: 1, denied: 2, approved: 3, auto_approved: 4 }
 
   after_create :goal_autoapproval
 
@@ -81,7 +81,7 @@ class Goal < ApplicationRecord
     if pending? && auto_approvable?
       approval = Approval.new(goal_id: id, response: 'approved', role: 'auto_approval')
       approval.save!
-      self.approved!
+      self.auto_approved!
     else
       true
     end
