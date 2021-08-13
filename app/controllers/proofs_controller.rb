@@ -14,14 +14,12 @@ class ProofsController < ApplicationController
 
   # GET /proofs/new
   def new
-    @proof = Proof.new
+    @proof = Proof.new(status: 'draft')
     @proof.course_id = params[:course_id]
   end
 
   # GET /proofs/1/edit
   def edit
-    @proof.approver = User.find(params[:approver_id]) if params.key? :approver_id
-    @proof.response = params[:response] if params.key? :response
   end
 
   # POST /proofs
@@ -58,11 +56,11 @@ class ProofsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_proof
-    @proof = Proof.includes(:course).references(:course).find(params[:id])
+    @proof = Proof.includes(:course, :approvals).references(:course, :approvals).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def proof_params
-    params.require(:proof).permit(:receipt, :grade, :course_id, :document, :approver, :approver_id, :response, :deny_reason)
+    params.require(:proof).permit(:receipt, :grade, :course_id, :document, :status)
   end
 end

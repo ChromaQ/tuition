@@ -34,11 +34,12 @@
       <%= f.text_field :focus, class: 'form-control' %>
     </div>
 
-
-    <%= f.radio_button(:status, 'pending') %>
-    <%= f.label :status, 'Submit for approval', value: 'pending' %><br>
-    <%= f.radio_button(:status, 'draft') %>
-    <%= f.label :status, 'Create as a draft to submit later', value: 'draft' %><br>
+    <div class="form-group">
+      <%= f.radio_button(:status, 'pending') %>
+      <%= f.label :status, 'Submit for approval', value: 'pending' %><br>
+      <%= f.radio_button(:status, 'draft') %>
+      <%= f.label :status, 'Create as a draft to submit later', value: 'draft' %><br>
+    </div>
 
   <div class="form-group">
 
