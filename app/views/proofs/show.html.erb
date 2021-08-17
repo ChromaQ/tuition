@@ -10,7 +10,7 @@
 <h1 class="mb-1 text-center">Supporting Proof Document</h1>
 <% if current_user.admin? %>
   <div class="row justify-content-center m-2">
-    <%= button_to 'HR: Approve Proof', proof_path(@proof),  params: { proof: { response: "approved", approver_id: current_user.id } }, method: :patch, class: "mr-1 btn btn-sm btn-outline-primary" %>
+    <%= button_to 'HR: Approve Proof', approve_proof_path(@proof), method: :post, class: "mr-1 btn btn-sm btn-outline-primary" %>
     <%= button_to 'HR: Reject Proof', new_approval_path(proof_id: @proof.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-outline-danger" %>
   </div>
 <% end %>
