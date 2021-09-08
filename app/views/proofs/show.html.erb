@@ -7,40 +7,76 @@
     <li class="breadcrumb-item active" aria-current="page">Supporting Proof Document</li>
   </ol>
 </nav>
-<h1 class="mb-1 text-center">Supporting Proof Document</h1>
-<% if current_user.admin? %>
-  <div class="row justify-content-center m-2">
-    <%= button_to 'HR: Approve Proof', proof_path(@proof),  params: { proof: { response: "approved", approver_id: current_user.id } }, method: :patch, class: "mr-1 btn btn-sm btn-outline-primary" %>
-    <%= button_to 'HR: Reject Proof', new_approval_path(proof_id: @proof.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-outline-danger" %>
-  </div>
-<% end %>
-<dl class="row justify-content-center">
-  <dt class="col-sm-2 offset-sm-4">Course Title:</dt>
-  <dd class="col-sm-6"><%= @proof.course&.course_title %></dd>
-  <dt class="col-sm-2 offset-sm-4">Status:</dt>
-  <dd class="col-sm-6"><%= @proof.status&.capitalize %></dd>
-  <dt class="col-sm-2 offset-sm-4">Documentation type:</dt>
-  <dd class="col-sm-6"><%= @proof.proof_type %> </dd>
-  <% if @proof.document.attached? %>
-    <dt class="col-sm-2 offset-sm-4">File Name:</dt>
-    <dd class="col-sm-6"><%= @proof.document.filename %>
-      <% unless @proof.document.image? %>
-        <%= link_to 'Download File', rails_blob_path(@proof.document), disposition: "attachment",  class: 'btn btn-sm btn-secondary' %>
+<div>
+  <h1 class="mb-1 text-center">Supporting Proof Document</h1>
+  <% if current_user.admin? %>
+    <div class="row justify-content-center m-2">
+      <%= link_to 'HR: Approve Proof', approve_proof_path(@proof), method: :post, class: "mr-1 btn btn-sm btn-outline-primary" %>
+      <%= link_to 'HR: Reject Proof', new_approval_path(proof_id: @proof.id, employee_id: current_user.employee_id, response: "denied", role: "human_resources"), class: "btn btn-sm btn-outline-danger" %>
+    </div>
+  <% end %>
+  <dl class="row justify-content-center">
+    <dt class="col-sm-2 offset-sm-4">Course Title:</dt>
+    <dd class="col-sm-6"><%= @proof.course&.course_title %></dd>
+    <dt class="col-sm-2 offset-sm-4">Status:</dt>
+    <dd class="col-sm-6"><%= @proof.status&.capitalize %></dd>
+    <dt class="col-sm-2 offset-sm-4">Documentation type:</dt>
+    <dd class="col-sm-6"><%= @proof.proof_type %> </dd>
+    <% if @proof.document.attached? %>
+      <dt class="col-sm-2 offset-sm-4">File Name:</dt>
+      <dd class="col-sm-6"><%= @proof.document.filename %>
+        <% unless @proof.document.image? %>
+          <%= link_to 'Download File', rails_blob_path(@proof.document), disposition: "attachment",  class: 'btn btn-sm btn-secondary' %>
+        <% end %>
+      </dd>
+      <dt class="col-sm-2 offset-sm-4">File Type:</dt>
+      <dd class="col-sm-6"><%= @proof.document.content_type %></dd>
+  <% end %>
+
+    <div class="justify-content-center m-2">
+      <%= link_to 'Edit', edit_proof_path(@proof), class: 'btn btn-sm btn-outline-secondary' %>
+      <%= link_to 'Back', @proof.course, class: 'btn btn-sm btn-outline-primary' %>
+    </div>
+    <% if @proof.document.image? %>
+      <dt class="col-sm-8 offset-sm-4">Preview:</dt>
+      <dd class="col-12 text-center">
+        <%= image_tag @proof.document, style: 'max-width: -webkit-fill-available' %>
+      </dd>
+  <% end %>
+  </dl>
+  <% if @proof.approvals.blank? %>
+    <p class="text-center mt-2">No approvals or denials logged yet.</p>
+  <% else %>
+    <table class="table table-sm table-hover table-sm">
+      <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Employee</th>
+        <th scope="col">Role</th>
+        <th scope="col">Response</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @proof.approvals.each do |approval| %>
+        <tr>
+          <td><%= approval.created_at.to_s(:datetime) %></td>
+          <td><%= approval.user&.displayname || 'Auto Approval Process' %></td>
+          <td><%= approval.role&.titleize %></td>
+          <td><%= approval.response.titleize %>
+            <% if approval.deny_reason %>
+              - <%= approval.deny_reason %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'Show', approval, class: 'btn btn-sm btn-outline-primary' %>
+            <%= link_to 'Edit', edit_approval_path(approval), class: 'btn btn-sm btn-outline-secondary' %>
+            <%= link_to 'Delete', approval, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger' %>
+          </td>
+        </tr>
       <% end %>
-    </dd>
-    <dt class="col-sm-2 offset-sm-4">File Type:</dt>
-    <dd class="col-sm-6"><%= @proof.document.content_type %></dd>
-<% end %>
-
-  <div class="justify-content-center m-2">
-    <%= link_to 'Edit', edit_proof_path(@proof), class: 'btn btn-sm btn-outline-secondary' %>
-    <%= link_to 'Back', @proof.course, class: 'btn btn-sm btn-outline-primary' %>
-  </div>
-  <% if @proof.document.image? %>
-    <dt class="col-sm-8 offset-sm-4">Preview:</dt>
-    <dd class="col-12 text-center">
-      <%= image_tag @proof.document, style: 'max-width: -webkit-fill-available' %>
-    </dd>
-<% end %>
-</dl>
-
+      </tbody>
+    </table>
+  <% end %>
+</div>

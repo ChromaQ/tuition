@@ -45,6 +45,21 @@ class ProofsController < ApplicationController
     end
   end
 
+  # Submit document to HR Benefits for review: status becomes "pending" - see app/mailers/user_mailer.rb if changing to, cc, or email subject
+  def submit
+    @proof.pending!
+    redirect_to @proof, notice: 'Your document has been submitted to the HR Benefits team for review.'
+  end
+
+  # Triggers when HR approves the educational goal
+  def approve
+    if @proof.approve_proof(current_user)
+      redirect_to @proof, notice: 'Thanks! Your approval on this supporting document has been logged.'
+    else
+      redirect_to @proof, notice: 'Approval did not complete - Sorry about that! Please reload the page and try again.'
+    end
+  end
+
   # DELETE /proofs/1
   def destroy
     @proof.destroy

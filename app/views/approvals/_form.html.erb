@@ -14,6 +14,11 @@
     <p><%= @approval.goal.user.displayname %></p>
     <%= f.hidden_field :goal_id, class: 'form-control' %>
     <% end %>
+  <% if @approval.proof %>
+    <h4>Proof Document:</h4>
+    <p><%= @approval.proof.document.filename %></p>
+    <%= f.hidden_field :proof_id, class: 'form-control' %>
+  <% end %>
   <%= f.hidden_field :user_id, class: 'form-control' %>
   <%= f.hidden_field :employee_id, class: 'form-control' %>
   <%= f.hidden_field :role, class: 'form-control' %>
