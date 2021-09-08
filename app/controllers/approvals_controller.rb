@@ -34,8 +34,9 @@ class ApprovalsController < ApplicationController
       elsif @approval.goal? && @approval.denied?
         @approval.goal.denied!
         UserMailer.with(approval: @approval, goal: @approval.goal, user: @approval.goal.user).deny_goal.deliver_now
-      else
-        # waiting to wire up proofs
+      elsif @approval.proof? && @approval.denied?
+        @approval.proof.denied!
+        UserMailer.with(approval: @approval, proof: @approval.proof, course: @approval.proof.course, user: @approval.proof.course.goal.user).reject_proof.deliver_now
       end
       redirect_to @approval, notice: 'Your response to this request was successfully logged. The user has been notified by email of this response.'
     else

@@ -85,7 +85,7 @@ class GoalsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_goal
-    @goal = Goal.includes(:user, :credential, :school, :courses).references(:user, :credential, :degree, :school, :courses).find(params[:id])
+    @goal = Goal.includes(:user, :credential, :school, :courses, :approvals).references(:user, :credential, :degree, :school, :courses).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

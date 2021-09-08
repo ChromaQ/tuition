@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProofsController < ApplicationController
-  before_action :set_proof, only: [:show, :edit, :update, :destroy]
+  before_action :set_proof, only: [:show, :edit, :update, :destroy, :approve]
 
   # GET /proofs
   def index
@@ -51,12 +51,21 @@ class ProofsController < ApplicationController
     redirect_to @proof, notice: 'Your document has been submitted to the HR Benefits team for review.'
   end
 
-  # Triggers when HR approves the educational goal
+  # Triggers when HR approves the proof document
   def approve
     if @proof.approve_proof(current_user)
       redirect_to @proof, notice: 'Thanks! Your approval on this supporting document has been logged.'
     else
       redirect_to @proof, notice: 'Approval did not complete - Sorry about that! Please reload the page and try again.'
+    end
+  end
+
+  # When HR rejects a proof document
+  def reject
+    if @proof.reject_proof(current_user)
+      redirect to @proof.course, notice: 'Your rejection of this document has been logged and the user will be notified by email.'
+    else
+      redirect_to @proof, notice: 'Proof rejection did not complete - Sorry about that! Please reload the page and try again.'
     end
   end
 
