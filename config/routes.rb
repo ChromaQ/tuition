@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   patch 'courses/:id/withdraw', to: 'courses#withdraw', as: 'withdraw'
   get 'goals/:id/submit', to: 'goals#submit', as: 'submit_goal'
   post 'goals/:id/approve', to: 'goals#approve', as: 'approve_goal'
+  get 'proofs/:id/submit', to: 'proofs#submit', as: 'submit_proof'
+  post 'proofs/:id/approve', to: 'proofs#approve', as: 'approve_proof'
   get 'impressions', to: 'users#impressions'
   get 'noaccess', to: 'pages#noaccess', as: :noaccess
   get 'template', to: 'pages#template', as: :template

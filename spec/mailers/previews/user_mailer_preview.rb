@@ -21,6 +21,11 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.with(user: User.first, course: Course.first).manager_reminder
   end
 
+  # Sent to user when HR rejects proof document
+  def reject_proof
+    UserMailer.with(user: User.first, approval: Approval.is_proof.denied.first, proof: Proof.last, course: Course.last).reject_proof
+  end
+
   # Send to user to remind them to submit their proof documents
   def proof_reminder
     UserMailer.with(user: User.first, course: Course.first).proof_reminder

@@ -48,6 +48,18 @@ class UserMailer < ApplicationMailer
     )
   end
 
+  def reject_proof
+    @approval = params[:approval]
+    @proof = @approval.proof
+    @course = @proof.course
+    @user = @course.goal.user
+    mail(
+      to: @user.email,
+      cc: 'saswanson@salud.unm.edu',
+      subject: "Proof document rejected for #{@course.course_title} - Action Needed"
+    )
+  end
+
   def proof_reminder
     @user = params[:user]
     @course = params[:course]

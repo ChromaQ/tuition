@@ -28,7 +28,7 @@
             Unknown
             <% end %>
         </td>
-        <td><%= approval.user.displayname %></td>
+        <td><%= approval.user&.displayname || 'Auto Approval Process' %></td>
         <td><%= approval.role.titleize %></td>
         <td><%= approval.response.titleize %></td>
         <td><%= approval.deny_reason || 'n/a' %></td>

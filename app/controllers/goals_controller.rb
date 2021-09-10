@@ -14,7 +14,7 @@ class GoalsController < ApplicationController
 
   # GET /goals/new
   def new
-    @goal = Goal.new(user_id: current_user.id, degree_id: 3, status: 0)
+    @goal = Goal.new(user_id: current_user.id, degree_id: 3)
   end
 
   # GET /goals/1/edit
@@ -26,7 +26,13 @@ class GoalsController < ApplicationController
     @goal = Goal.new(goal_params)
 
     if @goal.save
-      redirect_to @goal, notice: 'Education Goal was successfully created.'
+      if @goal.auto_approved?
+        redirect_to @goal, notice: 'Your goal has been created and automatically approved based on the credential you are pursuing. Good luck with your studies!'
+      elsif @goal.pending?
+        redirect_to @goal, notice: 'Your goal has been created, and has been submitted to Human Resources for review.'
+      else
+        redirect_to @goal, notice: 'Education Goal was successfully created as a draft. Please make sure to submit this goal for approval!'
+      end
     else
       render :new
     end
@@ -35,7 +41,7 @@ class GoalsController < ApplicationController
   # PATCH/PUT /goals/1
   def update
     if @goal.update(goal_params)
-      redirect_to @goal, notice: 'Education Goal was successfully updated.'
+      redirect_to @goal, notice: 'Goal has been successfully updated. Make sure to re-submit this goal for approval if necessary.'
     else
       render :edit
     end
@@ -49,11 +55,11 @@ class GoalsController < ApplicationController
 
   # Submit goal for review - if the credential is auto-approvable, status becomes "auto-approved"; else status becomes "pending" for HR review.
   def submit
-    if @goal.credential.auto_approve == true
-      @goal.auto_approved!
-      redirect_to @goal, notice: 'Your goal has been approved automatically. Good luck with your studies!'
+    @goal.pending!
+    @goal.goal_autoapproval
+    if @goal.auto_approved?
+      redirect_to @goal, notice: 'Your goal has been submitted and automatically approved based on the credential you are pursuing. Good luck with your studies!'
     else
-      @goal.pending!
       redirect_to @goal, notice: 'Your goal has been submitted to Human Resources for review.'
     end
   end
@@ -61,7 +67,6 @@ class GoalsController < ApplicationController
   # Triggers when HR approves the educational goal
   def approve
     if @goal.approve_goal(current_user)
-      # UserMailer.with(course: @course, user: @course.goal.user).approve.deliver_now
       redirect_to @goal, notice: 'Thanks! Your approval for this educational goal has been logged.'
     else
       redirect_to @goal, notice: 'Approval did not complete - Sorry about that! Please reload the page and try again.'
@@ -80,7 +85,7 @@ class GoalsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_goal
-    @goal = Goal.includes(:user, :credential, :school, :courses).references(:user, :credential, :degree, :school, :courses).find(params[:id])
+    @goal = Goal.includes(:user, :credential, :school, :courses, :approvals).references(:user, :credential, :degree, :school, :courses).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

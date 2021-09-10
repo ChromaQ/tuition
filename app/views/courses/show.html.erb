@@ -100,7 +100,7 @@
 <% end %>
 <hr>
 <h3 class="text-center pt-3">Documentation</h3>
-<p class="text-center text-muted">Employee documentation of proof of payment and proof of grade</p>
+<p class="text-center text-muted">To be eligible for reimbursement, the requesting employee must upload a detailed account summary and proof of grade.</p>
 <div class="row">
   <div class="col text-center mb-2">
     <%= link_to '+ Add Proof Document', new_proof_path(course_id: @course.id), class: "btn btn-sm btn-primary" %>
@@ -130,7 +130,7 @@
           <%= proof.document.attached? ? proof.document.filename : 'No attachment' %>
         </td>
         <td><%= proof.created_at.to_s(:datetime) %></td>
-        <td><%= proof.response? ? proof.response.titleize : 'Pending Review' %></td>
+        <td><%= proof.status&.titleize %></td>
         <td>
           <%= link_to 'View', proof, class: 'btn btn-sm btn-outline-primary' %>
           <%= link_to 'Edit', edit_proof_path(proof), class: 'btn btn-sm btn-outline-secondary' %>
