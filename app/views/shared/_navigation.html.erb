@@ -17,12 +17,13 @@
           <%= link_to 'Users', users_path, class: 'nav-item nav-link' %>
           <%= link_to 'Requests', courses_path, class: 'nav-item nav-link' %>
           <%= link_to 'Goals', goals_path, class: 'nav-item nav-link' %>
+          <%= link_to 'HR', hr_path, class: 'nav-item nav-link' %>
         <% end %>
       <% end %>
     </div>
       <% if user_signed_in? %>
         <div class="nav navbar-nav ml-auto">
-          <div class="col-auto nav-item nav-link current_user navbar m-1">
+          <div class="col-auto nav-item nav-link current_user navbar m-0">
             <%= display_user %>
           </div>
           <% if current_user.superuser? && current_user == true_user %>
