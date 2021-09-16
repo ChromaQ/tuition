@@ -7,13 +7,14 @@ Rails.application.routes.draw do
   get 'noaccess', to: 'pages#noaccess', as: :noaccess
   get 'template', to: 'pages#template', as: :template
   get 'hr', to: 'pages#hr', as: :hr
+  get 'goals/update_credentials', as: 'update_credentials'
 
   resources :credentials
   resources :degrees
   resources :approvals
 
   resources :goals
-  get 'goals/update_credentials', as: 'update_credentials'
+
   get 'goals/:id/submit', to: 'goals#submit', as: 'submit_goal'
   post 'goals/:id/approve', to: 'goals#approve', as: 'approve_goal'
 
