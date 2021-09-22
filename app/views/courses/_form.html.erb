@@ -48,18 +48,19 @@
     <div class="form-group row">
       <%= f.label :credit_hours, class: 'col-sm-2 required col-form-label' %>
       <%= f.number_field :credit_hours, required: true, max: 15, class: 'col-sm-2 form-control' %>
+      <div class="col-sm-8 text-left form-text text-muted">A course is usually 3 or 4 credit hours for semester-based programs.</div>
       <div class="invalid-feedback" id="error_explanation">Maximum of 4 credit hours per course.</div>
     </div>
 
     <div class="form-group row">
       <%= f.label :cost, class: 'col-sm-2 required col-form-label' %>
-      <div class="input-group col-sm-3 pl-0 pr-0">
+      <div class="input-group col-sm-2 pl-0 pr-0">
         <div class="input-group-prepend">
           <span class="input-group-text">$</span>
           <%= f.number_field :cost, required: true, step: 0.01, class: 'form-control' %>
         </div>
       </div>
-      <div class="col-sm-7 text-left form-text text-muted align-self-center">Note: maximum reimbursement capped at UNM's current credit hour rate.</div>
+      <div class="col-sm-8 text-left form-text text-muted align-self-center">NOTICE: maximum reimbursement capped at UNM's current credit hour rate.</div>
     </div>
 <div class="h5 text-center">
   Creating this request is an agreement to the conditions and requirements of <a href="https://unmh.policymedical.net/" target="_blank" class="text-primary">HR Policy 370: Tuition Reimbursement on the Policies & Procedures site</a>. Actual reimbursement to you may be less than your tuition cost.
