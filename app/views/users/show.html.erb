@@ -28,16 +28,16 @@
       <% end %>
     </dd>
   </dl>
-  <h4 class="text-center">Eligibility Check: <span class=" <%= @user.employee.eligible? ? 'text-success' : 'text-warning' %>"><%= @user.employee.eligibility %></span></h4>
+  <h4 class="text-center">Eligibility Check: <span class=" font-weight-bold <%= @user.employee.eligible? ? 'text-success' : 'text-danger' %>"><%= @user.employee.eligibility %></span></h4>
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">Employer</dt>
-    <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"> <%= @user.company %> </dd>
+    <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"><i class=" <%= @user.employed_by_unmh? ? 'fa fa-check-circle text-success' : 'fa fa-ban' %>"></i> <%= @user.company %> </dd>
     <dt class="col-sm-3 offset-sm-3">Employment Status</dt>
-    <dd class="col-sm-6 employee-status-<%=@user.employee.status %>"> <%= @user.employee.status.capitalize %> </dd>
+    <dd class="col-sm-6 employee-status-<%=@user.employee.status %>"><i class=" <%= @user.employee.active? ? 'fa fa-check-circle text-success' : 'fa fa-ban' %>"></i> <%= @user.employee.status.capitalize %> </dd>
     <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
-    <dd class="col-sm-6"> <%= @user.employee.fte_status %> </dd>
+    <dd class="col-sm-6"> <i class=" <%= @user.employee.active? ? 'fa fa-check-circle text-success' : 'fa fa-ban text-danger' %>"></i> <%= @user.employee.fte_status %> </dd>
     <dt class="col-sm-3 offset-sm-3">Eligibility Date</dt>
-    <dd class="col-sm-6"> <%= @user.employee.eligible_at.to_s(:date2yr) %> (Hire date: <%= @user.employee.hire_date.to_s(:date2yr) %>)</dd>
+    <dd class="col-sm-6"><i class=" <%= @user.employee.date_eligible? ? 'fa fa-check-circle text-success' : 'fa fa-ban text-danger' %>"></i> <%= @user.employee.eligible_at.to_s(:date2yr) %> (Hire date: <%= @user.employee.hire_date.to_s(:date2yr) %>)</dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Available per year</dt>
     <dd class="col-sm-6"> <%= @user.employee.max_credits_per_year %></dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Reimbursed</dt>

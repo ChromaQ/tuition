@@ -24,11 +24,11 @@ $(document).on("turbolinks:load",function(){
   autocomplete_init();
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  flatpickr('.date-selector', {
-    enableTime: false,
-    plugins: [
-      new confirmDatePlugin({})
-    ]
-  })
-})
+// document.addEventListener('DOMContentLoaded', function() {
+//   flatpickr('.date-selector', {
+//     enableTime: false,
+//     plugins: [
+//       new confirmDatePlugin({})
+//     ]
+//   })
+// })
