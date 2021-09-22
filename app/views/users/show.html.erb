@@ -68,6 +68,9 @@
             <% end %>
           </div>
         </div>
+        <% unless @user.employee.eligible? %>
+          <p class="text-center font-weight-bold">You are not currently eligible to use the Tuition Reimbursement benefit, see above to determine why. When you are eligible, a button will appear here create a course reimbursement request.</p>
+        <% end %>
       <% end %>
 
       <% @goals.each do |goal| %>
