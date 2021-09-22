@@ -19,7 +19,7 @@
     <div class="form-group row">
       <%= f.label :start_date, class: 'col-sm-2 col-form-label' %>
       <div class="col-auto align-self-center" type="date">
-        <%= f.date_select :start_date, order: [:month, :day, :year], min: Date.today, start_year: Date.current.year, end_year: Date.current.year + 1, default: { month: Date.current.month + 1, day: 1}, class: 'form-control', type: 'date'  %>
+        <%= f.date_field :start_date, order: [:month, :day, :year], min: Date.today, max: Date.today + 1.year, class: 'form-control', required: true  %>
       </div>
       <div class="col-sm-4 text-left form-text text-muted align-self-center">Start date cannot be before today's date.</div>
     </div>
@@ -27,8 +27,8 @@
 
     <div class="form-group row">
       <%= f.label :end_date, class: 'col-sm-2 col-form-label' %>
-      <div class="col-auto align-self-center" type="date">
-        <%= f.date_select :end_date, order: [:month, :day, :year], start_year: Date.current.year, end_year: Date.current.year + 1, default: { month: Date.current.month + 3, day: 1}, class: 'form-control', type: 'date' %>
+      <div class="col-auto">
+        <%= f.date_field :end_date, order: [:month, :day, :year], min: Date.today, max: Date.today + 450.days, class: 'form-control', required: true %>
       </div>
     </div>
 

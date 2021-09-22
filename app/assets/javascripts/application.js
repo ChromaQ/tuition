@@ -25,5 +25,10 @@ $(document).on("turbolinks:load",function(){
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  flatpickr('.date-selector');
+  flatpickr('.date-selector', {
+    enableTime: false,
+    plugins: [
+      new confirmDatePlugin({})
+    ]
+  })
 })

@@ -40,7 +40,6 @@ class Course < ApplicationRecord
   validates :employee_id, presence: true
   validates :goal_id, presence: true
   validates :start_date, :end_date, presence: true
-  validates :end_date_after_start_date
 
   # == Scopes =========================================
   scope :submitted_by_employee, ->(employee_id) { where(employee_id: employee_id) }
