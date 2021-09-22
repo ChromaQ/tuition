@@ -274,6 +274,7 @@ GEM
       i18n (>= 1.6, < 2)
     fast_blank (1.0.0)
     ffi (1.14.2)
+    flatpickr (4.6.6.0)
     font-awesome-rails (4.7.0.7)
       railties (>= 3.2, < 7)
     font-awesome-sass (5.15.1)
@@ -587,6 +588,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   fast_blank
+  flatpickr
   font-awesome-rails
   font-awesome-sass
   fuubar
