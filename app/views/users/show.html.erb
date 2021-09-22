@@ -39,7 +39,7 @@
     <dt class="col-sm-3 offset-sm-3">Eligibility Date</dt>
     <dd class="col-sm-6"><i class=" <%= @user.employee.date_eligible? ? 'fa fa-check-circle text-success' : 'fa fa-ban text-danger' %>"></i> <%= @user.employee.eligible_at.to_s(:date2yr) %> (Hire date: <%= @user.employee.hire_date.to_s(:date2yr) %>)</dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Available per year</dt>
-    <dd class="col-sm-6"> <%= @user.employee.max_credits_per_year %></dd>
+    <dd class="col-sm-6"> <%= @user.employee.eligible? ? @user.employee.max_credits_per_year : 'Currently ineligible; when eligibility is met, ' + @user.employee.max_credits_per_year.to_s + ' credits available based on FTE status.'  %> </dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Reimbursed</dt>
     <dd class="col-sm-6"><%= @user.courses.blank? ? '0' : @user.reimbursed_courses.sum(:credit_hours) %></dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Approved</dt>
