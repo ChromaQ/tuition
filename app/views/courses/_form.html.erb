@@ -62,9 +62,10 @@
       </div>
       <div class="col-sm-8 text-left form-text text-muted align-self-center">NOTICE: maximum reimbursement capped at UNM's current credit hour rate.</div>
     </div>
-<div class="h5 text-center">
-  Creating this request is an agreement to the conditions and requirements of <a href="https://unmh.policymedical.net/" target="_blank" class="text-primary">HR Policy 370: Tuition Reimbursement on the Policies & Procedures site</a>. Actual reimbursement to you may be less than your tuition cost.
-</div>
+
+   <div class="h4 text-center p-1 bg-silver">
+    Creating this request is an agreement to the conditions and requirements of <a href="https://unmh.policymedical.net/" target="_blank" class="text-primary">HR Policy 370: Tuition Reimbursement on the Policies & Procedures site</a>. Actual reimbursement to you may be less than your tuition cost.
+  </div>
 
   <% if !@course.id %>
     <%= f.radio_button(:status, 'draft') %>
