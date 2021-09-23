@@ -1,7 +1,5 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-teal">
-  <%= link_to 'https://hospitals.health.unm.edu/intranet', class: '', target: '_blank', rel: 'noopener noreferrer' do %>
-    <%= image_tag 'UNM_Hospital_Vertical_White.png', height: '40px' %>
-  <% end %>
+<%= render(partial: 'shared/unmh_links_nav', cached: true) %>
   <%= link_to 'Tuition Reimbursement', '/', class: 'd-none d-lg-block navbar-brand mr-1' %>
   <%= link_to 'Tuition', '/', class: 'd-lg-none navbar-brand mr-1' %>
 
