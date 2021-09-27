@@ -1,10 +1,15 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-teal">
-  <%= link_to 'https://hospitals.health.unm.edu/intranet', class: '', target: '_blank', rel: 'noopener noreferrer' do %>
-    <%= image_tag 'UNM_Hospital_Vertical_White.png', height: '40px' %>
-  <% end %>
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary" style="height: 30px">
+  <%= render(partial: 'shared/unmh_links_nav', cached: true) %>
+  <div class="col col-auto offset-3 align-self-baseline">
+    <% unless Rails.env.production? %>
+      <h5 class="badge-pill badge-secondary"><%= Rails.env.upcase %> Environment</h5>
+    <% end %>
+  </div>
+</nav>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <%= link_to 'Tuition Reimbursement', '/', class: 'd-none d-lg-block navbar-brand mr-1' %>
   <%= link_to 'Tuition', '/', class: 'd-lg-none navbar-brand mr-1' %>
-
+  <i class="fa fa-user-graduate"></i>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

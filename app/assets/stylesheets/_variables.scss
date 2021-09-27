@@ -14,6 +14,7 @@ $terra:             #c05131;
 $cherry:            #ba0c2f;
 $lobogray:          #63666a;
 $silver:            #a7a8aa;
+$subnav:            #343a40;
 
 // Yeti 5.0.2, Lux 5.0.2  used
 // Bootswatch
@@ -79,7 +80,7 @@ $info:        (lighten($deep-purple, 5%));
 $warning:     $orange3;
 $danger:      (lighten($cherry, 5%));
 $light:       $light-teal;
-$dark:        $lobogray;
+$dark:        $subnav;
 
 $min-contrast-ratio:   2.3 !default;
 $yiq-contrasted-threshold: 200 !default;

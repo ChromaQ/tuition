@@ -47,6 +47,7 @@ gem 'coffee-rails'     # Use CoffeeScript for .coffee assets and views
 gem 'bootstrap', '~> 4.5.3'
 gem 'font-awesome-rails' # for supporting fontawesome 4
 gem 'font-awesome-sass'
+gem 'flatpickr'                   # Date picker
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mini_racer', platforms: :ruby # C based alternative instead of rubyracer
@@ -78,10 +79,6 @@ gem 'unmh-ldap', unmh: 'unmh-ldap'  # An ldap helper gem, used for searching UNM
 gem 'unmh-stats', unmh: 'unmh-stats'
 gem 'unmh-app_mail', unmh: 'unmh-app_mail'
 gem 'rest-client' # HTTP Client - make external API calls
-# gem 'mime-types'  # required for rest-client
-# gem 'netrc'       # required for rest-client
-# gem 'http-accept' # required for rest-client
-# gem 'http-cookie' # required for rest-client
 
 ##############################
 ### Performance Optimizations

@@ -9,6 +9,7 @@
 //= require bootstrap-autocomplete-input-init-turbolinks
 //= require turbolinks
 //= require activestorage
+//= require flatpickr
 //= require_tree .
 
 
@@ -22,3 +23,12 @@ $(document).on("turbolinks:load",function(){
 
   autocomplete_init();
 });
+
+// document.addEventListener('DOMContentLoaded', function() {
+//   flatpickr('.date-selector', {
+//     enableTime: false,
+//     plugins: [
+//       new confirmDatePlugin({})
+//     ]
+//   })
+// })
