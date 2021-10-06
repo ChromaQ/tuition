@@ -66,9 +66,9 @@ class Course < ApplicationRecord
   def fiscalyear_estimate
     time = self.end_date
     if time.month >= 7
-      (time.year.to_s[2, 2] + (time + 1.year).year.to_s[2, 2]).freeze
+      time.year + 1
     else
-      ((time - 1.year).year.to_s[2, 2] + time.year.to_s[2, 2]).freeze
+      time.year
     end
   end
 
