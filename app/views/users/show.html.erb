@@ -10,7 +10,7 @@
   <h1 class="text-center"><%= @user.displayname %> </h1>
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">Work Email</dt>
-    <dd class="col-sm-6"> <%= @user.email || @user.employee.email %> </dd>
+    <dd class="col-sm-6"> <%= mail_to @user.email || @user.employee.email %> </dd>
     <dt class="col-sm-3 offset-sm-3">Username</dt>
     <dd class="col-sm-6"> <%= @user.username %> </dd>
     <dt class="col-sm-3 offset-sm-3">Employee ID Number</dt>
