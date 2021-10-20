@@ -74,8 +74,8 @@ gem 'jbuilder'               # Build JSON APIs with ease. Read more: https://git
 gem 'oj'                     # Parsing JSON in app
 gem 'meta-tags'              #  Used for adding dynamic titles when switching between pages.
 gem 'actionmailer'           # For email sending, previews, and templates
+gem 'money-rails', '~>1.12'  # optimizing monetary calculations and reporting
 gem 'unmh-ldap', unmh: 'unmh-ldap'  # An ldap helper gem, used for searching UNMH/LDAP by users, groups, etc.
-# Require the unmh-stats gem in the applications gemfile
 gem 'unmh-stats', unmh: 'unmh-stats'
 gem 'unmh-app_mail', unmh: 'unmh-app_mail'
 gem 'rest-client' # HTTP Client - make external API calls
