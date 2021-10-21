@@ -1,5 +1,7 @@
-<h1><%= title('New Goal') %></h1>
+<div class='container'>
+  <h1 class="text-center"><%= title('Create Education Goal') %></h1>
 
-<%= render 'form', goal: @goal %>
+  <%= render 'form', goal: @goal %>
 
-<%= link_to 'Cancel', @goal.user, class: 'btn btn-sm btn-outline-primary' %>
+  <%= link_to 'Cancel', @goal.user, class: 'btn btn-sm btn-outline-primary' %>
+</div>

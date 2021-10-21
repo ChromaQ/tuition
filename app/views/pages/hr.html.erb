@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <h1 class="text-center">Application Administration & HR Benefits Team Dashboard</h1>
+
+  <ul>
+    <li><%= link_to 'Educational Goals', goals_path %>  <%= link_to pluralize(Goal.pending.size, 'Pending Goal'), goals_path, class: 'badge badge-pill badge-secondary' %> </li>
+    <li><%= link_to 'Proof Documentation', proofs_path %>  <%= link_to pluralize(Proof.pending.size, 'Pending Document'), goals_path, class: 'badge badge-pill badge-secondary' %></li>
+    <li><%= link_to 'Approvals & Denials Index', approvals_path %></li>
+    <li><%= link_to 'Educational Credentials Index (for Goal Auto-Approval)', credentials_path %></li>
+    <li><%= link_to 'Email Previews', emails_path %></li>
+    <% if current_user.superuser? %>
+      <li><%= link_to 'Template Preview', template_path %> <span class="badge badge-pill badge-secondary">Dev Team Only</span> </li>
+    <% end %>
+  </ul>
+
+</div>

@@ -4,11 +4,16 @@
 #
 # Table name: degrees
 #
-#  id         :integer          not null, primary key
-#  name       :string
+#  id         :bigint           not null, primary key
+#  name       :string(4000)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 class Degree < ApplicationRecord
   has_many :credentials
+
+  # enum name: { other: 0, certificate: 1, associate: 2, bachelor: 3, master: 4, doctorate: 5, engineering: 6 }
+
+  # == Scopes =========================================
+
 end

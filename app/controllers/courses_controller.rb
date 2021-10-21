@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :submit, :approve]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :submit, :withdraw, :approve]
 
   # GET /courses
   def index
@@ -17,8 +17,8 @@ class CoursesController < ApplicationController
 
   # GET /courses/new
   def new
-    @course = Course.new(user_id: current_user.id, employee_id: current_user.employee_id, status: 'draft')
-    @goal = Goal.includes(:credential, :school).references(:credential, :school).where(user_id: current_user.id)
+    @goal = Goal.includes(:credential, :school).references(:credential, :school).where(user_id: current_user.id, active: true)
+    @course = Course.new(user_id: current_user.id, employee_id: current_user.employee_id, status: 'draft', goal_id: @goal.first.id)
   end
 
   # GET /courses/1/edit
@@ -31,7 +31,12 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      redirect_to @course, notice: 'Draft request for tuition reimbursement successfully created. TO GET MANAGER APPROVAL, CLICK THE "SUBMIT APPLICATION" BUTTON.'
+      if @course.pending?
+        UserMailer.with(user: true_user || current_user, course: @course).request_approval.deliver_now
+        redirect_to @course, notice: 'Request for tuition reimbursement successfully created and sent to your manager for approval.'
+      else
+        redirect_to @course, notice: 'Draft request for tuition reimbursement successfully created. TO GET MANAGER APPROVAL, CLICK THE "SUBMIT APPLICATION" BUTTON.'
+      end
     else
       render :new
     end
@@ -46,17 +51,24 @@ class CoursesController < ApplicationController
     end
   end
 
-  # Submit to manager: status becomes "pending" - emails manager
+  # Submit to manager: status becomes "pending" and emails manager - see app/mailers/user_mailer.rb if changing to, cc, or email subject
   def submit
     @course.pending!
     UserMailer.with(user: true_user || current_user, course: @course).request_approval.deliver_now
     redirect_to @course, notice: 'Your application for tuition reimbursement has been emailed to your manager for review.'
   end
 
-  # Triggers when someone in HR approves the course request - manager approvals don't count
+  # Withdraw course request - regardless of current status, user can withdraw their request to free up allotted credits (if course was approved)
+  def withdraw
+    @course.withdrawn!
+    redirect_to @course, notice: 'This request for tuition reimbursement has been withdrawn. If the request was previously approved, the credits have been released.'
+  end
+
+  # Triggers when manager approves the request, or someone in HR approves the course request if the user has no manager
+  # See app/mailers/user_mailer.rb if changing to, cc, or email subject
   def approve
     if @course.approve_course(current_user)
-      UserMailer.with(course: @course, user: @course.goal.user).approve.deliver_now
+      UserMailer.with(course: @course, user: @course.goal.user).approve_course.deliver_now
       redirect_to @course, notice: 'Thanks! Your approval for this tuition reimbursement request has been logged, the user will be emailed on next steps to take.'
     else
       redirect_to @course, notice: 'Approval did not complete - Sorry about that! Please reload the page and try again.'

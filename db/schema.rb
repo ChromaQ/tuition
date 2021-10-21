@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_03_181744) do
+ActiveRecord::Schema.define(version: 2021_08_12_204855) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -42,15 +42,19 @@ ActiveRecord::Schema.define(version: 2021_05_03_181744) do
   end
 
   create_table "approvals", force: :cascade do |t|
-    t.integer "course_id"
     t.string "employee_id"
     t.integer "role"
     t.text "deny_reason"
+    t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "response"
     t.integer "user_id"
+    t.bigint "goal_id"
+    t.bigint "proof_id"
     t.index ["course_id"], name: "index_approvals_on_course_id"
+    t.index ["goal_id"], name: "index_approvals_on_goal_id"
+    t.index ["proof_id"], name: "index_approvals_on_proof_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -64,8 +68,8 @@ ActiveRecord::Schema.define(version: 2021_05_03_181744) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status"
-    t.integer "user_id"
-    t.integer "goal_id"
+    t.bigint "user_id"
+    t.bigint "goal_id"
     t.index ["goal_id"], name: "index_courses_on_goal_id"
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
@@ -74,7 +78,7 @@ ActiveRecord::Schema.define(version: 2021_05_03_181744) do
     t.string "name"
     t.string "description"
     t.boolean "auto_approve"
-    t.integer "degree_id"
+    t.bigint "degree_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["degree_id"], name: "index_credentials_on_degree_id"
@@ -89,18 +93,19 @@ ActiveRecord::Schema.define(version: 2021_05_03_181744) do
   create_table "goals", force: :cascade do |t|
     t.string "focus"
     t.boolean "active", default: true
-    t.integer "user_id"
-    t.integer "school_id"
-    t.integer "credential_id"
+    t.bigint "user_id"
+    t.bigint "school_id"
+    t.bigint "credential_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", default: 0, null: false
     t.index ["credential_id"], name: "index_goals_on_credential_id"
     t.index ["school_id"], name: "index_goals_on_school_id"
     t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
   create_table "impressions", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id"
     t.integer "target_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -110,13 +115,10 @@ ActiveRecord::Schema.define(version: 2021_05_03_181744) do
   create_table "proofs", force: :cascade do |t|
     t.boolean "receipt"
     t.boolean "grade"
-    t.integer "course_id"
+    t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "approver_id"
-    t.integer "response"
-    t.string "deny_reason"
-    t.index ["approver_id"], name: "index_proofs_on_approver_id"
+    t.integer "status", null: false
     t.index ["course_id"], name: "index_proofs_on_course_id"
   end
 
@@ -152,11 +154,15 @@ ActiveRecord::Schema.define(version: 2021_05_03_181744) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "approvals", "courses"
+  add_foreign_key "approvals", "goals"
+  add_foreign_key "approvals", "proofs"
   add_foreign_key "courses", "goals"
+  add_foreign_key "courses", "users"
+  add_foreign_key "credentials", "degrees"
   add_foreign_key "goals", "credentials"
   add_foreign_key "goals", "schools"
   add_foreign_key "goals", "users"
   add_foreign_key "impressions", "users"
   add_foreign_key "proofs", "courses"
-  add_foreign_key "proofs", "users", column: "approver_id"
 end

@@ -2,7 +2,7 @@
   <ol class="breadcrumb">
     <%= link_to 'Home', root_path, class: 'li breadcrumb-item' %>
     <%= link_to 'Users List', users_path, class: 'li breadcrumb-item' %>
-    <li class="breadcrumb-item active" aria-current="page">User Details & Requests</li>
+    <li class="breadcrumb-item active" aria-current="page">User Details, Goals, & Requests</li>
   </ol>
 </nav>
 <!-- information from in-app user table -->
@@ -28,18 +28,18 @@
       <% end %>
     </dd>
   </dl>
-  <h4 class="text-center">Eligibility Check: <span class=" <%= @user.employee.eligible? ? 'text-success' : 'text-warning' %>"><%= @user.employee.eligibility %></span></h4>
+  <h4 class="text-center">Eligibility Check: <span class=" font-weight-bold <%= @user.employee.eligible? ? 'text-success' : 'text-danger' %>"><%= @user.employee.eligibility %></span></h4>
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">Employer</dt>
-    <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"> <%= @user.company %> </dd>
+    <dd class="col-sm-6 text-danger user-company-<%=@user.company.downcase %>"><i class=" <%= @user.employed_by_unmh? ? 'fa fa-check-circle text-success' : 'fa fa-ban' %>"></i> <%= @user.company %> </dd>
     <dt class="col-sm-3 offset-sm-3">Employment Status</dt>
-    <dd class="col-sm-6 employee-status-<%=@user.employee.status %>"> <%= @user.employee.status.capitalize %> </dd>
+    <dd class="col-sm-6 employee-status-<%=@user.employee.status %>"><i class=" <%= @user.employee.active? ? 'fa fa-check-circle text-success' : 'fa fa-ban' %>"></i> <%= @user.employee.status.capitalize %> </dd>
     <dt class="col-sm-3 offset-sm-3">FTE Status</dt>
-    <dd class="col-sm-6"> <%= @user.employee.fte_status %> </dd>
+    <dd class="col-sm-6"> <i class=" <%= @user.employee.active? ? 'fa fa-check-circle text-success' : 'fa fa-ban text-danger' %>"></i> <%= @user.employee.fte_status %> </dd>
     <dt class="col-sm-3 offset-sm-3">Eligibility Date</dt>
-    <dd class="col-sm-6"> <%= @user.employee.eligible_at.to_s(:date2yr) %> (Hire date: <%= @user.employee.hire_date.to_s(:date2yr) %>)</dd>
+    <dd class="col-sm-6"><i class=" <%= @user.employee.date_eligible? ? 'fa fa-check-circle text-success' : 'fa fa-ban text-danger' %>"></i> <%= @user.employee.eligible_at.to_s(:date2yr) %> (Hire date: <%= @user.employee.hire_date.to_s(:date2yr) %>)</dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Available per year</dt>
-    <dd class="col-sm-6"> <%= @user.employee.max_credits_per_year %></dd>
+    <dd class="col-sm-6"> <%= @user.employee.eligible? ? @user.employee.max_credits_per_year : 'Currently ineligible; when eligibility is met, ' + @user.employee.max_credits_per_year.to_s + ' credits available based on FTE status.'  %> </dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Reimbursed</dt>
     <dd class="col-sm-6"><%= @user.courses.blank? ? '0' : @user.reimbursed_courses.sum(:credit_hours) %></dd>
     <dt class="col-sm-3 offset-sm-3">Credit Hours Approved</dt>
@@ -59,42 +59,47 @@
       <p class="text-center font-weight-bold">Once you've created an educational goal, you can create reimbursement requests if you're eligible for the program.</p>
       <% else %>
       <h3 class="text-center">Educational Goals and Reimbursement Requests</h3>
-      <div class="row mb-2">
-        <div class="col text-center">
-          <%= link_to '+ Create a New Educational Goal', new_goal_path, class:"btn btn-sm btn-secondary" %>
-          <% if @user.employee.eligible? && !@goals.blank? %>
-            <%= link_to '+ Create a New Course Reimbursement Request', new_course_path, class:"btn btn-sm btn-primary" %>
-          <% end %>
+      <% unless @user != current_user %>
+        <div class="row mb-2">
+          <div class="col text-center">
+            <%= link_to '+ Create a New Educational Goal', new_goal_path, class:"btn btn-sm btn-secondary" %>
+            <% if @user.employee.eligible? && !@goals.blank? %>
+              <%= link_to '+ Create a New Course Reimbursement Request', new_course_path, class:"btn btn-sm btn-primary" %>
+            <% end %>
+          </div>
         </div>
-      </div>
+        <% unless @user.employee.eligible? %>
+          <p class="text-center font-weight-bold">You are not currently eligible to use the Tuition Reimbursement benefit, see above to determine why. When you are eligible, a button will appear here create a course reimbursement request.</p>
+        <% end %>
+      <% end %>
 
       <% @goals.each do |goal| %>
-        <div class="card mb-2">
-          <div class="card-header">
-            <div class='row align-items-center'>
-              <div class="col-3"><%= goal.credential.name %> - <%= goal.credential.description %></div>
-              <div class="col-3"><%= goal.school.name %></div>
-              <div class="col-3">Focus: <%= goal.focus %></div>
+        <div class="card mb-2 border-silver">
+          <div class="card-header bg-silver">
+            <div class='row align-items-center justify-content-between'>
               <% if goal.active? %>
-                <div class="col-1 text-success">Active Goal</div>
+                <span>Active Goal</span>
               <% else %>
-                <div class="col-1 text-warning">Inactive Goal</div>
+                <span>Inactive Goal</span>
               <% end %>
-              <div class="col-2">
+              <div class="col-auto"><%= link_to goal.credential.name, goal %> - <%= link_to goal.credential.description, goal %> <span class="badge badge-pill badge-secondary"><%= goal.status&.titleize %></span></div>
+              <div class="col-3"><%= goal.school.name %></div>
+              <div class="col-3"><%= goal.focus? ? ('Focus: ' + goal.focus) : '' %></div>
+              <div class="col-auto">
                 <%= link_to 'View', goal, class: 'btn btn-sm btn-primary' %>
                 <%= link_to 'Edit', edit_goal_path(goal), class: 'btn btn-sm btn-secondary' %>
                 <% if goal.courses.blank? %>
-                  <%= link_to 'Delete', goal, method: :delete, class: 'btn btn-sm btn-warning', data: { confirm: 'Are you sure you want to permanently delete this goal?' } %>
+                  <%= link_to 'Delete', goal, method: :delete, class: 'btn btn-sm btn-danger', data: { confirm: 'Are you sure you want to permanently delete this goal?' } %>
                 <% end %>
               </div>
             </div>
           </div>
           <div class="card-body">
             <% if goal.courses.empty? %>
-              <p class="card-text text-center text-muted"><%= @user.displayname %> has tuition reimbursement requests for this goal yet.</p>
+              <p class="card-text text-center text-muted"><%= @user.displayname %> has not yet made any tuition reimbursement requests for this goal.</p>
             <% else %>
               <div class="card-text">
-                <table class="table table-sm table-hover table-sm">
+                <table class="table table-sm table-hover table-sm text-justify">
                   <thead>
                   <tr>
                     <th scope="col" class="col-auto">Course Title</th>
@@ -110,7 +115,7 @@
 
                   <tbody>
                   <% goal.courses.each do |course| %>
-                    <tr class="align-items-center">
+                    <tr class="justify-content-between">
                       <td><%= link_to truncate(course.course_title), course %></td>
                       <td><%= course.course_short %></td>
                       <td><%= course.start_date.to_s(:date2yr) %> - <%= course.end_date.to_s(:date2yr) %></td>
@@ -123,7 +128,7 @@
                         <% if course.employee_id == current_user.employee_id || current_user.superuser? %>
                           <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
                           <% if course.status == 'draft' %>
-                            <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-outline-warning" %>
+                            <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure? This will permanently delete this request.' }, class:"btn btn-sm btn-outline-danger" %>
                           <% end %>
                         <% end %>
                       </td>

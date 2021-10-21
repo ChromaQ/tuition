@@ -4,19 +4,19 @@
 #
 # Table name: courses
 #
-#  id           :integer          not null, primary key
+#  id           :bigint           not null, primary key
 #  cost         :float
-#  course_short :string
-#  course_title :string
+#  course_short :string(4000)
+#  course_title :string(4000)
 #  credit_hours :integer
 #  end_date     :datetime
 #  start_date   :datetime
 #  status       :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  employee_id  :string
-#  goal_id      :integer
-#  user_id      :integer
+#  employee_id  :string(4000)
+#  goal_id      :bigint
+#  user_id      :bigint
 #
 # Indexes
 #
@@ -25,7 +25,8 @@
 #
 # Foreign Keys
 #
-#  goal_id  (goal_id => goals.id)
+#  fk_rails_...  (goal_id => goals.id)
+#  fk_rails_...  (user_id => users.id)
 #
 class Course < ApplicationRecord
   # == Relationships ==================================
@@ -38,6 +39,7 @@ class Course < ApplicationRecord
   # == Validations ====================================
   validates :employee_id, presence: true
   validates :goal_id, presence: true
+  validates :start_date, :end_date, presence: true
 
   # == Scopes =========================================
   scope :submitted_by_employee, ->(employee_id) { where(employee_id: employee_id) }
@@ -48,14 +50,35 @@ class Course < ApplicationRecord
         .order(updated_at: :desc)
   }
 
-  # once hr approves course, update course status to approved after creating an approval record
+  # == InstanceMethods ===================================
+  # once manager approves course, update course status to approved after creating an approval record
   def approve_course(approved_by)
-    approval = Approval.new(course_id: self.id, user_id: approved_by.id, employee_id: approved_by.employee_id, response: 'approved', role: 'human_resources')
+    approval = Approval.new(course_id: self.id, user_id: approved_by.id, employee_id: approved_by.employee_id, response: 'approved', role: 'manager')
     if approval.save
       self.approved!
       true
     else
       false
+    end
+  end
+
+  # estimate fiscal year of course - currently based on course end_date value
+  def fiscalyear_estimate
+    time = self.end_date
+    if time.month >= 7
+      time.year + 1
+    else
+      time.year
+    end
+  end
+
+  # == ClassMethods ===================================
+
+  def end_date_after_start_date
+    return if end_date.blank? || start_date.blank?
+
+    if end_date < start_date
+      errors.add(:end_date, 'Must be after the start date.')
     end
   end
 

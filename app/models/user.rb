@@ -4,29 +4,28 @@
 #
 # Table name: users
 #
-#  id                 :integer          not null, primary key
-#  company            :string
+#  id                 :bigint           not null, primary key
+#  company            :string(4000)
 #  current_sign_in_at :datetime
-#  current_sign_in_ip :string
-#  displayname        :string
-#  email              :string
+#  current_sign_in_ip :string(4000)
+#  displayname        :string(4000)
+#  email              :string(4000)
 #  hr_access          :boolean
 #  last_sign_in_at    :datetime
-#  last_sign_in_ip    :string
+#  last_sign_in_ip    :string(4000)
 #  manager_access     :boolean
 #  sign_in_count      :integer          default(0), not null
 #  superuser          :boolean          default(FALSE)
-#  username           :string           not null
+#  username           :string(4000)     not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  employee_id        :string
+#  employee_id        :string(4000)
 #
 # Indexes
 #
 #  index_users_on_username  (username) UNIQUE
 #
 class User < ApplicationRecord
-
   # == Relationships ==================================
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
   has_many :goals
@@ -35,14 +34,14 @@ class User < ApplicationRecord
   has_many :credentials, through: :goals, class_name: 'Credential'
   has_many :schools, through: :goals, class_name: 'School'
   has_many :impressions
-
   has_many :active_goals, -> { where(active: true) }, class_name: 'Goal'
-
   has_many :approved_courses, -> { where(status: 'approved') }, class_name: 'Course'
   has_many :pending_courses, -> { where(status: 'pending') }, class_name: 'Course'
   has_many :reimbursed_courses, -> { where(status: 'reimbursed') }, class_name: 'Course'
+
   # == Attributes =====================================
   alias_attribute :employeeid, :employee_id
+  alias_attribute :ldapid, :username
 
   # == Validations ====================================
   # ensure a valid username is returned from CASino
@@ -64,7 +63,6 @@ class User < ApplicationRecord
   # == Scopes =========================================
 
   # == Callbacks ======================================
-
   #after_update do
     # Invalidate caches, involving users when a change has been made
   #invalidate_user_index_row(self.username)
@@ -88,8 +86,9 @@ class User < ApplicationRecord
         # Verify if the person hitting the app is part of devgroup
         self.superuser = value.include?('CN=devgroup,OU=UNMH_IT_Admin,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu')
         # If they are part of HR they should automatically be assigned HR Access
-        #   First HR group is for UH HR the second HR group is for SRMC HR - commented out for now as this is a UNMH Employee benefit app
-        self.hr_access = value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') # || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
+        # First HR group is for UH HR the second HR group is for SRMC HR - commented out for now as this is a UNMH Employee benefit app
+        self.hr_access = (employee_id.blank? ? false : self.employee.benefits_team?)
+          # value.include?('CN=HR,OU=HOPE,OU=Group,OU=UNMH,DC=health,DC=unm,DC=edu') # || value.include?('CN=SRMC-HR,OU=Security Groups,OU=SRMC,DC=health,DC=unm,DC=edu')
         # When the user logs in, verify if they have manager access or not.
         # => This is set for when they login because people change departments, access levels, etc.
         self.manager_access = (employee_id.blank? ? false : Employee.where(manager_id: self.employee_id).exists?)
@@ -109,17 +108,17 @@ class User < ApplicationRecord
   # Create app users when they haven't logged in to Tuition Reimbursement app yet
   def self.from_employee(ldapid)
     employee = Employee.find_by(ldapid: ldapid)
-    u = User.new(username: employee.ldapid, displayname: employee.full_name, superuser: false, employee_id: employee.employee_id, email: employee.email, company: 'UNMH')
+    u = User.new(username: employee.ldapid, displayname: "#{employee.first_name} #{employee.last_name}", superuser: false, hr_access: employee.benefits_team?, manager_access: employee.manager?, employee_id: employee.employee_id, email: employee.email, company: 'UNMH')
     u.save
     u
   end
+
   # By default sort users by lower(displayname)
   ransacker :name_case_insensitive, type: :string do
     arel_table[:displayname].lower
   end
 
   # == InstanceMethods ================================
-
   # Determine which company Abbreviation the employee is associated with
   # @param company [String] the Company name in which the employee is associated with in LDAP
   # @return [String] the organizations Abbreviation in which the employee is associated with

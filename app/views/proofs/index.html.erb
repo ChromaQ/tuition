@@ -1,4 +1,4 @@
-<h1><%= title('Proofs') %></h1>
+<h1 class="text-center"><%= title('Supporting Proof Documents') %></h1>
 
 <table class="table table-hover table-sm">
   <thead>
@@ -7,7 +7,7 @@
       <th scope="col">File Type</th>
       <th scope="col">Proof Type</th>
       <th scope="col">Course</th>
-      <th scope="col">Response</th>
+      <th scope="col">Status</th>
       <th scope="col">Actions</th>
     </tr>
   </thead>
@@ -19,16 +19,13 @@
         <td><%= proof.document&.content_type || 'n/a' %></td>
         <td><%= proof.proof_type %> </td>
         <td><%= link_to proof.course&.course_title, proof.course %></td>
-        <td><%= proof.response&.capitalize || 'n/a' %></td>
+        <td><%= proof.status&.capitalize %></td>
         <td>
           <%= link_to 'Show', proof, class: 'btn btn-sm btn-outline-primary' %>
           <%= link_to 'Edit', edit_proof_path(proof), class: 'btn btn-sm btn-outline-secondary' %>
-          <%= link_to 'Destroy', proof, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-warning' %>
+          <%= link_to 'Delete', proof, method: :delete, data: { confirm: 'Are you sure you want to permanently delete this?' }, class: 'btn btn-sm btn-outline-danger' %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-<%= link_to 'New Proof', new_proof_path %>

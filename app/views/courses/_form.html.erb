@@ -4,7 +4,6 @@
     <div class="form-group">
       <%= f.hidden_field :user_id, class: 'form-control' %>
       <%= f.hidden_field :employee_id, class: 'form-control' %>
-      <%= f.hidden_field :status, class: 'form-control' %>
     </div>
 
     <div class="form-group row">
@@ -19,8 +18,8 @@
 
     <div class="form-group row">
       <%= f.label :start_date, class: 'col-sm-2 col-form-label' %>
-      <div class="col-auto align-self-center">
-        <%= f.date_select :start_date, order: [:month, :day, :year], min: Date.today, start_year: Date.current.year, end_year: Date.current.year + 1, default: { month: Date.current.month + 1, day: 1}, class: 'form-control'  %>
+      <div class="col-auto align-self-center" type="date">
+        <%= f.date_field :start_date, order: [:month, :day, :year], min: Date.today, max: Date.today + 1.year, class: 'form-control', required: true  %>
       </div>
       <div class="col-sm-4 text-left form-text text-muted align-self-center">Start date cannot be before today's date.</div>
     </div>
@@ -28,8 +27,8 @@
 
     <div class="form-group row">
       <%= f.label :end_date, class: 'col-sm-2 col-form-label' %>
-      <div class="col-auto align-self-center">
-        <%= f.date_select :end_date, order: [:month, :day, :year], start_year: Date.current.year, end_year: Date.current.year + 1, default: { month: Date.current.month + 3, day: 1}, class: 'form-control' %>
+      <div class="col-auto">
+        <%= f.date_field :end_date, order: [:month, :day, :year], min: Date.today, max: Date.today + 450.days, class: 'form-control', required: true %>
       </div>
     </div>
 
@@ -48,23 +47,36 @@
 
     <div class="form-group row">
       <%= f.label :credit_hours, class: 'col-sm-2 required col-form-label' %>
-      <%= f.number_field :credit_hours, required: true, max: 4, class: 'col-sm-2 form-control' %>
+      <%= f.number_field :credit_hours, required: true, max: 15, class: 'col-sm-2 form-control' %>
+      <div class="col-sm-8 text-left form-text text-muted">A course is usually 3 or 4 credit hours for semester-based programs.</div>
       <div class="invalid-feedback" id="error_explanation">Maximum of 4 credit hours per course.</div>
     </div>
 
     <div class="form-group row">
       <%= f.label :cost, class: 'col-sm-2 required col-form-label' %>
-      <div class="input-group col-sm-3 pl-0 pr-0">
+      <div class="input-group col-sm-2 pl-0 pr-0">
         <div class="input-group-prepend">
           <span class="input-group-text">$</span>
           <%= f.number_field :cost, required: true, step: 0.01, class: 'form-control' %>
         </div>
       </div>
-      <div class="col-sm-7 text-left form-text text-muted align-self-center">Note: maximum reimbursement capped at UNM's current credit hour rate.</div>
+      <div class="col-sm-8 text-left form-text text-muted align-self-center">NOTICE: maximum reimbursement capped at UNM's current credit hour rate.</div>
     </div>
-<div class="h5 text-center">
-  Creating this request is an agreement to the conditions and requirements of <a href="https://unmh.policymedical.net/" target="_blank" class="text-primary">HR Policy 370: Tuition Reimbursement on the Policies & Procedures site</a>. Actual reimbursement to you may be less than your tuition cost.
-</div>
+
+   <div class="h4 text-center p-1 bg-silver">
+    Creating this request is an agreement to the conditions and requirements of <a href="https://unmh.policymedical.net/" target="_blank" class="text-primary">HR Policy 370: Tuition Reimbursement on the Policies & Procedures site</a>. Actual reimbursement to you may be less than your tuition cost.
+  </div>
+
+  <% if !@course.id %>
+    <%= f.radio_button(:status, 'draft') %>
+    <%= f.label :status, 'Create as a draft to submit later', value: 'draft' %>
+    <br>
+    <%= f.radio_button(:status, 'pending') %>
+    <%= f.label :status, 'Submit this request now for manager approval', value: 'pending' %>
+
+    <% else %>
+      <%= f.hidden_field :status, class: 'form-control' %>
+  <% end %>
 
   <div class="form-group">
     <%= f.submit 'Submit', class: "btn btn-primary" %>

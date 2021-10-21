@@ -6,7 +6,7 @@ class CreateApprovals < ActiveRecord::Migration[5.2]
       t.string :role
       t.string :response
       t.text :deny_reason
-      t.references :course, foreign_key: true
+      t.references :course, foreign_key: true, null: true
 
       t.timestamps
     end

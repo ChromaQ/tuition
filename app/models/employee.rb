@@ -69,17 +69,20 @@
 #  ins_id              :string(20)
 #  manager_id          :decimal(, )
 #
+
 class Employee < ApplicationRecord
   establish_connection :hrpayroll
   self.table_name = :emp_all
   self.primary_key = :employee_id
 
   # == Attributes =====================================
-  attribute :dept_num, :string
+  attribute :process_level, :string # what company the person works for - 10 means UNMH, 400 means SRMC, 500 means UNMMG
+  attribute :dept_num, :string # needed to determine HR benefits team, which is
+  attribute :dept_name, :string
   attribute :employee_id, :integer
   attribute :manager_id, :integer
   attribute :fte_status, :float # this is because it's a number Oracle/Rails like to assign it as a shorthand number 1e-3
-  attribute :standard_hours, :float
+
   alias_attribute :id, :employee_id
   alias_attribute :department, :dept_num
   alias_attribute :firstname, :first_name
@@ -112,12 +115,14 @@ class Employee < ApplicationRecord
   scope :is_active, -> { where(status: :active) }
   scope :is_termed, -> { where(status: :termed) }
   scope :is_not_termed, -> { where.not(status: :termed) }
+  scope :benefits, -> { where(department: '101094010', status: :active) }
 
   # Employed by specific Organization
   scope :srmc_employee, -> { where(company: 'SRMC') }
   scope :uh_employee, -> { where(company: 'UNMH') } # 10 = UNMH
   scope :unmmg_employee, -> { where(company: 'UNMMG') }
   scope :in_company, ->(company) { where(company: company) }
+
 
   # ==> Additional conditional scopes (most of the ones below are chained across several scopes)
   # scope :not_termed, -> { where(term_date: term_date) }
@@ -140,22 +145,6 @@ class Employee < ApplicationRecord
       srmc_employee
     else
       uh_employee
-    end
-  end
-
-  # How many credits per fiscal year is an employee eligible for, based on an employee's FTE status in HR Payroll
-  def max_credits_per_year
-    return 0 if fte_status.blank? # If you don't have an FTE status in HR Payroll, you don't get any credit allotment.
-
-    case fte_status.to_f
-    when (0.9...) # between 0.9 and 1.0 FTE, eligible for 24 credits per fiscal year
-      24
-    when (0.7..0.9) # between 0.7 and under 0.9 FTE, eligible for 21 credits per fiscal year
-      21
-    when (0.5..0.7) # between 0.5 and under 0.7 FTE, eligible for 18 credits per fiscal year
-      18
-    else
-      0 # under 0.5 FTE, ineligible for tuition reimbursement program
     end
   end
 
@@ -218,8 +207,35 @@ class Employee < ApplicationRecord
   end
 
   # == Instance Methods ==============================
+
+  # How many credits per fiscal year is an employee eligible for, based on an employee's FTE status in HR Payroll
+  def max_credits_per_year
+    return 0 if fte_status.blank? # If you don't have an FTE status in HR Payroll, you don't get any credit allotment.
+
+    case fte_status.to_f
+    when (0.9...) # between 0.9 and 1.0 FTE, eligible for 24 credits per fiscal year
+      24
+    when (0.7..0.9) # between 0.7 and under 0.9 FTE, eligible for 21 credits per fiscal year
+      21
+    when (0.5..0.7) # between 0.5 and under 0.7 FTE, eligible for 18 credits per fiscal year
+      18
+    else
+      0 # under 0.5 FTE, ineligible for tuition reimbursement program
+    end
+  end
+
   def search_display_name
     "#{firstname} #{lastname}"
+  end
+
+  # Is this employee on the benefits team? Used to set the HR access permission. dept_num "101094010", for dept_name "HR Benefits Division" (which could change down the road)
+  def benefits_team?
+    dept_num == '101094010' && status == 'active'
+  end
+
+  # Is this employee a manager?
+  def manager?
+    Employee.where(manager_id: employee_id).exists?
   end
 
   def eligible_at

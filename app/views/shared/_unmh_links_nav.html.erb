@@ -1,0 +1,10 @@
+<div class="dropdown">
+  <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="unmh_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <%= image_tag 'UNM_Hospitals_Horizontal.png', height: '30px' %>
+  </button>
+  <div class="dropdown-menu bg-light" aria-labelledby="unmh_links">
+    <% UnmhLinks.get_nav_items.each do |nav_item| %>
+      <a href='<%= nav_item.fetch('link', {}).fetch('url', '#') %>' class="dropdown-item"> <%= nav_item.fetch('title') %></a>
+    <% end %>
+  </div>
+</div>

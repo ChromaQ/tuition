@@ -37,7 +37,7 @@
           <% if course.employee_id == current_user.employee_id || current_user.superuser? %>
             <%= link_to 'Edit', edit_course_path(course), class:"btn btn-sm btn-outline-secondary" %>
             <% if course.status == 'draft' %>
-              <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure you want to permanently delete this?.' }, class:"btn btn-sm btn-outline-warning" %>
+              <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure you want to permanently delete this?' }, class:"btn btn-sm btn-outline-danger" %>
             <% end %>
           <% end %>
         </td>

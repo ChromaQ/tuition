@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProofsController < ApplicationController
-  before_action :set_proof, only: [:show, :edit, :update, :destroy]
+  before_action :set_proof, only: [:show, :edit, :update, :destroy, :approve]
 
   # GET /proofs
   def index
@@ -14,14 +14,12 @@ class ProofsController < ApplicationController
 
   # GET /proofs/new
   def new
-    @proof = Proof.new
+    @proof = Proof.new(status: 'draft')
     @proof.course_id = params[:course_id]
   end
 
   # GET /proofs/1/edit
   def edit
-    @proof.approver = User.find(params[:approver_id]) if params.key? :approver_id
-    @proof.response = params[:response] if params.key? :response
   end
 
   # POST /proofs
@@ -47,6 +45,30 @@ class ProofsController < ApplicationController
     end
   end
 
+  # Submit document to HR Benefits for review: status becomes "pending" - see app/mailers/user_mailer.rb if changing to, cc, or email subject
+  def submit
+    @proof.pending!
+    redirect_to @proof, notice: 'Your document has been submitted to the HR Benefits team for review.'
+  end
+
+  # Triggers when HR approves the proof document
+  def approve
+    if @proof.approve_proof(current_user)
+      redirect_to @proof, notice: 'Thanks! Your approval on this supporting document has been logged.'
+    else
+      redirect_to @proof, notice: 'Approval did not complete - Sorry about that! Please reload the page and try again.'
+    end
+  end
+
+  # When HR rejects a proof document
+  def reject
+    if @proof.reject_proof(current_user)
+      redirect to @proof.course, notice: 'Your rejection of this document has been logged and the user will be notified by email.'
+    else
+      redirect_to @proof, notice: 'Proof rejection did not complete - Sorry about that! Please reload the page and try again.'
+    end
+  end
+
   # DELETE /proofs/1
   def destroy
     @proof.destroy
@@ -58,11 +80,11 @@ class ProofsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_proof
-    @proof = Proof.includes(:course).references(:course).find(params[:id])
+    @proof = Proof.includes(:course, :approvals).references(:course, :approvals).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def proof_params
-    params.require(:proof).permit(:receipt, :grade, :course_id, :document, :approver, :approver_id, :response, :deny_reason)
+    params.require(:proof).permit(:receipt, :grade, :course_id, :document, :status)
   end
 end
