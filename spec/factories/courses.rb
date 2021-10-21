@@ -3,7 +3,6 @@
 # Table name: courses
 #
 #  id                     :bigint           not null, primary key
-#  cost                   :float
 #  cost_estimate_cents    :integer          default(0), not null
 #  cost_estimate_currency :string(4000)     default("USD"), not null
 #  course_short           :string(4000)

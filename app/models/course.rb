@@ -5,7 +5,6 @@
 # Table name: courses
 #
 #  id                     :bigint           not null, primary key
-#  cost                   :float
 #  cost_estimate_cents    :integer          default(0), not null
 #  cost_estimate_currency :string(4000)     default("USD"), not null
 #  course_short           :string(4000)
@@ -38,6 +37,7 @@ class Course < ApplicationRecord
 
   enum status: { draft: 0, pending: 1, denied: 2, approved: 3, withdrawn: 4, reimbursed: 5 }
 
+  # see https://github.com/RubyMoney/money-rails for info on using monetize & associated helpers
   monetize :cost_estimate_cents, allow_nil: true
 
   # == Validations ====================================
