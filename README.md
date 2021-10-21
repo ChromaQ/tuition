@@ -25,6 +25,27 @@ Users can upload the documents required by policy, which are then reviewed by th
   - Required for determining employee eligibility for benefit
   - Also determines who is the employee's manager for approving course reimbursement requests
 
+### money-rails information
+
+**Documentation:** [https://github.com/RubyMoney/money-rails][https://github.com/RubyMoney/money-rails]
+
+Used for calculating money in the app, in places like Course.cost_estimate
+
+**Helpers:** [https://github.com/RubyMoney/money-rails#helpers][Helpers]
+
+| Helper                                            | Result                                 |
+|---------------------------------------------------|----------------------------------------|
+| currency_symbol                                   | <span class="currency_symbol">$</span> |
+| humanized_money @money_object                     | 6.50                                   |
+| humanized_money_with_symbol @money_object         | $6.50                                  |
+| money_without_cents @money_object                 | 6                                      |
+| money_without_cents_and_with_symbol @money_object | $6                                     |
+| money_only_cents @money_object                    | 50                                     |
+
 
 ### Database Strucutre (ERD):
 ![](tuitrem_erd.png)
+
+[https://github.com/RubyMoney/money-rails]: https://github.com/RubyMoney/money-rails
+
+[Helpers]: https://github.com/RubyMoney/money-rails#helpers

@@ -3,25 +3,25 @@
 # Table name: users
 #
 #  id                 :bigint           not null
-#  company            :string(4000)
+#  company            :varchar(50)
 #  current_sign_in_at :datetime
-#  current_sign_in_ip :string(4000)
-#  displayname        :string(4000)
-#  email              :string(4000)
+#  current_sign_in_ip :varchar(100)
+#  displayname        :varchar(200)
+#  email              :varchar(200)
 #  hr_access          :boolean
 #  last_sign_in_at    :datetime
-#  last_sign_in_ip    :string(4000)
+#  last_sign_in_ip    :varchar(100)
 #  manager_access     :boolean
 #  sign_in_count      :integer          default(0), not null
 #  superuser          :boolean          default(FALSE)
-#  username           :string(4000)     not null
+#  username           :varchar(100)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  employee_id        :string(4000)
+#  employee_id        :varchar(50)
 #
 # Indexes
 #
-#  index_users_on_username  (username) UNIQUE
+#  index_users_on_username  (username)
 #
 require 'rails_helper'
 

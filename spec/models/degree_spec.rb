@@ -3,7 +3,7 @@
 # Table name: degrees
 #
 #  id         :bigint           not null, primary key
-#  name       :string(4000)
+#  name       :varchar(50)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

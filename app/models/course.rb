@@ -4,19 +4,20 @@
 #
 # Table name: courses
 #
-#  id           :bigint           not null, primary key
-#  cost         :float
-#  course_short :string(4000)
-#  course_title :string(4000)
-#  credit_hours :integer
-#  end_date     :datetime
-#  start_date   :datetime
-#  status       :integer
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  employee_id  :string(4000)
-#  goal_id      :bigint
-#  user_id      :bigint
+#  id                     :bigint           not null, primary key
+#  cost_estimate_cents    :integer          default(0), not null
+#  cost_estimate_currency :varchar(50)      default("USD")
+#  course_short           :varchar(50)
+#  course_title           :varchar(200)
+#  credit_hours           :integer
+#  end_date               :datetime
+#  start_date             :datetime
+#  status                 :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  employee_id            :varchar(50)
+#  goal_id                :bigint
+#  user_id                :bigint
 #
 # Indexes
 #
@@ -35,6 +36,9 @@ class Course < ApplicationRecord
   has_many   :proofs,    dependent: :destroy
 
   enum status: { draft: 0, pending: 1, denied: 2, approved: 3, withdrawn: 4, reimbursed: 5 }
+
+  # see https://github.com/RubyMoney/money-rails for info on using monetize & associated helpers
+  monetize :cost_estimate_cents, allow_nil: true
 
   # == Validations ====================================
   validates :employee_id, presence: true

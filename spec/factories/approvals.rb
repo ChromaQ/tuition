@@ -3,13 +3,13 @@
 # Table name: approvals
 #
 #  id          :bigint           not null, primary key
-#  deny_reason :text(2147483647)
+#  deny_reason :string(4000)
 #  response    :integer
 #  role        :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  course_id   :bigint
-#  employee_id :string(4000)
+#  employee_id :varchar(50)
 #  goal_id     :bigint
 #  proof_id    :bigint
 #  user_id     :integer

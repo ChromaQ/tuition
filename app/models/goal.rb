@@ -6,7 +6,7 @@
 #
 #  id            :bigint           not null, primary key
 #  active        :boolean          default(TRUE)
-#  focus         :string(4000)
+#  focus         :varchar(200)
 #  status        :integer          default("draft"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

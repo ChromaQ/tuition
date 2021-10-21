@@ -6,8 +6,8 @@
 #
 #  id           :bigint           not null, primary key
 #  auto_approve :boolean
-#  description  :string(4000)
-#  name         :string(4000)
+#  description  :varchar(200)
+#  name         :varchar(50)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  degree_id    :bigint
