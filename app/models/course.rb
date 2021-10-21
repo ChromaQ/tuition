@@ -6,16 +6,16 @@
 #
 #  id                     :bigint           not null, primary key
 #  cost_estimate_cents    :integer          default(0), not null
-#  cost_estimate_currency :string(4000)     default("USD"), not null
-#  course_short           :string(4000)
-#  course_title           :string(4000)
+#  cost_estimate_currency :varchar(50)      default("USD")
+#  course_short           :varchar(50)
+#  course_title           :varchar(200)
 #  credit_hours           :integer
 #  end_date               :datetime
 #  start_date             :datetime
 #  status                 :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  employee_id            :string(4000)
+#  employee_id            :varchar(50)
 #  goal_id                :bigint
 #  user_id                :bigint
 #

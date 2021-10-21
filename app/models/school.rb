@@ -3,10 +3,10 @@
 # Table name: schools
 #
 #  id         :bigint           not null, primary key
-#  aka        :string(4000)
-#  city       :string(4000)
-#  name       :string(4000)     not null
-#  opeid      :string(4000)
+#  aka        :varchar(500)
+#  city       :varchar(200)
+#  name       :varchar(200)
+#  opeid      :varchar(50)
 #  operating  :boolean          default(TRUE)
 #  state      :string(30)
 #  unitid     :integer          not null
