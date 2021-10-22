@@ -29,7 +29,7 @@
         <td class="d-none d-md-table-cell"><%= course.course_short %></td>
         <td><%= course.start_date.to_s(:date2yr) %></td>
         <td><%= course.end_date.to_s(:date2yr) %></td>
-<!--        <td class="d-none d-md-table-cell"><%#= number_to_currency(course.cost) %></td>-->
+<!--        <td class="d-none d-md-table-cell"><%#= number_to_currency(course.cost_estimate) %></td>-->
         <td><%= time_ago_in_words(course.updated_at) %> ago</td>
         <td><%= course.status&.capitalize %></td>
         <td class="btn-group d-block">

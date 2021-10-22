@@ -10,7 +10,7 @@
   <h1 class="text-center"><%= @user.displayname %> </h1>
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">Work Email</dt>
-    <dd class="col-sm-6"> <%= @user.email || @user.employee.email %> </dd>
+    <dd class="col-sm-6"> <%= mail_to @user.email || @user.employee.email %> </dd>
     <dt class="col-sm-3 offset-sm-3">Username</dt>
     <dd class="col-sm-6"> <%= @user.username %> </dd>
     <dt class="col-sm-3 offset-sm-3">Employee ID Number</dt>
@@ -106,7 +106,7 @@
                     <th scope="col" class="col-auto">Course ID</th>
                     <th scope="col" class="col-auto">Dates</th>
                     <th scope="col" class="col-auto">Credits</th>
-                    <th scope="col" class="col-auto">Cost</th>
+                    <th scope="col" class="col-auto">Est. Cost</th>
                     <th scope="col" class="col-auto">Updated</th>
                     <th scope="col" class="col-auto">Status</th>
                     <th scope="col" class="col-auto">Actions</th>
@@ -120,7 +120,7 @@
                       <td><%= course.course_short %></td>
                       <td><%= course.start_date.to_s(:date2yr) %> - <%= course.end_date.to_s(:date2yr) %></td>
                       <td><%= course.credit_hours %></td>
-                      <td><%= number_to_currency(course.cost) %></td>
+                      <td><%= number_to_currency(course.cost_estimate) %></td>
                       <td><%= time_ago_in_words(course.updated_at) %> ago</td>
                       <td><%= course.status&.capitalize %></td>
                       <td>
