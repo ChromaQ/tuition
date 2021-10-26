@@ -1,0 +1,25 @@
+<%- title('Reimbursement') %>
+<dl>
+  <dt>Course:</dt>
+  <dd><%= @reimbursement.course %></dd>
+  <dt>User:</dt>
+  <dd><%= @reimbursement.user %></dd>
+  <dt>Payee:</dt>
+  <dd><%= @reimbursement.payee %></dd>
+  <dt>Created by:</dt>
+  <dd><%= @reimbursement.created_by %></dd>
+  <dt>Reviewed by:</dt>
+  <dd><%= @reimbursement.reviewed_by %></dd>
+  <dt>Grade met:</dt>
+  <dd><%= @reimbursement.grade_met %></dd>
+  <dt>Credits approved:</dt>
+  <dd><%= @reimbursement.credits_approved %></dd>
+  <dt>Amount:</dt>
+  <dd><%= @reimbursement.amount %></dd>
+  <dt>Fiscal year:</dt>
+  <dd><%= @reimbursement.fiscal_year %></dd>
+  <dt>Status:</dt>
+  <dd><%= @reimbursement.status %></dd>
+</dl>
+<%= link_to 'Edit', edit_reimbursement_path(@reimbursement) %> |
+<%= link_to 'Back', reimbursements_path %>

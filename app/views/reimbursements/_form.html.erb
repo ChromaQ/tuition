@@ -1,0 +1,22 @@
+
+<%= simple_form_for(@reimbursement) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :course %>
+    <%= f.association :user %>
+    <%= f.input :payee %>
+    <%= f.input :created_by %>
+    <%= f.input :reviewed_by %>
+    <%= f.input :grade_met %>
+    <%= f.input :credits_approved %>
+    <%= f.input :amount %>
+    <%= f.input :fiscal_year %>
+    <%= f.input :status %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
