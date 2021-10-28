@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reimbursements
@@ -28,6 +30,40 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Reimbursement < ApplicationRecord
+
+  # == Relationships ==================================
   belongs_to :course
   belongs_to :user
+
+  monetize :amount_cents, allow_nil: true
+
+  enum status: { draft: 0, pending: 1, denied: 2, approved: 3, reviewed: 4, withdrawn: 5, reimbursed: 6 }
+
+  # == Validations ====================================
+
+  validates :payee, presence: true
+  validates :course_id, presence: true
+
+  # == Scopes =========================================
+
+
+  # == InstanceMethods ================================
+
+
+  # == ClassMethods ===================================
+
+  # estimate fiscal year of reimbursement
+  def self.estimate_fiscal_year
+    now = DateTime.now
+    if now.month >= 7
+      DateTime.now + 1.year
+    else
+      now
+    end
+  end
+
+
+
+
+
 end

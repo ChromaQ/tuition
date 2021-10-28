@@ -34,6 +34,7 @@ class Course < ApplicationRecord
   belongs_to :goal
   has_many   :approvals, dependent: :destroy
   has_many   :proofs,    dependent: :destroy
+  has_one :reimbursement
 
   enum status: { draft: 0, pending: 1, denied: 2, approved: 3, withdrawn: 4, reimbursed: 5 }
 

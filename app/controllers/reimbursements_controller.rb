@@ -1,10 +1,11 @@
 class ReimbursementsController < ApplicationController
   before_action :set_reimbursement, only: [:show, :edit, :update, :destroy]
-  
+
   # GET /reimbursements
   def index
-    @reimbursements = Reimbursement.all
-    
+    @q = Reimbursement.ransack(params[:q])
+    @q.sorts = ['updated_at desc'] if @q.sorts.empty? # default sort by most recently updated
+    @reimbursements = @q.result.includes(:user, :course)
   end
 
   # GET /reimbursements/1
@@ -13,7 +14,8 @@ class ReimbursementsController < ApplicationController
 
   # GET /reimbursements/new
   def new
-    @reimbursement = Reimbursement.new
+    fy = Reimbursement.estimate_fiscal_year
+    @reimbursement = Reimbursement.new(created_by: current_user.employee_id, fiscal_year: fy, status: 'draft')
   end
 
   # GET /reimbursements/1/edit
@@ -47,13 +49,14 @@ class ReimbursementsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_reimbursement
-      @reimbursement = Reimbursement.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def reimbursement_params
-      params.require(:reimbursement).permit(:course_id, :user_id, :payee, :created_by, :reviewed_by, :grade_met, :credits_approved, :amount, :fiscal_year, :status)
-    end
+  def set_reimbursement
+    @reimbursement = Reimbursement.includes(:course, :user).find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def reimbursement_params
+    params.require(:reimbursement).permit(:course_id, :user_id, :payee, :created_by, :reviewed_by, :grade_met, :credits_approved, :amount, :fiscal_year, :status)
+  end
+
 end
