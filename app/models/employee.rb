@@ -106,6 +106,8 @@ class Employee < ApplicationRecord
   belongs_to :user, primary_key: :employee_id, foreign_key: :employee_id
   belongs_to :manager, class_name: 'Employee', foreign_key: :manager_id
   has_many :subordinates, class_name: 'Employee', foreign_key: :manager_id
+  has_many :generated_reimbursements, class_name: 'Reimbursement', foreign_key: :created_by
+  has_many :reviewed_reimbursements, class_name: 'Reimbursement', foreign_key: :reviewed_by
   delegate :status, to: :user, prefix: true
 
   # == Validations ===================================

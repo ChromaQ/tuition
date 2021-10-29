@@ -34,10 +34,13 @@ class Reimbursement < ApplicationRecord
   # == Relationships ==================================
   belongs_to :course
   belongs_to :user
+  # belongs_to :creator, class_name: 'User', primary_key: :created_by, foreign_key: :employee_id
+
+  enum status: { draft: 0, pending: 1, denied: 2, approved: 3, reviewed: 4, withdrawn: 5, reimbursed: 6 }
 
   monetize :amount_cents, allow_nil: true
 
-  enum status: { draft: 0, pending: 1, denied: 2, approved: 3, reviewed: 4, withdrawn: 5, reimbursed: 6 }
+
 
   # == Validations ====================================
 
@@ -49,6 +52,13 @@ class Reimbursement < ApplicationRecord
 
   # == InstanceMethods ================================
 
+  def creator
+    User.find_by(employee_id: created_by)
+  end
+
+  def reviewer
+    User.find_by(employee_id: reviewed_by)
+  end
 
   # == ClassMethods ===================================
 
@@ -63,7 +73,10 @@ class Reimbursement < ApplicationRecord
   end
 
 
-
-
+  def who_dat(employee_id)
+    User.find_by(employee_id: employee_id)
+  rescue
+    Employee.where(employee_id: employee_id).first_name
+  end
 
 end

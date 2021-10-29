@@ -29,6 +29,7 @@ class User < ApplicationRecord
   # == Relationships ==================================
   has_one :employee, primary_key: :employee_id, foreign_key: :employee_id
   has_many :goals
+  has_many :reimbursements
   accepts_nested_attributes_for :goals
   has_many :courses, through: :goals, class_name: 'Course'
   has_many :credentials, through: :goals, class_name: 'Credential'
@@ -38,6 +39,7 @@ class User < ApplicationRecord
   has_many :approved_courses, -> { where(status: 'approved') }, class_name: 'Course'
   has_many :pending_courses, -> { where(status: 'pending') }, class_name: 'Course'
   has_many :reimbursed_courses, -> { where(status: 'reimbursed') }, class_name: 'Course'
+  has_many :created_reimbursements, -> { where(created_by: self.employee_id) }, class_name: 'Reimbursement'
 
   # == Attributes =====================================
   alias_attribute :employeeid, :employee_id
@@ -98,6 +100,20 @@ class User < ApplicationRecord
 
   def self.course_count
     Course.where(user_id: user.id).count
+  end
+
+  def self.employee_id_finder(employee_id)
+    user = User.find_by(employee_id: employee_id)
+    return user unless user.nil?
+
+    user = Employee.find_by(employee_id: employee_id)
+    return user unless user.nil?
+
+    user = User.new
+    user.displayname = "Unknown User #{employee_id} "
+
+    return user
+
   end
 
   # Check Tuition Reimbursement Credits left in fiscal year
