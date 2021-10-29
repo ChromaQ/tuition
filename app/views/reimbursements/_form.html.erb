@@ -6,17 +6,17 @@
   <div class="form-inputs">
     <%= f.association :course %>
     <%= f.association :user %>
-    <%= f.input :payee %>
-    <%= f.input :created_by %>
-    <%= f.input :reviewed_by %>
+    <%= f.input :payee, as: :string %>
+    <%= f.input :created_by, as: :string %>
+    <%= f.input :reviewed_by, as: :string %>
     <%= f.input :grade_met %>
     <%= f.input :credits_approved %>
     <%= f.input :amount %>
     <%= f.input :fiscal_year %>
-    <%= f.input :status %>
+    <%= f.hidden_field :status %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, class: 'btn btn-primary' %>
   </div>
 <% end %>
