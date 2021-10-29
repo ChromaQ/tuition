@@ -1,15 +1,15 @@
 <%- title('Reimbursement') %>
 <dl>
   <dt>Course:</dt>
-  <dd><%= @reimbursement.course %></dd>
-  <dt>User:</dt>
-  <dd><%= @reimbursement.user %></dd>
-  <dt>Payee:</dt>
+  <dd><%= link_to @reimbursement.course.course_title, @reimbursement.course %> </dd>
+  <dt>Reimbursed to:</dt>
+  <dd><%= link_to @reimbursement.user&.displayname, @reimbursement.user %></dd>
+  <dt>Employee ID:</dt>
   <dd><%= @reimbursement.payee %></dd>
   <dt>Created by:</dt>
-  <dd><%= @reimbursement.created_by %></dd>
+  <dd><%= @reimbursement.creator&.displayname %></dd>
   <dt>Reviewed by:</dt>
-  <dd><%= @reimbursement.reviewed_by %></dd>
+  <dd><%= @reimbursement.reviewer&.displayname %></dd>
   <dt>Grade met:</dt>
   <dd><%= @reimbursement.grade_met %></dd>
   <dt>Credits approved:</dt>
@@ -17,9 +17,9 @@
   <dt>Amount:</dt>
   <dd><%= @reimbursement.amount %></dd>
   <dt>Fiscal year:</dt>
-  <dd><%= @reimbursement.fiscal_year %></dd>
+  <dd><%= @reimbursement.fiscal_year.year %></dd>
   <dt>Status:</dt>
-  <dd><%= @reimbursement.status %></dd>
+  <dd><%= @reimbursement.status.titleize %></dd>
 </dl>
 <%= link_to 'Edit', edit_reimbursement_path(@reimbursement) %> |
 <%= link_to 'Back', reimbursements_path %>
