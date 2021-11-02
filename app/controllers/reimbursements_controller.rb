@@ -51,7 +51,7 @@ class ReimbursementsController < ApplicationController
   private
 
   def set_reimbursement
-    @reimbursement = Reimbursement.includes(:course, :user).find(params[:id])
+    @reimbursement = Reimbursement.includes(:course, :user).references(:course, :user).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
