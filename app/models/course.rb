@@ -47,6 +47,7 @@ class Course < ApplicationRecord
   validates :start_date, :end_date, presence: true
 
   # == Scopes =========================================
+  scope :proof_review, -> { includes(:proofs).where(status: 'pending').references(:proofs) }
   scope :submitted_by_employee, ->(employee_id) { where(employee_id: employee_id) }
   scope :subordinate_requests, lambda { |employee_id|
     includes(:employee)
@@ -75,6 +76,18 @@ class Course < ApplicationRecord
     else
       time.year
     end
+  end
+
+  # check to see if the course is ready for a proof review by the benefits team
+  def proof_reviewable
+    proofs = Proof.where(course_id: id)
+    proofs.any?(&:grade_reviewable) && proofs.any?(&:receipt_reviewable)
+  end
+
+  # check to see whether the course is ready for a reimbursement
+  def reimbursable
+    proofs = Proof.where(course_id: id)
+    proofs.any?(&:grade_approved) && proofs.any?(&:receipt_approved)
   end
 
   # == ClassMethods ===================================

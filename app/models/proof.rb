@@ -42,6 +42,22 @@ class Proof < ApplicationRecord
     end
   end
 
+  def receipt_reviewable
+    receipt? && pending?
+  end
+
+  def receipt_approved
+    receipt? && approved?
+  end
+
+  def grade_reviewable
+    grade? && pending?
+  end
+
+  def grade_approved
+    grade? && approved?
+  end
+
   # once hr manually approves a proof document, update proof status to approved after creating an approval record
   def approve_proof(approved_by)
     approval = Approval.new(proof_id: id, user_id: approved_by.id, employee_id: approved_by.employee_id, response: 'approved', role: 'human_resources')
