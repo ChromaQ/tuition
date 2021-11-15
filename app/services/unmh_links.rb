@@ -4,7 +4,7 @@ require 'json'
 require 'rest-client'
 
 class UnmhLinks
-  def self.get_nav_items(id=10013)
+  def self.get_nav_items(id='intranet_full')
     response = RestClient::Request.execute(method: :get,
                                             url: "https://links.uhapps.health.unm.edu/api/v1/navlists/#{id}.json",
                                             timeout: 30)
