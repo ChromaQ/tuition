@@ -98,6 +98,8 @@
       </tbody>
     </table>
 <% end %>
+<%= link_to 'Start Reimbursement', new_reimbursement_path(course_id: @course.id, user_id: @course.user_id, payee: @course.employee_id), class: "btn btn-sm btn-primary" %>
+
 <hr>
 <h3 class="text-center pt-3">Documentation</h3>
 <p class="text-center text-muted">To be eligible for reimbursement, the requesting employee must upload a detailed account summary and proof of grade.</p>

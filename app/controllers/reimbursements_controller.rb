@@ -15,7 +15,7 @@ class ReimbursementsController < ApplicationController
   # GET /reimbursements/new
   def new
     fy = Reimbursement.estimate_fiscal_year
-    @reimbursement = Reimbursement.new(created_by: current_user.employee_id, fiscal_year: fy, status: 'draft')
+    @reimbursement = Reimbursement.new(course_id: params[:course_id], user_id: params[:user_id], payee: params[:payee], created_by: current_user.employee_id, fiscal_year: fy, status: 'draft')
   end
 
   # GET /reimbursements/1/edit
@@ -51,7 +51,7 @@ class ReimbursementsController < ApplicationController
   private
 
   def set_reimbursement
-    @reimbursement = Reimbursement.includes(:course, :user).references(:course, :user).find(params[:id])
+    @reimbursement = Reimbursement.includes(:course, :user).references(:course, :user, :employee).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
