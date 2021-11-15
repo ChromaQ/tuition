@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_21_205748) do
+ActiveRecord::Schema.define(version: 2021_10_26_233343) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -123,6 +123,24 @@ ActiveRecord::Schema.define(version: 2021_10_21_205748) do
     t.index ["course_id"], name: "index_proofs_on_course_id"
   end
 
+  create_table "reimbursements", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "user_id", null: false
+    t.varchar "payee", limit: 50, null: false
+    t.varchar "created_by", limit: 50, null: false
+    t.varchar "reviewed_by", limit: 50
+    t.boolean "grade_met", default: true
+    t.integer "credits_approved"
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "USD", null: false
+    t.datetime "fiscal_year", null: false
+    t.integer "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_reimbursements_on_course_id"
+    t.index ["user_id"], name: "index_reimbursements_on_user_id"
+  end
+
   create_table "schools", force: :cascade do |t|
     t.integer "unitid", null: false
     t.varchar "opeid", limit: 50
@@ -166,4 +184,6 @@ ActiveRecord::Schema.define(version: 2021_10_21_205748) do
   add_foreign_key "goals", "users"
   add_foreign_key "impressions", "users"
   add_foreign_key "proofs", "courses"
+  add_foreign_key "reimbursements", "courses"
+  add_foreign_key "reimbursements", "users"
 end

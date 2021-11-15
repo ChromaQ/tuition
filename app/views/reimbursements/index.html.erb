@@ -1,0 +1,42 @@
+<h1 class="text-center"><%= title('Reimbursements') %></h1>
+
+<table class="table table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col"><%= sort_link(@q, :course_short, 'Course ID') %></th>
+      <th scope="col"><%= sort_link(@q, :user_displayname, 'Pay To') %></th>
+<!--      <th scope="col">Created by</th>-->
+<!--      <th scope="col">Reviewed by</th>-->
+<!--      <th scope="col">Grade met</th>-->
+      <th scope="col"><%= sort_link(@q, :credits_approved, 'Credits') %></th>
+      <th scope="col"><%= sort_link(@q, :amount_cents, 'Amount') %></th>
+      <th scope="col"><%= sort_link(@q, :fiscal_year) %></th>
+      <th scope="col"><%= sort_link(@q, :status) %></th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reimbursements.each do |reimbursement| %>
+      <tr>
+        <td><%= link_to reimbursement.course&.course_short, reimbursement.course %></td>
+        <td><%= link_to reimbursement.user&.displayname, reimbursement.user %> </td>
+<!--        <td><%#= reimbursement.created_by %></td>-->
+<!--        <td><%#= reimbursement.reviewed_by %></td>-->
+<!--        <td><%#= reimbursement.grade_met %></td>-->
+        <td><%= reimbursement.credits_approved %></td>
+        <td><%= reimbursement.amount %></td>
+        <td><%= reimbursement.fiscal_year.year %></td>
+        <td><%= reimbursement.status.titleize %></td>
+        <td>
+          <%= link_to 'Show', reimbursement, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to 'Edit', edit_reimbursement_path(reimbursement), class: 'btn btn-sm btn-outline-secondary' %>
+          <%= link_to 'Destroy', reimbursement, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%#= link_to 'New Reimbursement', new_reimbursement_path %>
