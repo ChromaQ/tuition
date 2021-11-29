@@ -98,8 +98,6 @@
       </tbody>
     </table>
 <% end %>
-<%= link_to 'Start Reimbursement', new_reimbursement_path(course_id: @course.id, user_id: @course.user_id, payee: @course.employee_id), class: "btn btn-sm btn-primary" %>
-
 <hr>
 <h3 class="text-center pt-3">Documentation</h3>
 <p class="text-center text-muted">To be eligible for reimbursement, the requesting employee must upload a detailed account summary and proof of grade.</p>
@@ -143,3 +141,41 @@
     </tbody>
   </table>
 <% end %>
+
+<h3 class="text-center pt-3">Reimbursements</h3>
+<p class="text-center text-muted">To be eligible for reimbursement, this course must have an HR-approved detailed account summary and proof of grade.</p>
+<div class="row">
+  <div class="col text-center mb-2">
+    <%= link_to 'Start Reimbursement', new_reimbursement_path(course_id: @course.id, user_id: @course.user_id, payee: @course.employee_id), class: "btn btn-sm btn-primary" %>
+  </div>
+</div>
+<% if @course.reimbursement.nil? %>
+  <p class="text-center mt-2">No reimbursements yet.</p>
+<% else %>
+  <table class="table table-hover table-sm">
+    <thead>
+    <tr>
+      <th scope="col">Credits</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Fiscal Year</th>
+      <th scope="col">Status</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td><%= @course.reimbursement.credits_approved %></td>
+        <td><%= @course.reimbursement.amount %></td>
+        <td><%= @course.reimbursement.fiscal_year.year %></td>
+        <td><%= @course.reimbursement.status.titleize %></td>
+        <td>
+          <%= link_to 'Show', @course.reimbursement, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to 'Edit', edit_reimbursement_path(@course.reimbursement), class: 'btn btn-sm btn-outline-secondary' %>
+          <%= link_to 'Destroy', @course.reimbursement, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger' %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
