@@ -4,10 +4,10 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.input :course_id, input_html: { disabled: true } %>
-    <%= f.input :user_id %>
-    <%= f.input :payee, as: :string %>
-    <%= f.input :created_by, as: :string %>
+    <%= f.hidden_field :course_id %>
+    <%= f.hidden_field :user_id %>
+    <%= f.hidden_field :payee %>
+    <%= f.hidden_field :created_by %>
     <%= f.input :reviewed_by, as: :string %>
     <%= f.input :grade_met %>
     <%= f.input :credits_approved %>
