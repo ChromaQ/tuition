@@ -48,7 +48,7 @@ class Reimbursement < ApplicationRecord
   validates :course_id, presence: true
 
   # == Scopes =========================================
-
+  scope :review_amount, -> { includes(:course).where("amount_cents >= 200000") } # business requirement - reimbursements over $2k need to be reviewed by benefits mgr
 
   # == InstanceMethods ================================
 
