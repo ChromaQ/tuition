@@ -3,7 +3,8 @@
 
   <ul>
     <li><%= link_to 'Educational Goals', goals_path %>  <%= link_to pluralize(Goal.pending.size, 'Pending Goal'), goals_path, class: 'badge badge-pill badge-secondary' %> </li>
-    <li><%= link_to 'Proof Documentation', proofs_path %>  <%= link_to pluralize(Proof.pending.size, 'Pending Document'), goals_path, class: 'badge badge-pill badge-secondary' %></li>
+    <li><%= link_to 'Proof Documentation', proofs_path %>  <%= link_to pluralize(Proof.pending.size, 'Pending Document'), proofs_path, class: 'badge badge-pill badge-secondary' %></li>
+    <li><%= link_to 'Reimbursements in Review', reimbursements_path %>  <%= link_to pluralize(Reimbursement.pending.size, 'Pending Reimbursement'), reimbursements_path, class: 'badge badge-pill badge-secondary' %></li>
     <li><%= link_to 'Approvals & Denials Index', approvals_path %></li>
     <li><%= link_to 'Educational Credentials Index (for Goal Auto-Approval)', credentials_path %></li>
     <li><%= link_to 'Email Previews', emails_path %></li>
