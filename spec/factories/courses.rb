@@ -29,12 +29,14 @@
 #
 FactoryBot.define do
   factory :course do
-    employee_id { "1000" }
+    employee_id { Faker::Number.unique.number(digits: 5) }
+    user_id { 1 }
+    goal_id { 1 }
     start_date { "2020-09-04 11:53:24" }
     end_date { "2020-09-04 11:53:24" }
-    course_title { "MyString" }
-    course_short { "MyString" }
-    credit_hours { 1 }
-    cost { 1.5 }
+    course_title { Faker::Company.bs }
+    course_short { Faker::Alphanumeric(number: 6, min_alpha: 3, min_numeric: 3) }
+    credit_hours { Faker::Number.number(digits: 1) }
+    cost_estimate_cents { Faker::Number.number(digits: 6) }
   end
 end
