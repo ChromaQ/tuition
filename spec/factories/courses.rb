@@ -35,7 +35,7 @@ FactoryBot.define do
     start_date { "2020-09-04 11:53:24" }
     end_date { "2020-09-04 11:53:24" }
     course_title { Faker::Company.bs }
-    course_short { Faker::Alphanumeric(number: 6, min_alpha: 3, min_numeric: 3) }
+    course_short { Faker::Alphanumeric.alphanumeric(number: 6, min_alpha: 3, min_numeric: 3) }
     credit_hours { Faker::Number.number(digits: 1) }
     cost_estimate_cents { Faker::Number.number(digits: 6) }
   end

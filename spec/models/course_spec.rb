@@ -30,5 +30,12 @@
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validations' do
+    context 'with user_id' do
+      it { is_expected.to validate_presence_of(:user_id) }
+    end
+    context 'with goal_id' do
+      it { is_expected.to validate_presence_of(:goal_id) }
+    end
+  end
 end

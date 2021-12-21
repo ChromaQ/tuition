@@ -33,7 +33,7 @@ module DeviseHelpers
     allow(controller).to receive(:authenticate_user!).and_return(true)
     allow(controller).to receive(:current_user).and_return(user)
   end
-  # This is also good to use if you need to add custom paramters to test against the user
+  # This is also good to use if you need to add custom parameters to test against the user
   # before do
   #   @user = FactoryBot.create(:user, superuser: false, position: 'Nurse', )
   # end

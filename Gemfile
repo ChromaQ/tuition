@@ -113,7 +113,6 @@ group :development, :test do
 
   # --- Linters / Asset testing
   gem 'erb_lint', github: 'Shopify/erb-lint', require: false
-
   gem 'scss_lint', require: false
 end
 

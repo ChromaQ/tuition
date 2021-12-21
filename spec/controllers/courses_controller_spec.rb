@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CoursesController, type: :controller do
-
+  setup do
+    @course = FactoryBot.create(:course)
+    @valid_attributes = FactoryBot.attributes_for(:course)
+  end
   # This should return the minimal set of attributes required to create a valid
   # Course. As you add validations to Course, be sure to
   # adjust the attributes here as well.
@@ -37,6 +40,7 @@ RSpec.describe CoursesController, type: :controller do
   describe "GET #new" do
     it "returns a success response" do
       login_as_user
+      Goal.create(user_id: User.first.id, school_id: 1, credential_id: 1, focus: 'Learning')
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
     end
