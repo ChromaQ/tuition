@@ -29,15 +29,15 @@
 #
 FactoryBot.define do
   factory :reimbursement do
-    course { nil }
-    user { nil }
-    payee { "" }
-    created_by { "" }
-    reviewed_by { "" }
-    grade_met { false }
-    credits_approved { 1 }
-    amount { "" }
-    fiscal_year { "2021-10-26 17:33:43" }
+    payee { user.employee_id }
+    created_by { Faker::Number.unique.number(digits: 5) }
+    reviewed_by { Faker::Number.unique.number(digits: 5) }
+    grade_met { true }
+    credits_approved { Faker::Number.number(digits: 1) }
+    amount { Faker::Number.number(digits: 1) }
+    fiscal_year { DateTime.now }
     status { 1 }
+    association :user
+    association :course
   end
 end
