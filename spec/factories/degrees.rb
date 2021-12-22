@@ -9,6 +9,6 @@
 #
 FactoryBot.define do
   factory :degree do
-    degree { "MyString" }
+    name { %w[other certificate associate bachelor master doctorate].sample }
   end
 end

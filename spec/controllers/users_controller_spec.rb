@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   describe 'verify before actions' do
-    it { should use_before_action(:authenticate_user!) }
+    it { is_expected.to use_before_action(:authenticate_user!) }
   end
 
   describe 'GET #index' do

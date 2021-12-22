@@ -15,12 +15,12 @@
 #
 FactoryBot.define do
   factory :school do
-    unitid { 1 }
-    opeid { "MyString" }
-    name { "MyString" }
-    city { "MyString" }
-    state { "MyString" }
-    operating { false }
-    aka { "MyString" }
+    unitid { Faker::Number.unique.number(digits: 5) }
+    opeid { Faker::Number.unique.number(digits: 5) }
+    name { Faker::Educator.university }
+    city { Faker::Address.city }
+    state { Faker::Address.state }
+    operating { true }
+    aka { Faker::Name.initials }
   end
 end

@@ -26,10 +26,10 @@
 #
 FactoryBot.define do
   factory :goal do
-    focus { "MyString" }
-    active { false }
-    user { nil }
-    school { nil }
-    credential { nil }
+    focus { Faker::Company.bs }
+    active { true }
+    association :user
+    association :school
+    association :credential
   end
 end

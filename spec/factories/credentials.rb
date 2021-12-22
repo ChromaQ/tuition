@@ -20,9 +20,9 @@
 #
 FactoryBot.define do
   factory :credential do
-    credential { "MyString" }
-    description { "MyString" }
-    auto_approve { false }
-    degree { nil }
+    name { Faker::Name.initials }
+    description { Faker::Educator.subject }
+    auto_approve { true }
+    association :degree
   end
 end
