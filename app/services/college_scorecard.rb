@@ -9,7 +9,7 @@ class CollegeScorecard
                                            url: 'https://api.data.gov/ed/collegescorecard/v1/schools',
                                            headers: { params: { api_key: Rails.application.credentials[:api_key],
                                                                 fields: 'id,ope8_id,school.name,school.alias,school.city,school.state,school.operating,latest.student.size',
-                                                                'school.degrees_awarded.highest__not' => 0, 'school.name' => name } },
+                                                                'school.degrees_awarded.highest__not' => 0, 'school.name' => name, 'sort' => 'student.size:desc' } },
                                            timeout: 30)
     return [].freeze if response&.code != 200
 
@@ -51,6 +51,8 @@ class CollegeScorecard
 
     # Used to join the results from the API and the DB and ensure there's not duplicate results between the two
     # with uniq we need to map them as `s[:unitid]` instead of `uniq(&:unitid)` because the schools are nested hashes in the array
-    results&.union(api_schools).uniq { |s| s[:unitid] }
+    combined_results = results&.union(api_schools).uniq { |s| s[:unitid] }
+    ap combined_results
+    combined_results
   end
 end

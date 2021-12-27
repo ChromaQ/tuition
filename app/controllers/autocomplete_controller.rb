@@ -4,9 +4,9 @@ class AutocompleteController < ApplicationController
   def schools
     query_str = params[:q]&.strip
 
-    @results = (query_str.present? && query_str.to_s.length > 3) ? CollegeScorecard.school_lookup(query_str) : {}
+    @results = (query_str.present? && query_str.to_s.length >= 3) ? CollegeScorecard.school_lookup(query_str) : {}
 
-    @results = @results.map { |result| [result[:id], result[:name]] } if @results.present?
+    @results = @results.map { |result| [result[:id], "#{result[:name]} - #{result[:aka]}"] } if @results.present?
     render json: @results.to_json
   end
 

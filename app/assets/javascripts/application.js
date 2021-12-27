@@ -4,7 +4,7 @@
 // require jquery_ujs <-- disabled here because it's in the head and causes console errors
 //= require jquery-ui
 //= require bootstrap
-//= require bootstrap3-typeahead.min
+//= require bootstrap3-typeahead
 //= require bootstrap-autocomplete-input
 //= require bootstrap-autocomplete-input-init-turbolinks
 //= require turbolinks
