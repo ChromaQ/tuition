@@ -45,6 +45,7 @@ class Course < ApplicationRecord
   # == Validations ====================================
   validates :employee_id, presence: true
   validates :goal_id, presence: true
+  validates :user_id, presence: true
   validates :start_date, :end_date, presence: true
 
   # == Scopes =========================================
@@ -52,9 +53,9 @@ class Course < ApplicationRecord
   scope :submitted_by_employee, ->(employee_id) { where(employee_id: employee_id) }
   scope :subordinate_requests, lambda { |employee_id|
     includes(:employee)
-        .where(employee_id: Employee.managed_by(employee_id).not_termed
+      .where(employee_id: Employee.managed_by(employee_id).not_termed
                                 .pluck(:employee_id))
-        .order(updated_at: :desc)
+      .order(updated_at: :desc)
   }
 
   # == InstanceMethods ===================================

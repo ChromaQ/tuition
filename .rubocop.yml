@@ -41,6 +41,8 @@ Metrics/ModuleLength:
   Max: 164
 Metrics/PerceivedComplexity:
   Max: 14
+Style/ContextWording:
+  Enabled: false
 Style/Documentation:
   Enabled: false
 Style/EmptyMethod:
