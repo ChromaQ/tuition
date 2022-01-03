@@ -72,6 +72,18 @@ class Reimbursement < ApplicationRecord
     end
   end
 
+  def self.last_year
+    DateTime.now - 1.year
+  end
+
+  def self.this_year
+    DateTime.now
+  end
+
+  def self.next_year
+    DateTime.now + 1.year
+  end
+
 
   def who_dat(employee_id)
     User.find_by(employee_id: employee_id)
