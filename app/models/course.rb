@@ -51,12 +51,7 @@ class Course < ApplicationRecord
   # == Scopes =========================================
   scope :proof_review, -> { includes(:proofs).where(status: 'pending').references(:proofs) }
   scope :submitted_by_employee, ->(employee_id) { where(employee_id: employee_id) }
-  scope :subordinate_requests, lambda { |employee_id|
-    includes(:employee)
-      .where(employee_id: Employee.managed_by(employee_id).not_termed
-                                .pluck(:employee_id))
-      .order(updated_at: :desc)
-  }
+
 
   # == InstanceMethods ===================================
   # once manager approves course, update course status to approved after creating an approval record

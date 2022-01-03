@@ -2,12 +2,22 @@
 
 class UsersController < ApplicationController
   # need to tweak to allow HR access -- before_action :require_superuser?, except: :stop_impersonating
-  before_action :set_user, except: [:index, :show, :impersonate, :stop_impersonating, :impressions]
+  before_action :set_user, except: [:index, :list, :show, :impersonate, :stop_impersonating, :impressions]
 
   def index
     @q = User.ransack(params[:q])
     @q.sorts = ['username desc'] if @q.sorts.empty? # this is temporary default sort order
     @users = @q.result.includes(:courses).references(:employee, :courses)
+  end
+
+  def list
+    @q = User.ransack(params[:q])
+    @q.sorts = ['username desc'] if @q.sorts.empty? # this is temporary default sort order
+    @users = @q.result.includes(:courses).references(:employee, :courses)
+    if params[:type] == 'team'
+      @users = @users.where(id: current_user.subordinate_users)
+    end
+    render 'index'
   end
 
   def new

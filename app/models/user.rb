@@ -163,10 +163,13 @@ class User < ApplicationRecord
     self.employee.subordinates
   end
 
+  def subordinate_employee_ids
+    subordinates.pluck(:employee_id)
+  end
+
   # find the in-app users who are subordinates of the manager by using the employee id in the User table
   def subordinate_users
-    subs = subordinates.pluck(:employee_id)
-    User.where(employee_id: subs)
+    User.where(employee_id: subordinate_employee_ids)
   end
 
   ########################################

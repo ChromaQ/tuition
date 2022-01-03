@@ -125,6 +125,12 @@ class Employee < ApplicationRecord
   scope :unmmg_employee, -> { where(company: 'UNMMG') }
   scope :in_company, ->(company) { where(company: company) }
 
+  scope :subordinate_requests, lambda { |employee_id|
+    includes(:employee)
+      .where(employee_id: Employee.managed_by(employee_id).not_termed
+                                  .pluck(:employee_id))
+      .order(updated_at: :desc)
+  }
 
   # ==> Additional conditional scopes (most of the ones below are chained across several scopes)
   # scope :not_termed, -> { where(term_date: term_date) }
