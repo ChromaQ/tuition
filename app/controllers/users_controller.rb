@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  # need to tweak to allow HR access -- before_action :require_superuser?, except: :stop_impersonating
+  # before_action :require_admin?, except: :stop_impersonating
   before_action :set_user, except: [:index, :list, :show, :impersonate, :stop_impersonating, :impressions]
 
   def index
@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     @users = @q.result.includes(:courses).references(:employee, :courses)
   end
 
+  # this enables customized lists of users on the index, allowing managers to only see their subordinates
   def list
     @q = User.ransack(params[:q])
     @q.sorts = ['username desc'] if @q.sorts.empty? # this is temporary default sort order
