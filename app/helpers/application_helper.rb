@@ -10,7 +10,7 @@ module ApplicationHelper
     return '' unless flash.any?
 
     flash.each do |msg_type, message|
-      next unless !message.nil? && message.to_s.length.positive?
+      next if message.blank? || message&.to_s&.length&.zero? || message&.to_s == 'true'
 
       concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)}", role: 'alert') do
         concat content_tag(:button, 'x', class: 'close', data: { dismiss: 'alert' })
