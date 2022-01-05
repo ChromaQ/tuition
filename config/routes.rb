@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   post 'proofs/:id/approve', to: 'proofs#approve', as: 'approve_proof'
 
   devise_for :users
-  get 'users/:type', to: 'users#list', as: 'user_type_list'
+  get 'users/my-:type', to: 'users#list', as: 'user_type_list'
   resources :users
   post   'users/impersonation',      to: 'users#impersonate',        as: 'user_impersonation'
   post   'users/stop_impersonating', to: 'users#stop_impersonating', as: 'stop_impersonating_users'
