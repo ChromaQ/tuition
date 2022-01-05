@@ -40,10 +40,7 @@ class Reimbursement < ApplicationRecord
 
   monetize :amount_cents, allow_nil: true
 
-
-
   # == Validations ====================================
-
   validates :payee, presence: true
   validates :course_id, presence: true
 

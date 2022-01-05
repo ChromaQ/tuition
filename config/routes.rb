@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :reimbursements
+
   root to: 'pages#welcome'
   get 'pages/welcome'
   get '/rails/mailers/user_mailer', as: :emails
@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   resources :credentials
   resources :degrees
   resources :approvals
-
+  resources :reimbursements
+  patch 'reimbursements/:id/review', to: 'reimbursements#review', as: 'review_reimbursement'
   resources :goals
 
   get 'goals/:id/submit', to: 'goals#submit', as: 'submit_goal'

@@ -21,5 +21,7 @@
   <dt>Status:</dt>
   <dd><%= @reimbursement.status.titleize %></dd>
 </dl>
-<%= link_to 'Edit', edit_reimbursement_path(@reimbursement) %> |
-<%= link_to 'Back', reimbursements_path %>
+
+<%= button_to 'HR: Reimbursement Reviewed', review_reimbursement_path(@reimbursement), method: :patch, class: "btn btn-sm btn-outline-primary mr-1 mb-1" %>
+<%= link_to 'Edit', edit_reimbursement_path(@reimbursement), class: 'btn btn-sm btn-outline-secondary' %>
+<%= link_to 'Back', reimbursements_path, class: 'btn btn-sm btn-outline-primary' %>

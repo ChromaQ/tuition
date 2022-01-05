@@ -1,5 +1,5 @@
 class ReimbursementsController < ApplicationController
-  before_action :set_reimbursement, only: [:show, :edit, :update, :destroy]
+  before_action :set_reimbursement, only: [:show, :edit, :update, :review, :destroy]
 
   # GET /reimbursements
   def index
@@ -42,10 +42,16 @@ class ReimbursementsController < ApplicationController
     end
   end
 
+  def review
+    @reimbursement.update(reviewed_by: current_user.employee_id)
+    @reimbursement.reviewed!
+    redirect_to @reimbursement, notice: 'Reimbursement was successfully marked as reviewed.'
+  end
+
   # DELETE /reimbursements/1
   def destroy
     @reimbursement.destroy
-    redirect_to reimbursements_url, notice: 'Reimbursement was successfully destroyed.'
+    redirect_to reimbursements_url, notice: 'Reimbursement was successfully deleted.'
   end
 
   private
