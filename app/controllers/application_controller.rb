@@ -22,8 +22,15 @@ class ApplicationController < ActionController::Base
     return true if is_superuser?
 
     # if user is not a superuser (part of devgroup) redirect them back to the root_path
-    flash[:notice] = 'You do not have the required privileges in order to access this page.'
+    flash[:notice] = 'This action is only available to the software engineering team.'
     redirect_to root_path
+  end
+
+  def require_admin?
+    return true if current_user.admin?
+
+    # if user is not an admin user (part of devgroup or HR Benefits team) redirect them back to the root_path
+    flash[:notice] = 'This action is only available for the Human Resources Benefits team.'
   end
 
 

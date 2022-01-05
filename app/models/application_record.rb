@@ -10,11 +10,11 @@ class ApplicationRecord < ActiveRecord::Base
 
   # To calculate the current fiscal year - uses HR Datashare_Hybrid calculation
   def current_fiscalyear
-    time = Time.current
-    if time.month >= 7
-      (time.year.to_s[2, 2] + (time + 1.year).year.to_s[2, 2]).freeze
+    date = DateTime.current
+    if date.month >= 7
+      (date.year.to_s[2, 2] + (date + 1.year).year.to_s[2, 2]).freeze
     else
-      ((time - 1.year).year.to_s[2, 2] + time.year.to_s[2, 2]).freeze
+      ((date - 1.year).year.to_s[2, 2] + date.year.to_s[2, 2]).freeze
     end
   end
 end
