@@ -6,28 +6,7 @@
   </ol>
 </nav>
 <!-- information from in-app user table -->
-<section id="employee-info">
-  <h1 class="text-center"><%= @user.displayname %> </h1>
-  <dl class="row justify-content-center">
-    <dt class="col-sm-3 offset-sm-3">Work Email</dt>
-    <dd class="col-sm-6"> <%= mail_to @user.email || @user.employee.email %> </dd>
-    <dt class="col-sm-3 offset-sm-3">Username</dt>
-    <dd class="col-sm-6"> <%= @user.username %> </dd>
-    <dt class="col-sm-3 offset-sm-3">Employee ID Number</dt>
-    <dd class="col-sm-6"> <%= @user.employee_id %> </dd>
-    <dt class="col-sm-3 offset-sm-3">Job Title</dt>
-    <dd class="col-sm-6"> <%= @user.employee.title %> </dd>
-    <dt class="col-sm-3 offset-sm-3">Department</dt>
-    <dd class="col-sm-6"> <%= @user.employee.dept_name %> </dd>
-    <dt class="col-sm-3 offset-sm-3">Assigned Manager</dt>
-    <dd class="col-sm-6">
-      <% if @user.employee.manager.blank? %>
-        <p class="text-warning">No Manager Listed - Contact Human Resources</p>
-      <% else %>
-        <%= @user.employee.manager.first_name %> <%= @user.employee.manager.last_name %> - <%= @user.employee.manager.email %>
-      <% end %>
-    </dd>
-  </dl>
+<%= render 'user_detail', user: @user %>
   <h4 class="text-center">Eligibility Check: <span class=" font-weight-bold <%= @user.employee.eligible? ? 'text-success' : 'text-danger' %>"><%= @user.employee.eligibility %></span></h4>
   <dl class="row justify-content-center">
     <dt class="col-sm-3 offset-sm-3">Employer</dt>
