@@ -44,6 +44,29 @@ class ApprovalsController < ApplicationController
     end
   end
 
+  def deny_proof
+    @approval = Approval.new(approval_params)
+    if @approval.save
+      @approval.proof.denied!
+      @approval.proof.course.denied!
+      UserMailer.with(approval: @approval, proof: @approval.proof, course: @approval.proof.course, user: @approval.proof.course.goal.user).reject_proof.deliver_now
+      redirect_to @approval, notice: 'The denial of this course reimbursement due to insufficient grade was successfully logged. The user has been notified by email of this determination.'
+    else
+      render :new
+    end
+  end
+
+  def reject_proof
+    @approval = Approval.new(approval_params)
+    if @approval.save
+      @approval.proof.denied!
+      UserMailer.with(approval: @approval, proof: @approval.proof, course: @approval.proof.course, user: @approval.proof.course.goal.user).reject_proof.deliver_now
+      redirect_to @approval, notice: 'Your rejection of the submitted documentation was successfully logged. The user has been notified by email of the issue(s) you provided.'
+    else
+      render :new
+    end
+  end
+
   # PATCH/PUT /approvals/1
   def update
     if @approval.update(approval_params)
