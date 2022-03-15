@@ -1,7 +1,7 @@
 <%= form_with(model: @proof, local: true) do |f| %>
   <%= errors_for(@proof) %>
     <%= f.hidden_field :course_id, class: 'form-control disabled' %>
-
+  <a href='/pages/proof_requirements' class="openBtn btn btn-outline-secondary" role='dialog' data-toggle="modal" data-target="#managedModal" > See Requirement Info </a>
     <div class="">
       <h2>Course Title: <%= link_to @proof.course.course_title, @proof.course %></h2>
 

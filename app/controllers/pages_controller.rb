@@ -8,6 +8,9 @@ class PagesController < ApplicationController
   def welcome
   end
 
+  def proof_requirements
+  end
+
   def noaccess
   end
 end

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: 'pages#welcome'
   get 'pages/welcome'
   get '/rails/mailers/user_mailer', as: :emails
+  get 'pages/proof_requirements'
   get 'noaccess', to: 'pages#noaccess', as: :noaccess
   get 'template', to: 'pages#template', as: :template
   get 'hr', to: 'pages#hr', as: :hr

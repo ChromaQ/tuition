@@ -20,6 +20,11 @@ $(document).on("turbolinks:load",function(){
   //     $(this).remove();
   //   });
   // }, 20000);
+  $('.openBtn').on('click',function(event){
+    event.preventDefault()
+    $('#managedModal .modal-body').load(event.target.href + ' main',function(){
+    });
+  });
 
   autocomplete_init();
 });
