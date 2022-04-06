@@ -30,7 +30,6 @@ class Credential < ApplicationRecord
   validates :name, presence: true
   validates :description, presence: true
   validates :degree_id, presence: true
-  validates :auto_approve, presence: true
 
   # == Scopes =========================================
   scope :is_auto_approve, -> { where(auto_approve: true) }
