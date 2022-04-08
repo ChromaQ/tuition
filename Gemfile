@@ -51,6 +51,7 @@ gem 'flatpickr'                   # Date picker
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mini_racer', platforms: :ruby # C based alternative instead of rubyracer
+gem 'pagy', '~> 5.10'   #pagination on index pages
 gem 'sass-rails'
 gem 'simple_form'
 gem 'sprockets'

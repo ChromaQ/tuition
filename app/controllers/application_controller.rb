@@ -2,6 +2,7 @@
 
 class ApplicationController < ActionController::Base
   include Pundit
+  include Pagy::Backend
   before_action :authenticate_user!
   protect_from_forgery with: :exception
   add_flash_types :success, :error
